@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class BarangmasukController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +15,11 @@ class BarangmasukController extends Controller
     public function index()
     {
         $data = [
-            'subjudul' => 'Barang Masuk',
-            'submenu' => 'barang masuk',
+            'subjudul' => 'Data User',
+            'submenu' => 'user',
         ];
-        return view('admin.barang_masuk.index', compact('data'));
+        $user = User::select("*")->orderBy('created_at', 'DESC')->get();
+        return view('admin.user.index', compact('data', 'user'));
     }
 
     /**
@@ -27,11 +29,7 @@ class BarangmasukController extends Controller
      */
     public function create()
     {
-        $data = [
-            'subjudul' => 'Barang Masuk',
-            'submenu' => 'barang masuk',
-        ];
-        return view('admin.barang_masuk.create', compact('data'));
+        //
     }
 
     /**

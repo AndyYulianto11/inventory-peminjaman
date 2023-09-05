@@ -40,7 +40,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form action="{{ route('update-databarang', $databarangs->id) }}" id="modal-form">
+                        <form action="{{ route('update-databarang') }}" id="modal-form">
                             @csrf
 
                             <div class="form-group mb-3">

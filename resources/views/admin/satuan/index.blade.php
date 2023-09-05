@@ -146,7 +146,7 @@
             "lengthChange": true,
             "autoWidth": false,
             "paging": true,
-            "ordering": false,
+            "ordering": true,
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
         // fetchsatuan();

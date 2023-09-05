@@ -17,10 +17,14 @@ class DatabarangController extends Controller
      */
     public function index()
     {
+        $judul = [
+            'subjudul' => 'Data Barang',
+            'submenu' => 'data barang',
+        ];
         $jenis = Jenisbarang::all();
         $satuans = Satuan::all();
         $databarang = Databarang::select("*")->orderBy('created_at', 'DESC')->get();
-        return view('admin.data_barang.index', compact('databarang', 'jenis', 'satuans'));
+        return view('admin.data_barang.index', compact('judul', 'databarang', 'jenis', 'satuans'));
     }
 
     /**
@@ -41,6 +45,14 @@ class DatabarangController extends Controller
      */
     public function store(Request $request)
     {
+        $number = mt_rand(1000000000, 9999999999);
+
+        if ($this->codeBarangExists($number)) {
+            $number = mt_rand(1000000000, 9999999999);
+        }
+
+        $request['code_barang'] = $number;
+        
         try {
             $request->validate([
                 'nama_barang' => 'required',
@@ -50,6 +62,7 @@ class DatabarangController extends Controller
             ]);
 
             $post = Databarang::create([
+                'code_barang' => $number,
                 'nama_barang' => $request->nama_barang,
                 'jenis_id' => $request->jenis_id,
                 'stok' => $request->stok,
@@ -60,6 +73,10 @@ class DatabarangController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function codeBarangExists($number) {
+        return Databarang::whereCodeBarang($number)->exists();
     }
 
     /**
@@ -79,9 +96,12 @@ class DatabarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('admin.data_barang.edit');
+        $jenis = Jenisbarang::all();
+        $satuans = Satuan::all();
+        $databarang = Databarang::findOrFail($id);
+        return view('admin.data_barang.edit', compact('databarang', 'jenis', 'satuans'));
     }
 
     /**
@@ -93,7 +113,36 @@ class DatabarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $number = mt_rand(1000000000, 9999999999);
+
+        if ($this->codeBarangExists($number)) {
+            $number = mt_rand(1000000000, 9999999999);
+        }
+
+        $request['code_barang'] = $number;
+        
+        try {
+            $this->validate($request, [
+                'nama_barang' => 'required',
+                'jenis_id' => 'required',
+                'stok' => 'required',
+                'satuan_id' => 'required',
+            ]);
+
+            $post = Databarang::findOrFail($id);
+
+            $post->update([
+                'code_barang' => $number,
+                'nama_barang' => $request->nama_barang,
+                'jenis_id' => $request->jenis_id,
+                'stok' => $request->stok,
+                'satuan_id' => $request->satuan_id,
+            ]);
+
+            return redirect('databarang')->with('success', 'Data berhasil ditambahkan!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -102,8 +151,15 @@ class DatabarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = explode('data',$request->ids);
+        $data = Databarang::find($id[1]);
+        $data->delete();
+
+        return response()->json([
+            'status'=>200,
+            'data' => $id[1],
+        ]);
     }
 }

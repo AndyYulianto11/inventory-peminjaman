@@ -15,6 +15,7 @@ class CreateDatabarangsTable extends Migration
     {
         Schema::create('databarangs', function (Blueprint $table) {
             $table->id();
+            $table->string('code_barang');
             $table->string('nama_barang');
             $table->foreignId('jenis_id');
             $table->integer('stok');

@@ -69,7 +69,6 @@
                                         <input type="text" class="editInput jenisbarang" name="jenisbarang" style="display:none;" value="{{ $item->jenisbarang }}">
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-flat btnDetail"><i class="fas fa-qrcode"></i></button>
                                         <button class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></button>
                                         <button class="btn text-primary  btnSave" style="display:none;"><i class="fa fa-check"></i></button>
                                         <button class="btn text-danger  editCancel" style="display:none;"><i class="fa fa-times"></i></button>
@@ -184,7 +183,7 @@
             "lengthChange": true,
             "autoWidth": false,
             "paging": true,
-            "ordering": false,
+            "ordering": true,
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
         // fetchjenisbarang();
@@ -341,7 +340,6 @@
         var btn = $(this);
         btn.closest("tr").find(".edit_inline").hide();
         btn.closest("tr").find(".btnDelete").hide();
-        btn.closest("tr").find(".btnDetail").hide();
 
         $(this).closest("tr").find(".editSpan").hide();
         $(this).closest("tr").find(".editInput").show(250);
@@ -358,7 +356,6 @@
 
         $(this).closest("tr").find(".edit_inline").show(250);
         $(this).closest("tr").find(".btnDelete").show(250);
-        $(this).closest("tr").find(".btnDetail").show(250);
 
         $(this).closest("tr").find(".editCancel").hide();
 
@@ -405,7 +402,6 @@
                     trObj.find(".editCancel").hide();
                     trObj.find(".edit_inline").show();
                     trObj.find(".btnDelete").show();
-                    trObj.find(".btnDetail").show();
 
                 }
             }

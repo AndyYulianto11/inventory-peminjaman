@@ -5,6 +5,7 @@ use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
 use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +36,10 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     // Data Barang
     Route::get('/databarang', [DatabarangController::class, 'index'])->name('databarang');
     Route::post('/store-databarang', [DatabarangController::class, 'store'])->name('store-databarang');
-    Route::get('/edit-databarang', [DatabarangController::class, 'edit'])->name('edit-databarang');
+    Route::get('/edit-databarang/{id}', [DatabarangController::class, 'edit'])->name('edit-databarang');
+    Route::put('/update-databarang/{id}', [DatabarangController::class, 'update'])->name('update-databarang');
+    Route::post('/delete-databarang', [DatabarangController::class, 'destroy'])->name('databarang.destroy');
+
 
 
 
@@ -57,4 +61,10 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 
     // Barang Masuk
     Route::get('/barangmasuk', [BarangmasukController::class, 'index'])->name('barangmasuk');
+    Route::get('/create-barangmasuk', [BarangmasukController::class, 'create'])->name('create-barangmasuk');
+
+    // Data User
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+
+
 });

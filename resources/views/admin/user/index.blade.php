@@ -36,59 +36,42 @@
                         <h3 class="card-title">{{ $data['subjudul'] }}</h3>
 
                         <div class="card-tools">
-                            <a href="{{ route('create-barangmasuk') }}" type="button" class="btn btn-tool"><i class="fas fa-plus"></i> Add Data
+                            <a href="#" type="button" class="btn btn-tool"><i class="fas fa-plus"></i> Add Data
                             </a>
                         </div>
                         <!-- /.card-tools -->
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr class="text-center">
                                     <th width="50px">No</th>
-                                    <th>ID Transaksi</th>
-                                    <th>Tanggal</th>
-                                    <th>Barang</th>
-                                    <th>Jumlah Masuk</th>
-                                    <th>Satuan</th>
+                                    <th>Nama</th>
+                                    <th>E-Mail</th>
+                                    <th>Level</th>
                                     <th width="100px">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="add_new">
-                                <tr class="text-center">
-                                    <td>1</td>
-                                    <td>TM-0000001</td>
-                                    <td>01-09-2023</td>
-                                    <td>Komputer</td>
-                                    <td>50</td>
-                                    <td>Pcs</td>
-                                    <td>
+                            <tbody>
+                                @php $no = 1 @endphp
+                                @forelse ($user as $item)
+                                <tr>
+                                    <td class="text-center">{{ $no++ }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td><span class="badge bg-success">{{ $item->role }}</span></td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr class="text-center">
-                                    <td>2</td>
-                                    <td>TM-0000002</td>
-                                    <td>01-09-2023</td>
-                                    <td>Proyektor</td>
-                                    <td>32</td>
-                                    <td>Unit</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>3</td>
-                                    <td>TM-0000003</td>
-                                    <td>01-09-2023</td>
-                                    <td>Mic</td>
-                                    <td>5</td>
-                                    <td>Pcs</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
+
+                                @empty
+                                <div class="alert alert-danger">
+                                    Data Barang belum Tersedia.
+                                </div>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

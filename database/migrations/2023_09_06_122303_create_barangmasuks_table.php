@@ -17,11 +17,6 @@ class CreateBarangmasuksTable extends Migration
             $table->id();
             $table->string('kode_nota');
             $table->dateTime('tanggal_pembelian');
-            $table->foreignId('supplier_id');
-            $table->foreignId('user_id');
-            $table->foreignId('barang_id');
-            $table->integer('qty');
-            $table->integer('harga');
             $table->timestamps();
         });
     }

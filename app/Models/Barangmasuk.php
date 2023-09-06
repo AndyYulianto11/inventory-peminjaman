@@ -10,7 +10,8 @@ class Barangmasuk extends Model
     use HasFactory;
 
     protected $fillable = [
-        'kode_nota', 'tanggal_pembelian', 'supplier_id', 'user_id', 'barang_id', 'qty', 'harga'
+        'kode_nota',
+        'tanggal_pembelian',
     ];
 
     public function supplier()
@@ -26,5 +27,10 @@ class Barangmasuk extends Model
     public function barang()
     {
         return $this->belongsTo(Databarang::class, 'barang_id');
+    }
+
+    public function item_barangmasuk()
+    {
+        return $this->hasMany(ItemBarangMasuk::class);
     }
 }

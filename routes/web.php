@@ -41,9 +41,6 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::put('/update-databarang/{id}', [DatabarangController::class, 'update'])->name('update-databarang');
     Route::post('/delete-databarang', [DatabarangController::class, 'destroy'])->name('databarang.destroy');
 
-
-
-
     // Jenis Barang
     Route::get('/jenisbarang', [JenisbarangController::class, 'index'])->name('jenisbarang');
     Route::get('fetch-jenisbarangs', [JenisbarangController::class, 'fetchjenisbarang']);
@@ -63,14 +60,11 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     // Barang Masuk
     Route::get('/barangmasuk', [BarangmasukController::class, 'index'])->name('barangmasuk');
     Route::get('/create-barangmasuk', [BarangmasukController::class, 'create'])->name('create-barangmasuk');
-
-    // Data User
-
+    Route::post('/store-barangmasuk', [BarangmasukController::class, 'store'])->name('store-barangmasuk');
 
 });
 
 Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
+    // Data User
     Route::get('/user', [UserController::class, 'index'])->name('user');
-    
-
 });

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barangmasuk;
+use App\Models\Databarang;
+use App\Models\ItemBarangMasuk;
+use App\Models\Supplier;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BarangmasukController extends Controller
@@ -20,7 +24,10 @@ class BarangmasukController extends Controller
             'subjudul' => 'Barang Masuk',
             'submenu' => 'barang masuk',
         ];
-        return view('admin.barang_masuk.index', compact('data'));
+
+        $barangmasuk = Barangmasuk::all();
+
+        return view('admin.barang_masuk.index', compact('data', 'barangmasuk'));
     }
 
     /**
@@ -34,8 +41,11 @@ class BarangmasukController extends Controller
             'subjudul' => 'Barang Masuk',
             'submenu' => 'barang masuk',
         ];
-        $barangmasuk = Barangmasuk::all();
-        return view('admin.barang_masuk.create', compact('data', 'barangmasuk'));
+
+        $databarang = Databarang::all();
+        $supplier = Supplier::all();
+
+        return view('admin.barang_masuk.create', compact('data', 'databarang', 'supplier'));
     }
 
     /**
@@ -49,10 +59,7 @@ class BarangmasukController extends Controller
         try {
             DB::beginTransaction();
 
-            $kode_nota = $request->kode_nota;
-            $tanggal_pembelian = $request->tanggal_pembelian;
-            $supplier_id = $request->supplier_id;
-            $user_id = $request->user_id;
+            // $supplier_id = $request->supplier_id;
             $barang_id = $request->barang_id;
             $qty = $request->qty;
             $harga = $request->harga;
@@ -60,15 +67,34 @@ class BarangmasukController extends Controller
             $header = Barangmasuk::insertGetId([
                 'kode_nota' => $request->kode_nota,
                 'tanggal_pembelian' => $request->tanggal_pembelian,
-                'supplier_id' => $request->supplier_id,
-                'user_id' => $request->user_id,
-                'barang_id' => $request->barang_id,
-                'qty' => $request->qty,
-                'harga' => $request->harga,
             ]);
+
+            foreach ($barang_id as $key => $value) {
+                $data = ItemBarangMasuk::insert([
+                    'barangmasuk_id' => $header,
+                    // 'supplier_id' => $supplier_id[$key],
+                    'user_id' => Auth::user()->id,
+                    'barang_id' => $value,
+                    'qty' => $qty[$key],
+                    'harga' => $harga[$key],
+                ]);
+            }
+
             DB::commit();
+
+            return response()->json([
+                'code' => 200,
+                'status' => 'success',
+                'message' => $data
+            ]);
         } catch (Exception $e) {
             DB::rollback();
+
+            return response()->json([
+                'code' => 500,
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 

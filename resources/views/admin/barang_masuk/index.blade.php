@@ -56,39 +56,24 @@
                                 </tr>
                             </thead>
                             <tbody id="add_new">
+                                @php $no = 1 @endphp
+                                @forelse ($barangmasuk as $item)
                                 <tr class="text-center">
-                                    <td>1</td>
-                                    <td>TM-0000001</td>
-                                    <td>01-09-2023</td>
-                                    <td>Komputer</td>
-                                    <td>50</td>
-                                    <td>Pcs</td>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->kode_nota }}</td>
+                                    <td>{{ $item->tanggal_pembelian }}</td>
+                                    <td>{{ $item->item_barangmasuk->barang_id }}</td>
+                                    <td>{{ $item->item_barangmasuk->qty }}</td>
+                                    <td>{{ $item->item_barangmasuk->barang_id }}</td>
                                     <td>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr class="text-center">
-                                    <td>2</td>
-                                    <td>TM-0000002</td>
-                                    <td>01-09-2023</td>
-                                    <td>Proyektor</td>
-                                    <td>32</td>
-                                    <td>Unit</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>3</td>
-                                    <td>TM-0000003</td>
-                                    <td>01-09-2023</td>
-                                    <td>Mic</td>
-                                    <td>5</td>
-                                    <td>Pcs</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                                @empty
+                                <div class="alert alert-danger">
+                                    Data Barang Masuk belum Tersedia.
+                                </div>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

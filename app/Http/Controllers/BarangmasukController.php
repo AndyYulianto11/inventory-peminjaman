@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barangmasuk;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BarangmasukController extends Controller
 {
@@ -31,7 +34,8 @@ class BarangmasukController extends Controller
             'subjudul' => 'Barang Masuk',
             'submenu' => 'barang masuk',
         ];
-        return view('admin.barang_masuk.create', compact('data'));
+        $barangmasuk = Barangmasuk::all();
+        return view('admin.barang_masuk.create', compact('data', 'barangmasuk'));
     }
 
     /**
@@ -42,7 +46,30 @@ class BarangmasukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $kode_nota = $request->kode_nota;
+            $tanggal_pembelian = $request->tanggal_pembelian;
+            $supplier_id = $request->supplier_id;
+            $user_id = $request->user_id;
+            $barang_id = $request->barang_id;
+            $qty = $request->qty;
+            $harga = $request->harga;
+
+            $header = Barangmasuk::insertGetId([
+                'kode_nota' => $request->kode_nota,
+                'tanggal_pembelian' => $request->tanggal_pembelian,
+                'supplier_id' => $request->supplier_id,
+                'user_id' => $request->user_id,
+                'barang_id' => $request->barang_id,
+                'qty' => $request->qty,
+                'harga' => $request->harga,
+            ]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**

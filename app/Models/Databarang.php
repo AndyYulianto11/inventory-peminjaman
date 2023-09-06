@@ -22,4 +22,9 @@ class Databarang extends Model
     {
         return $this->belongsTo(Satuan::class, 'satuan_id');
     }
+
+    public function barangmasuks()
+    {
+        return $this->hasMany(Barangmasuk::class);
+    }
 }

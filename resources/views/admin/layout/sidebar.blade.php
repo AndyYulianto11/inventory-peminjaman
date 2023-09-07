@@ -1,7 +1,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="/" class="brand-link">
                 <img src="{{ asset('adminlte/dist/img/logouniba.png') }}" alt="Uniba Madura Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Uniba Madura</span>
             </a>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                        {{ Auth::user()->role }}
+                        <a href="#" class="d-block" style="text-transform: uppercase">{{ Auth::user()->role }}</a>
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link {{ request()->is('jenisbarang') ? 'active' : '' || request()->is('satuan') ? 'active' : '' || request()->is('databarang') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-boxes"></i>
                                 <p>
                                     Master Barang
@@ -42,12 +42,6 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('databarang') }}" class="nav-link {{ request()->is('databarang') ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Data Barang</p>
-                                    </a>
-                                </li>
                                 <li class="nav-item">
                                     <a href="{{ route('jenisbarang') }}" class="nav-link {{ request()->is('jenisbarang') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
@@ -58,6 +52,12 @@
                                     <a href="{{ route('satuan') }}" class="nav-link {{ request()->is('satuan') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Satuan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('databarang') }}" class="nav-link {{ request()->is('databarang') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Data Barang</p>
                                     </a>
                                 </li>
                             </ul>
@@ -91,19 +91,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
+                                    <a href="/" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Laporan Barang Masuk</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="/" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Laporan Barang Keluar</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="/" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Laporan Stok</p>
                                     </a>
@@ -114,7 +114,7 @@
 
                         @if (Auth::user()->role == 'administrator')
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link {{ request()->is('user') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-id-card"></i>
                                 <p>
                                     Pengaturan

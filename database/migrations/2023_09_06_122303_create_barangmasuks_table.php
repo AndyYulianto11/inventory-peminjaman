@@ -16,7 +16,7 @@ class CreateBarangmasuksTable extends Migration
         Schema::create('barangmasuks', function (Blueprint $table) {
             $table->id();
             $table->string('kode_nota');
-            $table->dateTime('tanggal_pembelian');
+            $table->date('tanggal_pembelian');
             $table->timestamps();
         });
     }

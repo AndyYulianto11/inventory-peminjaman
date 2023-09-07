@@ -77,7 +77,7 @@
                                         <thead>
                                             <tr class="text-center">
                                                 <th>Nama Barang</th>
-                                                {{-- <th>Supplier</th> --}}
+                                                <th>Supplier</th>
                                                 <th>Qty</th>
                                                 <th>Harga</th>
                                                 <th>Hapus</th>
@@ -91,7 +91,7 @@
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-sm btn-flat">Simpan</button>
-                                    <a href="#" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                                    <a href="/barangmasuk" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>
                         </div>
@@ -129,14 +129,22 @@
                 } else {
                     var nilai = `
                     <tr>
-                        <td>
+                        <td class="text-center">
                             ${nama_barang}
                             <input type="hidden" class="form-control" name="barang_id[]" value="${id}" id="barang_id_${id}">
+                        </td>
+                        <td>
+                            <select id="supplier_id_${id}" name="supplier_id[]" class="form-control">
+                                <option value="" selected disabled>-- Pilih Supplier --</option>
+                                @foreach ($supplier as $data)
+                                <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td class="text-center">
                             <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
                         </td>
-                        <td>
+                        <td class="text-center">
                             <input type="number" class="form-control" name="harga[]" id="harga_${id}" id="harga">
                         </td>
                         <td class="text-center">
@@ -172,21 +180,35 @@
                     contentType: false,
                     processData: false,
                     dataType: "json",
-                    success: function(data) {
-                        console.log(data);
+                    success: function(response) {
+                        console.log(response);
 
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: data.title,
-                            showConfirmButton: false,
-                            timer: 1500
-
-                        });
-                        setTimeout(function() {
-                            location = "{{ route('barangmasuk') }}";
-                        }, 1500)
+                        if (response.status === 'error') {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: 'Gagal menambah data baru',
+                                showConfirmButton: true,
+                                timer: 3000
+                            });
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Sukses!',
+                                text: 'Berhasil menambah data baru',
+                                showConfirmButton: true,
+                                timer: 3000
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Redirect atau lakukan tindakan lain jika diperlukan
+                                    window.location.href = '/barangmasuk';
+                                }
+                            }, 3000);
+                        }
                     }
+
                 });
             });
         });

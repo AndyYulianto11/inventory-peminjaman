@@ -59,7 +59,7 @@ class BarangmasukController extends Controller
         try {
             DB::beginTransaction();
 
-            // $supplier_id = $request->supplier_id;
+            $supplier_id = $request->supplier_id;
             $barang_id = $request->barang_id;
             $qty = $request->qty;
             $harga = $request->harga;
@@ -72,7 +72,7 @@ class BarangmasukController extends Controller
             foreach ($barang_id as $key => $value) {
                 $data = ItemBarangMasuk::insert([
                     'barangmasuk_id' => $header,
-                    // 'supplier_id' => $supplier_id[$key],
+                    'supplier_id' => $supplier_id[$key],
                     'user_id' => Auth::user()->id,
                     'barang_id' => $value,
                     'qty' => $qty[$key],
@@ -138,8 +138,17 @@ class BarangmasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = explode('data',$request->ids);
+        $data = Barangmasuk::find($id[1]);
+        $data->delete();
+
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Data berhasil dihapus!',
+            'data' => $id[1],
+        ]);
     }
 }

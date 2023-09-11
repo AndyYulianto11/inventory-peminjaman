@@ -48,6 +48,7 @@
                                 <tr class="text-center">
                                     <th width="50px">No</th>
                                     <th>Satuan</th>
+                                    <th>Qty</th>
                                     <th width="100px">Aksi</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,10 @@
                                     <td class="text-center">
                                         <span class="editSpan satuan">{{ $item->satuan }}</span>
                                         <input type="text" class="editInput satuan" name="satuan" style="display:none;" value="{{ $item->satuan }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="editSpan qty">{{ $item->qty }}</span>
+                                        <input type="text" class="editInput qty" name="qty" style="display:none;" value="{{ $item->qty }}">
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></button>
@@ -102,6 +107,11 @@
                     <div class="form-group mb-3">
                         <label for="">Satuan</label>
                         <input type="text" name="satuan" class="satuan form-control">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">Qty</label>
+                        <input type="number" name="qty" class="qty form-control">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -357,7 +367,7 @@
 
                         });
                         trObj.find(".editSpan.satuan").text(response.data.satuan);
-
+                        trObj.find(".editSpan.qty").text(response.data.qty);
 
                         trObj.find(".editInput.satuan").val(response.data.satuan);
 

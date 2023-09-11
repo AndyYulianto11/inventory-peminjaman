@@ -17,9 +17,39 @@ class CreateSatuanSeeder extends Seeder
         $satuans = [
             [
                'satuan' => 'Unit',
+               'qty' => '1',
             ],
             [
                 'satuan' => 'Box',
+                'qty' => '24',
+            ],
+            [
+                'satuan' => 'Pcs',
+                'qty' => '1',
+            ],
+            [
+                'satuan' => 'Kg',
+                'qty' => '7',
+            ],
+            [
+                'satuan' => 'Buah',
+                'qty' => '1',
+            ],
+            [
+                'satuan' => 'Roll',
+                'qty' => '1',
+            ],
+            [
+                'satuan' => 'Set',
+                'qty' => '12',
+            ],
+            [
+                'satuan' => 'Botol',
+                'qty' => '1',
+            ],
+            [
+                'satuan' => 'Batang',
+                'qty' => '1',
             ],
         ];
 

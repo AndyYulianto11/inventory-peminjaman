@@ -181,18 +181,18 @@
                     processData: false,
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
+                        // console.log(response);
 
-                        if (response.status === 'error') {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: 'Oops!',
-                                text: 'Gagal menambah data baru',
-                                showConfirmButton: true,
-                                timer: 3000
-                            });
-                        } else {
+                        // if (response.status === 'error') {
+                        //     Swal.fire({
+                        //         position: 'center',
+                        //         icon: 'error',
+                        //         title: 'Oops!',
+                        //         text: 'Gagal menambah data baru',
+                        //         showConfirmButton: true,
+                        //         timer: 3000
+                        //     });
+                        // } else {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -206,7 +206,7 @@
                                     window.location.href = '/barangmasuk';
                                 }
                             }, 3000);
-                        }
+                        // }
                     }
 
                 });

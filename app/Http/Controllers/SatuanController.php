@@ -30,8 +30,10 @@ class SatuanController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'satuan' => 'required',
+            'qty' => 'required',
         ],[
             'satuan.required' => 'Satuan harus diisi',
+            'qty.required' => 'Qty harus diisi',
         ]);
 
         if ($validator->fails()) 
@@ -45,6 +47,7 @@ class SatuanController extends Controller
         {
             $satuan = new Satuan;
             $satuan->satuan = $request->input('satuan');
+            $satuan->qty = $request->input('qty');
             $satuan->save();
             return response()->json([
                 'status'=>200,
@@ -77,12 +80,14 @@ class SatuanController extends Controller
         $id = explode('data',$request->id);
         $data = Satuan::find($id[1]);
         $data->update([
-            'satuan'=>$request->satuan
+            'satuan'=>$request->satuan,
+            'qty'=>$request->qty,
         ]);
         
 
         $satuan = [
-            'satuan' =>$request->satuan
+            'satuan' =>$request->satuan,
+            'qty' =>$request->qty,
         ];
 
         return response()->json([

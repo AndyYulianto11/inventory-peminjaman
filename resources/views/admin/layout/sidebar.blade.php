@@ -63,6 +63,14 @@
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('supplier') }}" class="nav-link {{ request()->is('supplier') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>
+                                    Supplier
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('barangmasuk') }}" class="nav-link {{ request()->is('barangmasuk') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-sign-in-alt"></i>
                                 <p>

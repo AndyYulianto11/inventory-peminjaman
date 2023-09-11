@@ -5,6 +5,7 @@ use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
 use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,15 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/create-barangmasuk', [BarangmasukController::class, 'create'])->name('create-barangmasuk');
     Route::post('/store-barangmasuk', [BarangmasukController::class, 'store'])->name('store-barangmasuk');
     Route::post('/delete-barangmasuk', [BarangmasukController::class, 'destroy'])->name('delete-barangmasuk');
+
+    // Supplier
+    Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier');
+    Route::post('/supplier', [SupplierController::class, 'store']);
+    Route::post('/edit-supplier/{id}', [SupplierController::class, 'edit']);
+    Route::post('/update-supplier', [SupplierController::class, 'update'])->name('supplier.update');
+    Route::post('/delete-supplier', [SupplierController::class, 'destroy'])->name('supplier.destroy');
+
+
 
 });
 

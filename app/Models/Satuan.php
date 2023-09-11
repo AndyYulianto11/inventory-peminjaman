@@ -10,7 +10,7 @@ class Satuan extends Model
     use HasFactory;
     protected $table = 'satuans';
     protected $fillable = [
-        'satuan',
+        'satuan', 'qty',
     ];
 
     public function databarangs()

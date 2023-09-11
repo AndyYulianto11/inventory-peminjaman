@@ -21,6 +21,18 @@ class CreateJenisSeeder extends Seeder
             [
                 'jenisbarang' => 'Alat Berat',
             ],
+            [
+                'jenisbarang' => 'Kelas',
+            ],
+            [
+                'jenisbarang' => 'Aset Staff',
+            ],
+            [
+                'jenisbarang' => 'Alat Bersih',
+            ],
+            [
+                'jenisbarang' => 'Elektronik',
+            ],
         ];
 
         foreach ($jenisbarangs as $key => $value) {

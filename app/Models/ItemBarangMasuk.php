@@ -15,7 +15,8 @@ class ItemBarangMasuk extends Model
         'user_id',
         'barang_id',
         'qty',
-        'harga'
+        'harga',
+        'jumlah',
     ];
 
     public function barangmasuk()

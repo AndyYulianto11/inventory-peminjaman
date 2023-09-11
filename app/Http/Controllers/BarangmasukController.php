@@ -57,16 +57,24 @@ class BarangmasukController extends Controller
     public function store(Request $request)
     {
         try {
+            $request->validate([
+                'kode_nota' => 'required',
+                'tanggal_pembelian' => 'required',
+                'total_bayar' => 'required',
+            ]);
+
             DB::beginTransaction();
 
             $supplier_id = $request->supplier_id;
             $barang_id = $request->barang_id;
             $qty = $request->qty;
             $harga = $request->harga;
+            $jumlah = $request->jumlah;
 
             $header = Barangmasuk::insertGetId([
                 'kode_nota' => $request->kode_nota,
                 'tanggal_pembelian' => $request->tanggal_pembelian,
+                'total_bayar' => 0,
             ]);
 
             foreach ($barang_id as $key => $value) {
@@ -77,8 +85,15 @@ class BarangmasukController extends Controller
                     'barang_id' => $value,
                     'qty' => $qty[$key],
                     'harga' => $harga[$key],
+                    'jumlah' => $jumlah[$key],
                 ]);
             }
+
+            $updateHarga = Barangmasuk::where('id', $header->id)->first();
+
+            $updateHarga->update([
+                'total_bayar' => $request->input_total_bayar,
+            ]);
 
             DB::commit();
 

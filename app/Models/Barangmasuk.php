@@ -12,6 +12,7 @@ class Barangmasuk extends Model
     protected $fillable = [
         'kode_nota',
         'tanggal_pembelian',
+        'total_bayar',
     ];
 
     public function supplier()

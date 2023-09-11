@@ -17,6 +17,7 @@ class CreateBarangmasuksTable extends Migration
             $table->id();
             $table->string('kode_nota');
             $table->date('tanggal_pembelian');
+            $table->integer('total_bayar');
             $table->timestamps();
         });
     }

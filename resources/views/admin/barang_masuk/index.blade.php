@@ -60,7 +60,7 @@
                                         <tr class="text-center" id="data{{ $item->id }}">
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $item->kode_nota }}</td>
-                                            <td>{{ $item->tanggal_pembelian }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($item->tanggal_pembelian)) }}</td>
                                             <td>
                                                 @if ($item->item_barangmasuk->count() > 0)
                                                     {{ $item->item_barangmasuk->count() }}

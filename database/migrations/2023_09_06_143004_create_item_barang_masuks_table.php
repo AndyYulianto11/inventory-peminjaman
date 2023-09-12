@@ -20,8 +20,8 @@ class CreateItemBarangMasuksTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('barang_id');
             $table->integer('qty');
-            $table->integer('harga');
-            $table->integer('jumlah');
+            $table->float('harga');
+            $table->float('jumlah');
             $table->timestamps();
         });
     }

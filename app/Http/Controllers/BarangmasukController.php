@@ -6,10 +6,12 @@ use App\Models\Barangmasuk;
 use App\Models\Databarang;
 use App\Models\ItemBarangMasuk;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BarangmasukController extends Controller
 {
@@ -56,25 +58,43 @@ class BarangmasukController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'kode_nota' => 'required',
-                'tanggal_pembelian' => 'required',
-                'total_bayar' => 'required',
+        $validator = Validator::make($request->all(), [
+            'kode_nota' => 'required',
+            'tanggal_pembelian' => 'required',
+            'supplier_id' => 'required',
+            'barang_id' => 'required',
+            'qty' => 'required',
+            'harga' => 'required',
+            'jumlah' => 'required',
+        ], [
+            'kode_nota.required' => 'kode_nota harus diisi',
+            'tanggal_pembelian.required' => 'tanggal_pembelian harus diisi',
+            'supplier_id.required' => 'supplier_id harus diisi',
+            'barang_id.required' => 'barang_id harus diisi',
+            'qty.required' => 'qty harus diisi',
+            'harga.required' => 'harga harus diisi',
+            'jumlah.required' => 'jumlah harus diisi',
+        ]);
+
+        // DB::beginTransaction();
+
+        $supplier_id = $request->supplier_id;
+        $barang_id = $request->barang_id;
+        $qty = $request->qty;
+        $harga = $request->harga;
+        $jumlah = $request->jumlah;
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
             ]);
-
-            DB::beginTransaction();
-
-            $supplier_id = $request->supplier_id;
-            $barang_id = $request->barang_id;
-            $qty = $request->qty;
-            $harga = $request->harga;
-            $jumlah = $request->jumlah;
-
+        } else {
             $header = Barangmasuk::insertGetId([
                 'kode_nota' => $request->kode_nota,
                 'tanggal_pembelian' => $request->tanggal_pembelian,
                 'total_bayar' => 0,
+                'created_at' => Carbon::now(),
             ]);
 
             foreach ($barang_id as $key => $value) {
@@ -86,29 +106,24 @@ class BarangmasukController extends Controller
                     'qty' => $qty[$key],
                     'harga' => $harga[$key],
                     'jumlah' => $jumlah[$key],
+                    'created_at' => Carbon::now(),
                 ]);
             }
 
-            $updateHarga = Barangmasuk::where('id', $header->id)->first();
+            $updateHarga = Barangmasuk::where('id', $header)->first();
 
             $updateHarga->update([
-                'total_bayar' => $request->input_total_bayar,
+                'total_bayar' => $request->total_bayar_input,
+                'ppn_angka' => $request->ppn_angka,
+                'ppn_persen' => $request->ppn_persen,
+                'diskon_angka' => $request->diskon_angka,
+                'diskon_persen' => $request->diskon_persen
             ]);
 
-            DB::commit();
-
             return response()->json([
-                'code' => 200,
-                'status' => 'success',
-                'message' => $data
-            ]);
-        } catch (Exception $e) {
-            DB::rollback();
-
-            return response()->json([
-                'code' => 500,
-                'status' => 'error',
-                'message' => $e->getMessage()
+                'status' => 200,
+                'message' => 'Barang masuk berhasil ditambahkan',
+                'data' => $data
             ]);
         }
     }
@@ -155,7 +170,7 @@ class BarangmasukController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = explode('data',$request->ids);
+        $id = explode('data', $request->ids);
         $data = Barangmasuk::find($id[1]);
         $data->delete();
 

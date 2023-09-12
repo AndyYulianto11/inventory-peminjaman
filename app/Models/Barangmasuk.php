@@ -13,6 +13,10 @@ class Barangmasuk extends Model
         'kode_nota',
         'tanggal_pembelian',
         'total_bayar',
+        'ppn_angka',
+        'ppn_persen',
+        'diskon_angka',
+        'diskon_persen'
     ];
 
     public function supplier()

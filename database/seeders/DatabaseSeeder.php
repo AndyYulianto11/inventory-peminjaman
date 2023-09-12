@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             CreateUsersSeeder::class,
             CreateJenisSeeder::class,
             CreateSatuanSeeder::class,
+            CreateDataBarangSeeder::class,
+            CreateSupplierSeeder::class,
         ]);
     }
 }

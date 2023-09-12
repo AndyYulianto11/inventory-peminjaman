@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.min.css') }}">
-    <link rel="shortcut icon" href="{{ asset('AdminLTE/dist/img/logo.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('AdminLTE/dist/img/logouniba.png') }}" />
 </head>
 
 <body class="hold-transition login-page">

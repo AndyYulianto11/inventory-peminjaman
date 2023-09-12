@@ -7,6 +7,13 @@
 @endsection
 
 @section('content')
+
+<!-- Preloader -->
+<div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="{{ asset('adminlte/dist/img/logouniba.png') }}" alt="AdminLTELogo" height="120" width="120"><br>
+    <h3>UNIBA MADURA</h3>
+</div>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -35,9 +42,9 @@
                     <!-- small box -->
                     <div class="small-box bg-indigo">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>{{ $satuan }}</h3>
 
-                            <p>Pesanan Masuk</p>
+                            <p>Satuan</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-shopping-basket"></i>
@@ -50,7 +57,7 @@
                     <!-- small box -->
                     <div class="small-box bg-teal">
                         <div class="inner">
-                            <h3>32</h3>
+                            <h3>{{ $barang }}</h3>
 
                             <p>Barang</p>
                         </div>
@@ -65,9 +72,9 @@
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>{{ $user }}</h3>
 
-                            <p>Pelanggan</p>
+                            <p>User</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-users"></i>
@@ -80,9 +87,9 @@
                     <!-- small box -->
                     <div class="small-box bg-pink">
                         <div class="inner">
-                            <h3>6</h3>
+                            <h3>{{ $jenis }}</h3>
 
-                            <p>Kategori</p>
+                            <p>Jenis Barang</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-list"></i>

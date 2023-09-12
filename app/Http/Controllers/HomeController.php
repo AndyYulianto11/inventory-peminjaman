@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Databarang;
+use App\Models\Jenisbarang;
+use App\Models\Satuan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $jenis = Jenisbarang::count();
+        $user = User::count();
+        $barang = Databarang::count();
+        $satuan = Satuan::count();
+        return view('home', compact('jenis', 'user', 'barang', 'satuan'));
     }
 
     public function adminHome()

@@ -134,9 +134,14 @@ class BarangmasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $data = [
+            'subjudul' => 'Barang Masuk',
+            'submenu' => 'barang masuk',
+        ];
+
+        return view('admin.barang_masuk.detail', compact('data'));
     }
 
     /**
@@ -145,9 +150,14 @@ class BarangmasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $data = [
+            'subjudul' => 'Barang Masuk',
+            'submenu' => 'barang masuk',
+        ];
+
+        return view('admin.barang_masuk.edit', compact('data'));
     }
 
     /**

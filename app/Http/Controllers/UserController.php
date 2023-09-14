@@ -12,13 +12,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [
             'subjudul' => 'Data User',
             'submenu' => 'user',
         ];
-        $user = User::select("*")->orderBy('created_at', 'DESC')->get();
+        $user = User::select("*")->whereNotNull('last_seen')->orderBy('last_seen', 'DESC')->get();
         return view('admin.user.index', compact('data', 'user'));
     }
 

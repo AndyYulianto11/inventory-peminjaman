@@ -50,6 +50,7 @@
                                     <th>Nama</th>
                                     <th>E-Mail</th>
                                     <th>Level</th>
+                                    <th>Last Seen</th>
                                     <th width="100px">Aksi</th>
                                 </tr>
                             </thead>
@@ -60,7 +61,14 @@
                                     <td class="text-center">{{ $no++ }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td><span class="badge bg-success">{{ $item->role }}</span></td>
+                                    <td class="text-center"><span class="badge bg-primary">{{ $item->role }}</span></td>
+                                    <td class="text-center">
+                                    @if(Cache::has('user-is-online-' . $item->id))
+                                        <span class="badge bg-success">Online</span>
+                                    @else
+                                        <span class="badge bg-secondary">Offline</span>
+                                    @endif
+                                    </td>
                                     <td class="text-center">
                                         <a href="#" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>

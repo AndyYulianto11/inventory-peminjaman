@@ -80,4 +80,8 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
     // Data User
     Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::post('/user', [UserController::class, 'store']);
+    Route::post('/delete-user', [UserController::class, 'destroy'])->name('user.destroy');
+
+    
 });

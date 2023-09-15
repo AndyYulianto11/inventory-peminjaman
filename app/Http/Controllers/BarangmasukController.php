@@ -97,6 +97,8 @@ class BarangmasukController extends Controller
                 'created_at' => Carbon::now(),
             ]);
 
+            $barangs = Databarang::whereIn('id', $barang_id)->get();
+
             foreach ($barang_id as $key => $value) {
                 $data = ItemBarangMasuk::insert([
                     'barangmasuk_id' => $header,
@@ -108,6 +110,11 @@ class BarangmasukController extends Controller
                     'jumlah' => $jumlah[$key],
                     'created_at' => Carbon::now(),
                 ]);
+
+                // Update otomatis stok data barang
+                $barang = $barangs->where('id', $value)->first();
+                $barang->stok += $qty[$key];
+                $barang->save();
             }
 
             $updateHarga = Barangmasuk::where('id', $header)->first();

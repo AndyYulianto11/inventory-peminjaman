@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -40,7 +42,40 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'role' => 'required',
+        ],[
+            'name.required' => 'Nama harus diisi',
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Inputan harus email',
+            'email.unique' => 'Email ini sudah terdaftar',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 8 karakter',
+            'role.required' => 'Role harus diisi',
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'data'=>$validator->errors(),
+            ]);
+        }
+        else
+        {
+            $user = new User;
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($request->password);
+            $user->role = $request->input('role');
+            $user->save();
+            return response()->json([
+                'status'=>200,
+                'message'=>'User berhasil ditambahkan',
+            ]);
+        }
     }
 
     /**
@@ -83,8 +118,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = explode('data',$request->ids);
+        $data = User::find($id[1]);
+        $data->delete();
+
+        return response()->json([
+            'status'=>200,
+            'data' => $id[1],
+        ]);
     }
 }

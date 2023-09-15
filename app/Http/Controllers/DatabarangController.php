@@ -45,10 +45,10 @@ class DatabarangController extends Controller
      */
     public function store(Request $request)
     {
-        $number = mt_rand(1000000000, 9999999999);
+        $number = mt_rand(1000000000000, 9999999999999);
 
         if ($this->codeBarangExists($number)) {
-            $number = mt_rand(1000000000, 9999999999);
+            $number = mt_rand(1000000000000, 9999999999999);
         }
 
         $request['code_barang'] = $number;
@@ -85,9 +85,19 @@ class DatabarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function shows(Request $request)
     {
-        //
+        $showdatabarang = Databarang::leftJoin('jenisbarang','jenisbarang.id','databarangs.jenis_id')
+                                    ->leftJoin('satuans','satuans.id','databarangs.satuan_id')
+                                    ->where('databarangs.id',$request->id)
+                                    ->select('databarangs.*','satuans.satuan','jenisbarang.jenisbarang')->first();
+        // dd($showdatabarang);
+        return response()->json([
+            'status'=>200,
+            'data' => $showdatabarang,
+        ]);                            
+
+        // return view('admin.data_barang.index', compact('databarang'));
     }
 
     /**
@@ -113,10 +123,10 @@ class DatabarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $number = mt_rand(1000000000, 9999999999);
+        $number = mt_rand(1000000000000, 9999999999999);
 
         if ($this->codeBarangExists($number)) {
-            $number = mt_rand(1000000000, 9999999999);
+            $number = mt_rand(1000000000000, 9999999999999);
         }
 
         $request['code_barang'] = $number;

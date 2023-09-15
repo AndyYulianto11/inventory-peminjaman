@@ -70,7 +70,6 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning btn-sm btn-flat edit_inline"><i class="fas fa-pencil-alt"></i></button>
                                         <button class="btn btn-danger btn-sm btn-flat btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>

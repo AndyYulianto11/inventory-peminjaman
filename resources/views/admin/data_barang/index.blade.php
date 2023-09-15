@@ -66,7 +66,7 @@
                                     <td>{{ $item->stok }}</td>
                                     <td>{{ $item->satuan->satuan }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#barcode"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary btn-sm btn-flat" onclick="detail({{ $item->id }})" data-toggle="modal" data-target="#barcode"><i class="fas fa-eye"></i></button>
                                         <a href="{{ route('edit-databarang', $item->id) }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
 
@@ -91,18 +91,21 @@
 
 <!-- Modal Barcode -->
 <div class="modal fade" id="barcode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ID Barang</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Detail Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <img src="adminlte/dist/img/qrcode.png" class="img" width="50%" height="50%" alt="Barcode Image">
-
+                <div class="details">
+                    
+                </div>
             </div>
+            <tr>
+            </tr>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
             </div>
@@ -192,6 +195,26 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    function detail(id) {
+        console.log(id);
+        $.ajax({
+            type: "GET",
+            url: "{{ route('shows-databarang') }}",
+            data: {
+                id: id,
+            },
+            dataType: "JSON",
+            success: function(response) {
+                html = `<p>Nama Barang : ${response.data.nama_barang}</p>
+                    <p>Stok : ${response.data.stok}</p>
+                    <p>Jenis Barang : ${response.data.jenisbarang}</p>
+                    <p>Satuan : ${response.data.satuan}</p>
+                    <p>Barcode : ${response.data.code_barang}</p>`;
+                $('.details').html(html);
+            }
+        });
+    }
 
     $(document).ready(function() {
         $("#datatables").DataTable({

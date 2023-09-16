@@ -11,7 +11,6 @@ class ItemBarangMasuk extends Model
 
     protected $fillable = [
         'barangmasuk_id',
-        'supplier_id',
         'user_id',
         'barang_id',
         'qty',

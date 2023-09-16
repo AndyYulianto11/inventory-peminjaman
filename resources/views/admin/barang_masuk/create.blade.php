@@ -60,6 +60,18 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row">
+                                    <label for="supplier_id" class="col-sm-2 col-form-label">Supplier</label>
+                                    <div class="col-sm-10">
+                                        <select id="supplier_id" name="supplier_id" class="form-control select2">
+                                            <option value="" selected disabled>-- Pilih Supplier --</option>
+                                            @foreach ($supplier as $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <hr>
 
                                 <div class="form-group row">
@@ -70,7 +82,8 @@
                                             @foreach ($databarang as $data)
                                                 <option value="{{ $data->id }}"
                                                     data-satuan="{{ $data->satuan->satuan }}"
-                                                    data-qty="{{ $data->satuan->qty }}">{{ $data->nama_barang }}</option>
+                                                    data-qty="{{ $data->satuan->qty }}"
+                                                    data-code="{{ $data->code_barang }}">{{ $data->nama_barang }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -80,9 +93,9 @@
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr class="text-center">
+                                                <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Satuan</th>
-                                                <th>Supplier</th>
                                                 <th>Qty</th>
                                                 <th>Harga</th>
                                                 <th>Jumlah</th>
@@ -118,7 +131,7 @@
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
-                                                            11 %
+                                                            %
                                                         </span>
                                                     </div>
                                                     <input type="number" class="form-control" id="ppn_persen"
@@ -236,12 +249,12 @@
                 var id = $('option:selected', this).val();
                 var satuan = $('option:selected', this).data('satuan');
                 var qty = $('option:selected', this).data('qty');
+                var code = $('option:selected', this).data('code');
 
                 $(this).val("");
 
                 var barangById = $('#barang_id_' + id);
                 var qtyById = $("#qty_" + id);
-                var supplierById = $("#supplier_id_" + id);
                 var hargaById = $("#harga_" + id);
                 var jumlahById = $("#jumlah_" + id);
 
@@ -252,19 +265,14 @@
                     var nilai = `
                         <tr>
                             <td class="text-center">
+                                ${code}
+                            </td>
+                            <td class="text-center">
                                 ${nama_barang}
                                 <input type="hidden" class="form-control" name="barang_id[]" value="${id}" id="barang_id_${id}">
                             </td>
                             <td class="text-center">
                                 ${satuan} | ${qty}
-                            </td>
-                            <td width="200">
-                                <select id="supplier_id_${id}" name="supplier_id[]" class="form-control select2">
-                                    <option value="" selected disabled>Pilih Supplier</option>
-                                    @foreach ($supplier as $data)
-                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
-                                    @endforeach
-                                </select>
                             </td>
                             <td class="text-center">
                                 <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
@@ -291,9 +299,9 @@
                     $('.bahan-ajax').append(nilai);
 
                     // agar select2 di dom bisa berjalan
-                    $('#supplier_id_' + id).select2({
-                        theme: 'bootstrap4'
-                    });
+                    // $('#supplier_id_' + id).select2({
+                    //     theme: 'bootstrap4'
+                    // });
                 }
             });
 

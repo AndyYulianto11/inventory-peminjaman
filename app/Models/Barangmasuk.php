@@ -13,6 +13,7 @@ class Barangmasuk extends Model
         'kode_nota',
         'tanggal_pembelian',
         'total_bayar',
+        'supplier_id',
         'ppn_angka',
         'ppn_persen',
         'diskon_angka',

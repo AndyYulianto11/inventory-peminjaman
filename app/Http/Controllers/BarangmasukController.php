@@ -78,7 +78,6 @@ class BarangmasukController extends Controller
 
         // DB::beginTransaction();
 
-        $supplier_id = $request->supplier_id;
         $barang_id = $request->barang_id;
         $qty = $request->qty;
         $harga = $request->harga;
@@ -94,6 +93,7 @@ class BarangmasukController extends Controller
                 'kode_nota' => $request->kode_nota,
                 'tanggal_pembelian' => $request->tanggal_pembelian,
                 'total_bayar' => 0,
+                'supplier_id' => $request->supplier_id,
                 'created_at' => Carbon::now(),
             ]);
 
@@ -102,7 +102,6 @@ class BarangmasukController extends Controller
             foreach ($barang_id as $key => $value) {
                 $data = ItemBarangMasuk::insert([
                     'barangmasuk_id' => $header,
-                    'supplier_id' => $supplier_id[$key],
                     'user_id' => Auth::user()->id,
                     'barang_id' => $value,
                     'qty' => $qty[$key],

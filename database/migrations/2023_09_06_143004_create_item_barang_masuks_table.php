@@ -16,7 +16,6 @@ class CreateItemBarangMasuksTable extends Migration
         Schema::create('item_barang_masuks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('barangmasuk_id');
-            $table->foreignId('supplier_id')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('barang_id');
             $table->integer('qty');

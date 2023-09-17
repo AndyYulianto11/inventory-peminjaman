@@ -18,11 +18,11 @@ class CreateBarangmasuksTable extends Migration
             $table->string('kode_nota')->unique();
             $table->date('tanggal_pembelian');
             $table->foreignId('supplier_id');
-            $table->float('ppn_angka')->default(0)->nullable();
-            $table->float('ppn_persen')->default(0)->nullable();
-            $table->float('diskon_angka')->default(0)->nullable();
-            $table->float('diskon_persen')->default(0)->nullable();
-            $table->float('total_bayar')->default(0)->nullable();
+            $table->double('ppn_angka')->default(0)->nullable();
+            $table->double('ppn_persen')->default(0)->nullable();
+            $table->double('diskon_angka')->default(0)->nullable();
+            $table->double('diskon_persen')->default(0)->nullable();
+            $table->double('total_bayar')->default(0)->nullable();
             $table->timestamps();
         });
     }

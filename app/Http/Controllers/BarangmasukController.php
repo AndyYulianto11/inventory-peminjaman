@@ -140,14 +140,17 @@ class BarangmasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         $data = [
             'subjudul' => 'Barang Masuk',
             'submenu' => 'barang masuk',
         ];
 
-        return view('admin.barang_masuk.detail', compact('data'));
+        $barangmasuk = Barangmasuk::find($id);
+        $itemBarangmasuk = ItemBarangMasuk::where('barangmasuk_id', $barangmasuk->id)->get();
+
+        return view('admin.barang_masuk.detail', compact('data', 'barangmasuk', 'itemBarangmasuk'));
     }
 
     /**
@@ -156,14 +159,18 @@ class BarangmasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
         $data = [
             'subjudul' => 'Barang Masuk',
             'submenu' => 'barang masuk',
         ];
 
-        return view('admin.barang_masuk.edit', compact('data'));
+        $barangmasuk = Barangmasuk::find($id);
+        $itemBarangmasuk = ItemBarangMasuk::where('barangmasuk_id', $barangmasuk->id)->get();
+        $supplier = Supplier::all();
+
+        return view('admin.barang_masuk.edit', compact('data', 'barangmasuk', 'itemBarangmasuk', 'supplier'));
     }
 
     /**

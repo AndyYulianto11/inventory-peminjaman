@@ -49,6 +49,7 @@
                                     <tr class="text-center">
                                         <th width="50px">No</th>
                                         <th>ID Transaksi</th>
+                                        <th>Supplier</th>
                                         <th>Tanggal</th>
                                         <th>Jumlah Masuk</th>
                                         <th width="100px">Aksi</th>
@@ -60,6 +61,7 @@
                                         <tr class="text-center" id="data{{ $item->id }}">
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $item->kode_nota }}</td>
+                                            <td>{{ $item->supplier->nama }}</td>
                                             <td>{{ date('d-m-Y', strtotime($item->tanggal_pembelian)) }}</td>
                                             <td>
                                                 @if ($item->item_barangmasuk->count() > 0)
@@ -69,8 +71,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('detail-barangmasuk') }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-eye"></i></a>
-                                                <a href="{{ route('edit-barangmasuk') }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="{{ route('detail-barangmasuk', $item->id) }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('edit-barangmasuk', $item->id) }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
                                                 <button class="btn btn-danger btn-sm btn-flat btnDelete"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>

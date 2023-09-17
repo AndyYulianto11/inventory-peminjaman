@@ -49,14 +49,14 @@
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Kode Nota</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="kode_nota" name="kode_nota"
-                                            placeholder="Kode Nota" required>
+                                            value="{{ $barangmasuk->kode_nota }}" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="tanggal_pembelian" class="col-sm-2 col-form-label">Tanggal</label>
                                     <div class="col-sm-10">
                                         <input type="date" class="form-control" id="tanggal_pembelian"
-                                            name="tanggal_pembelian" required>
+                                            name="tanggal_pembelian" value="{{ $barangmasuk->tanggal_pembelian }}" required>
                                     </div>
                                 </div>
 
@@ -67,6 +67,11 @@
                                     <div class="col-sm-10">
                                         <select id="barang" class="form-control select2">
                                             <option value="" selected disabled>-- Pilih Barang --</option>
+                                            @foreach ($supplier as $item)
+                                                <option value="{{ $item->id }}"
+                                                    {{ $barangmasuk->supplier_id == $item->id ? 'selected' : '' }}>
+                                                    {{ $item->nama }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -75,27 +80,38 @@
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr class="text-center">
+                                                <th width="5">No.</th>
                                                 <th>Nama Barang</th>
                                                 <th>Satuan</th>
-                                                <th>Supplier</th>
                                                 <th>Qty</th>
                                                 <th>Harga</th>
                                                 <th>Jumlah</th>
-                                                <th>Hapus</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="bahan-ajax">
-
+                                        <tbody>
+                                            @php $no = 1 @endphp
+                                            @forelse ($itemBarangmasuk as $masuk)
+                                                <tr>
+                                                    <td class="text-center">{{ $no++ }}</td>
+                                                    <td class="text-center">{{ $masuk->barang->nama_barang }}</td>
+                                                    <td class="text-center">{{ $masuk->barang->satuan->satuan }}</td>
+                                                    <td class="text-center">{{ $masuk->qty }}</td>
+                                                    <td class="text-right">Rp. {{ number_format($masuk->harga) }}</td>
+                                                    <td class="text-right">Rp. {{ number_format($masuk->jumlah) }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr>Kosong.</tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
 
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered mt-3">
-                                        <tr>
+                                        {{-- <tr>
                                             <th colspan="2" style="text-align: right;" id="subtotal">Sub total : </th>
                                             <th colspan="2" class="text-right" id="total_jumlah"></th>
-                                        </tr>
+                                        </tr> --}}
                                         <tr>
                                             <th colspan="2" style="text-align: right;">PPN : </th>
                                             <th width="200">
@@ -105,8 +121,13 @@
                                                             Rp.
                                                         </span>
                                                     </div>
-                                                    <input type="number" class="form-control" id="ppn_angka"
-                                                        name="ppn_angka" value="0" placeholder="0">
+                                                    @if ($barangmasuk->ppn_angka != null)
+                                                        <input type="number" class="form-control" id="ppn_angka"
+                                                            name="ppn_angka" value="{{ $barangmasuk->ppn_angka }}">
+                                                    @else
+                                                        <input type="number" class="form-control" id="ppn_angka"
+                                                            name="ppn_angka" value="0">
+                                                    @endif
                                                 </div>
                                             </th>
                                             <th width="200">
@@ -116,8 +137,13 @@
                                                             %
                                                         </span>
                                                     </div>
-                                                    <input type="number" class="form-control" id="ppn_persen"
-                                                        name="ppn_persen" value="0" placeholder="0">
+                                                    @if ($barangmasuk->ppn_persen != null)
+                                                        <input type="number" class="form-control" id="ppn_persen"
+                                                            name="ppn_persen" value="{{ $barangmasuk->ppn_persen }}">
+                                                    @else
+                                                        <input type="number" class="form-control" id="ppn_persen"
+                                                            name="ppn_persen" value="0">
+                                                    @endif
                                                 </div>
                                             </th>
                                         </tr>
@@ -130,8 +156,13 @@
                                                             Rp.
                                                         </span>
                                                     </div>
-                                                    <input type="number" class="form-control" id="diskon_angka"
-                                                        name="diskon_angka" value="0" placeholder="0">
+                                                    @if ($barangmasuk->diskon_angka != null)
+                                                        <input type="number" class="form-control" id="diskon_angka"
+                                                            name="diskon_angka" value="{{ $barangmasuk->diskon_angka }}">
+                                                    @else
+                                                        <input type="number" class="form-control" id="diskon_angka"
+                                                            name="diskon_angka" value="0">
+                                                    @endif
                                                 </div>
                                             </th>
                                             <th width="200">
@@ -141,8 +172,14 @@
                                                             %
                                                         </span>
                                                     </div>
-                                                    <input type="number" class="form-control" id="diskon_persen"
-                                                        name="diskon_persen" value="0" placeholder="0">
+                                                    @if ($barangmasuk->diskon_persen != null)
+                                                        <input type="number" class="form-control" id="diskon_persen"
+                                                            name="diskon_persen"
+                                                            value="{{ $barangmasuk->diskon_persen }}">
+                                                    @else
+                                                        <input type="number" class="form-control" id="diskon_persen"
+                                                            name="diskon_persen" value="0">
+                                                    @endif
                                                 </div>
                                             </th>
                                         </tr>
@@ -156,7 +193,7 @@
                                                         </span>
                                                     </div>
                                                     <input type="number" class="form-control" id="total_bayar_input"
-                                                        name="total_bayar_input">
+                                                        name="total_bayar_input" value="{{ $barangmasuk->total_bayar }}">
                                                 </div>
                                             </th>
                                         </tr>
@@ -184,7 +221,5 @@
     <!-- Select2 -->
     <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 
 @endsection

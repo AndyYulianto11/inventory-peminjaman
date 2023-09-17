@@ -42,131 +42,74 @@
                             <!-- /.card-tools -->
                         </div>
                         <div class="card-body">
-                            <ul id="saveform_errList"></ul>
-                            <form id="modal-form">
-
-                                <div class="form-group row">
-                                    <label for="kode_nota" class="col-sm-2 col-form-label">Kode Nota</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="kode_nota" name="kode_nota"
-                                            placeholder="Kode Nota" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="tanggal_pembelian" class="col-sm-2 col-form-label">Tanggal</label>
-                                    <div class="col-sm-10">
-                                        <input type="date" class="form-control" id="tanggal_pembelian"
-                                            name="tanggal_pembelian" readonly>
-                                    </div>
-                                </div>
-
-                                <hr>
-
-                                <div class="form-group row">
-                                    <label for="barang" class="col-sm-2 col-form-label">Barang Masuk</label>
-                                    <div class="col-sm-10">
-                                        <select id="barang" class="form-control select2">
-                                            <option value="" selected disabled>-- Pilih Barang --</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>Nama Barang</th>
-                                                <th>Satuan</th>
-                                                <th>Supplier</th>
-                                                <th>Qty</th>
-                                                <th>Harga</th>
-                                                <th>Jumlah</th>
-                                                <th>Hapus</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bahan-ajax">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered mt-3">
-                                        <tr>
-                                            <th colspan="2" style="text-align: right;" id="subtotal">Sub total : </th>
-                                            <th colspan="2" class="text-right" id="total_jumlah"></th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" style="text-align: right;">PPN : </th>
-                                            <th width="200">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Rp.
-                                                        </span>
-                                                    </div>
-                                                    <input type="number" class="form-control" id="ppn_angka"
-                                                        name="ppn_angka" value="0" placeholder="0">
-                                                </div>
-                                            </th>
-                                            <th width="200">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            %
-                                                        </span>
-                                                    </div>
-                                                    <input type="number" class="form-control" id="ppn_persen"
-                                                        name="ppn_persen" value="0" placeholder="0">
-                                                </div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" style="text-align: right;">Diskon : </th>
-                                            <th width="200">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Rp.
-                                                        </span>
-                                                    </div>
-                                                    <input type="number" class="form-control" id="diskon_angka"
-                                                        name="diskon_angka" value="0" placeholder="0">
-                                                </div>
-                                            </th>
-                                            <th width="200">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            %
-                                                        </span>
-                                                    </div>
-                                                    <input type="number" class="form-control" id="diskon_persen"
-                                                        name="diskon_persen" value="0" placeholder="0">
-                                                </div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" style="text-align: right;">Grand Total : </th>
-                                            <th colspan="2" class="text-right">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Rp.
-                                                        </span>
-                                                    </div>
-                                                    <input type="number" class="form-control" id="total_bayar_input"
-                                                        name="total_bayar_input">
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <div class="form-group">
-                                    <a href="/barangmasuk" class="btn btn-success btn-sm btn-flat">Kembali</a>
-                                </div>
-                            </form>
+                            <table>
+                                <tr>
+                                    <td width="200">Kode Nota</td>
+                                    <td width="50">:</td>
+                                    <td>{{ $barangmasuk->kode_nota }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Pembelian</td>
+                                    <td>:</td>
+                                    <td>{{ date('d-m-Y', strtotime($barangmasuk->tanggal_pembelian)) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Supplier</td>
+                                    <td>:</td>
+                                    <td>{{ $barangmasuk->supplier->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Grand Total</td>
+                                    <td>:</td>
+                                    <td>Rp. {{ number_format($barangmasuk->total_bayar) }}</td>
+                                </tr>
+                            </table>
+                            <br><br>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th class="text-center" width="5">No.</th>
+                                    <th class="text-center">Nama Barang</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-center">Harga</th>
+                                    <th class="text-center">Jumlah</th>
+                                </tr>
+                                @php $no = 1 @endphp
+                                @forelse ($itemBarangmasuk as $item)
+                                    <tr>
+                                        <td class="text-center">{{ $no++ }}</td>
+                                        <td>{{ $item->barang->nama_barang }}</td>
+                                        <td class="text-center">{{ $item->qty }}</td>
+                                        <td class="text-right">Rp. {{ number_format($item->harga) }}</td>
+                                        <td class="text-right">Rp. {{ number_format($item->jumlah) }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>Kosong.</tr>
+                                @endforelse
+                                <tr>
+                                    <th colspan="4" style="text-align: right;">PPN : </th>
+                                    @if ($barangmasuk->ppn_angka != NULL)
+                                    <th class="text-right">Rp. {{ number_format($barangmasuk->ppn_angka) }}</th>
+                                    @else
+                                    <th class="text-right">{{ number_format($barangmasuk->ppn_persen) }} %</th>
+                                    @endif
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align: right;">Diskon : </th>
+                                    @if ($barangmasuk->diskon_angka != NULL)
+                                    <th class="text-right">Rp. {{ number_format($barangmasuk->diskon_angka) }}</th>
+                                    @else
+                                    <th class="text-right">{{ number_format($barangmasuk->diskon_persen) }} %</th>
+                                    @endif
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align: right;">Grand Total : </th>
+                                    <th class="text-right">Rp. {{ number_format($barangmasuk->total_bayar) }}</th>
+                                </tr>
+                            </table>
+                            <br><br>
+                            <div class="form-group">
+                                <a href="/barangmasuk" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

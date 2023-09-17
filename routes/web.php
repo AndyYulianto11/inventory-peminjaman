@@ -64,8 +64,8 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/barangmasuk', [BarangmasukController::class, 'index'])->name('barangmasuk');
     Route::get('/create-barangmasuk', [BarangmasukController::class, 'create'])->name('create-barangmasuk');
     Route::post('/store-barangmasuk', [BarangmasukController::class, 'store'])->name('store-barangmasuk');
-    Route::get('/detail-barangmasuk', [BarangmasukController::class, 'show'])->name('detail-barangmasuk');
-    Route::get('/edit-barangmasuk', [BarangmasukController::class, 'edit'])->name('edit-barangmasuk');
+    Route::get('/detail-barangmasuk/{id}', [BarangmasukController::class, 'show'])->name('detail-barangmasuk');
+    Route::get('/edit-barangmasuk/{id}', [BarangmasukController::class, 'edit'])->name('edit-barangmasuk');
     Route::post('/delete-barangmasuk', [BarangmasukController::class, 'destroy'])->name('delete-barangmasuk');
 
     // Supplier
@@ -85,5 +85,5 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
     Route::post('/user', [UserController::class, 'store']);
     Route::post('/delete-user', [UserController::class, 'destroy'])->name('user.destroy');
 
-    
+
 });

@@ -30,11 +30,6 @@ class Barangmasuk extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function barang()
-    {
-        return $this->belongsTo(Databarang::class, 'barang_id');
-    }
-
     public function item_barangmasuk()
     {
         return $this->hasMany(ItemBarangMasuk::class);

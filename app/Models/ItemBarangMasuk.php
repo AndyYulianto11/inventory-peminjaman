@@ -22,4 +22,9 @@ class ItemBarangMasuk extends Model
     {
         return $this->belongsTo(Barangmasuk::class, 'barangmasuk_id');
     }
+
+    public function barang()
+    {
+        return $this->belongsTo(Databarang::class, 'barang_id');
+    }
 }

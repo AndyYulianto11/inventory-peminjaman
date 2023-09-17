@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
+use App\Http\Controllers\PengajuController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -85,5 +86,11 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
     Route::post('/user', [UserController::class, 'store']);
     Route::post('/delete-user', [UserController::class, 'destroy'])->name('user.destroy');
 
+
+});
+
+Route::middleware(['auth', 'checkrole:user'])->group(function () {
+    // User Pengaju
+    Route::get('/pengaju', [PengajuController::class, 'index'])->name('pengaju');
 
 });

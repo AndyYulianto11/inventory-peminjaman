@@ -40,7 +40,7 @@ class SatuanController extends Controller
         {
             return response()->json([
                 'status'=>400,
-                'errors'=>$validator->messages(),
+                'data'=>$validator->errors(),
             ]);
         }
         else
@@ -77,24 +77,40 @@ class SatuanController extends Controller
 
     public function update(Request $request)
     {
-        $id = explode('data',$request->id);
-        $data = Satuan::find($id[1]);
-        $data->update([
-            'satuan'=>$request->satuan,
-            'qty'=>$request->qty,
+        $validator = Validator::make($request->all(), [
+            'satuanedit' => 'required',
+            'qtyedit' => 'required',
+        ],[
+            'satuanedit.required' => 'Satuan harus diisi',
+            'qtyedit.required' => 'Qty harus diisi',
         ]);
-        
 
-        $satuan = [
-            'satuan' =>$request->satuan,
-            'qty' =>$request->qty,
-        ];
-
-        return response()->json([
-            'status'=>200,
-            "data" => $satuan,
-            'message'=>'Satuan berhasil diupdate',
-        ]);
+        if ($validator->fails()) 
+        {
+            return response()->json([
+                'status'=>400,
+                'data'=>$validator->errors(),
+            ]);
+        }else{
+            $id = explode('data',$request->id);
+            $data = Satuan::find($id[1]);
+            $data->update([
+                'satuan'=>$request->satuanedit,
+                'qty'=>$request->qtyedit,
+            ]);
+            
+    
+            $satuan = [
+                'satuan' =>$request->satuanedit,
+                'qty' =>$request->qtyedit,
+            ];
+    
+            return response()->json([
+                'status'=>200,
+                "data" => $satuan,
+                'message'=>'Satuan berhasil diupdate',
+            ]);
+        }
     }
 
     public function destroy(Request $request)

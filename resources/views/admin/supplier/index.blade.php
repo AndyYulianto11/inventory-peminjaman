@@ -111,15 +111,21 @@
 
                     <div class="form-group mb-3">
                         <label for="">Supplier</label>
-                        <input type="text" name="nama" class="nama form-control">
+                        <input type="text" name="nama" id="nama" class="nama form-control">
+                        <div class="invalid-feedback" id="nama-error">
+                        </div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Alamat</label>
-                        <input type="text" name="alamat" class="alamat form-control">
+                        <input type="text" name="alamat" id="alamat" class="alamat form-control">
+                        <div class="invalid-feedback" id="alamat-error">
+                        </div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="">No Telepon</label>
-                        <input type="text" name="no_telp" class="no_telp form-control">
+                        <input type="number" name="no_telp" id="no_telp" class="no_telp form-control">
+                        <div class="invalid-feedback" id="no_telp-error">
+                        </div>
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -167,6 +173,19 @@
             "paging": true,
             "ordering": true,
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        // Menghilangkan alert error pada waktu tidak diinputkan
+        $('#nama').on('click', function() {
+            $('#nama').removeClass('is-valid is-invalid');
+        });
+
+        $('#alamat').on('click', function() {
+            $('#alamat').removeClass('is-valid is-invalid');
+        });
+
+        $('#no_telp').on('click', function() {
+            $('#no_telp').removeClass('is-valid is-invalid');
+        });
     });
 
     $(document).on('submit', '#modal-form', function(e) {
@@ -183,11 +202,17 @@
                 // console.log(response);
 
                 if (response.status == 400) {
-                    $('#saveform_errList').html("");
-                    $('#saveform_errList').addClass('alert alert-danger');
-                    $.each(response.errors, function(key, err_values) {
-                        $('#saveform_errList').append('<li>' + err_values + '</li>');
-                    });
+                    // $('#saveform_errList').html("");
+                    // $('#saveform_errList').addClass('alert alert-danger');
+                    // $.each(response.errors, function(key, err_values) {
+                    //     $('#saveform_errList').append('<li>' + err_values + '</li>');
+                    // });
+
+                    // Validation jika setiap error dibawah masing" inputan
+                    $.each(response.data, function(field, errors) {
+                            $('#' + field).addClass('is-invalid');
+                            $('#' + field + '-error').text(errors[0]).wrapInner("<strong />");
+                        });
                 } else {
                     Swal.fire({
                         position: 'center',

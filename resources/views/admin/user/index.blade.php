@@ -134,6 +134,7 @@
                             <option value="administrator">Administrator</option>
                             <option value="admingudang">Admin Gudang</option>
                             <option value="kepalagudang">Kepala Gudang</option>
+                            <option value="pengaju">Pengaju</option>
                         </select>
                         <div class="invalid-feedback" id="role-error">
                         </div>

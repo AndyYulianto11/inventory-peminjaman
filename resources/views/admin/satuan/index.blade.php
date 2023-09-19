@@ -59,16 +59,20 @@
                                     <td class="text-center">{{ $no++ }}</td>
                                     <td class="text-center">
                                         <span class="editSpan satuan">{{ $item->satuan }}</span>
-                                        <input type="text" class="editInput satuan" name="satuan" style="display:none;" value="{{ $item->satuan }}">
+                                        <input type="text" class="editInput satuan" name="satuanedit" onclick="removenotifsatuan({{ $item->id }})" id="satuanedit" style="display:none;" value="{{ $item->satuan }}">
+                                        <div class="invalid-feedback" id="satuanedit-error">
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <span class="editSpan qty">{{ $item->qty }}</span>
-                                        <input type="text" class="editInput qty" name="qty" style="display:none;" value="{{ $item->qty }}">
+                                        <input type="text" class="editInput qty" name="qtyedit" onclick="removenotifqty({{ $item->id }})" id="qtyedit" style="display:none;" value="{{ $item->qty }}">
+                                        <div class="invalid-feedback" id="qtyedit-error">
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></button>
                                         <button class="btn text-primary  btnSave" style="display:none;"><i class="fa fa-check"></i></button>
-                                        <button class="btn text-danger  editCancel" style="display:none;"><i class="fa fa-times"></i></button>
+                                        <button class="btn text-danger  editCancel" onclick="removecancel({{ $item->id }})" style="display:none;"><i class="fa fa-times"></i></button>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -106,12 +110,16 @@
 
                     <div class="form-group mb-3">
                         <label for="">Satuan</label>
-                        <input type="text" name="satuan" class="satuan form-control">
+                        <input type="text" name="satuan" id="satuan" class="satuan form-control">
+                        <div class="invalid-feedback" id="satuan-error">
+                        </div>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="">Qty</label>
-                        <input type="number" name="qty" class="qty form-control">
+                        <input type="number" name="qty" id="qty" class="qty form-control">
+                        <div class="invalid-feedback" id="qty-error">
+                        </div>
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -158,6 +166,15 @@
             "paging": true,
             "ordering": true,
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        // Menghilangkan alert error pada waktu tidak diinputkan
+        $('#satuan').on('click', function() {
+            $('#satuan').removeClass('is-valid is-invalid');
+        });
+
+        $('#qty').on('click', function() {
+            $('#qty').removeClass('is-valid is-invalid');
+        });
 
         // fetchsatuan();
 
@@ -211,10 +228,16 @@
                     // console.log(response);
 
                     if (response.status == 400) {
-                        $('#saveform_errList').html("");
-                        $('#saveform_errList').addClass('alert alert-danger');
-                        $.each(response.errors, function(key, err_values) {
-                            $('#saveform_errList').append('<li>' + err_values + '</li>');
+                        // $('#saveform_errList').html("");
+                        // $('#saveform_errList').addClass('alert alert-danger');
+                        // $.each(response.errors, function(key, err_values) {
+                        //     $('#saveform_errList').append('<li>' + err_values + '</li>');
+                        // });
+
+                        // Validation jika setiap error dibawah masing" inputan
+                        $.each(response.data, function(field, errors) {
+                            $('#' + field).addClass('is-invalid');
+                            $('#' + field + '-error').text(errors[0]).wrapInner("<strong />");
                         });
                     } else {
                         Swal.fire({
@@ -341,6 +364,7 @@
             e.preventDefault();
             var trObj = $(this).closest("tr");
             var ID = $(this).closest("tr").attr('id');
+            data_id = ID.split("data");
             var inputData = $(this).closest("tr").find(".editInput").serialize();
             console.log(trObj);
 
@@ -378,12 +402,30 @@
                         trObj.find(".edit_inline").show();
                         trObj.find(".btnDelete").show();
 
+                    }else{
+                        $.each(response.data, function(field, errors) {
+                            $('#' + field).addClass('is-invalid');
+                            $('#' + field + '-error').text(errors[0]).wrapInner("<strong />");
+                        });
                     }
                 }
             });
         });
 
     });
+
+    function removenotifsatuan(id) {
+            $('#satuanedit').removeClass('is-valid is-invalid');
+    }
+
+    function removenotifqty(id) {
+            $('#qtyedit').removeClass('is-valid is-invalid');
+    }
+
+    function removecancel(id) {
+        $('#satuanedit' ).removeClass('is-valid is-invalid');
+        $('#qtyedit' ).removeClass('is-valid is-invalid');
+    }
 </script>
 
 @endsection

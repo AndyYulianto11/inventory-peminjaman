@@ -26,6 +26,11 @@ class CheckRole
             }
         }
 
-        return redirect('/');
+        if (Auth::user()->role == 'pengaju') {
+            return redirect('/pengaju');
+        } else {
+            return redirect('/');
+        }
+
     }
 }

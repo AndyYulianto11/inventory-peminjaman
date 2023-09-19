@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Databarang;
+use App\Models\Datapengaju;
+use App\Models\Jenisbarang;
+use App\Models\Satuan;
 use Illuminate\Http\Request;
 
-class PengajuController extends Controller
+class DatapengajuController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -18,17 +16,14 @@ class PengajuController extends Controller
      */
     public function index()
     {
-        return view('pengaju');
-    }
-
-    public function cekdata()
-    {
         $judul = [
-            'subjudul' => 'Data Barang',
-            'submenu' => 'data barang',
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'data pengaju',
         ];
-        $databarang = Databarang::select("*")->orderBy('created_at', 'DESC')->get();
-        return view('pengaju.cekdatabarang.index', compact('judul', 'databarang'));
+        $jenis = Jenisbarang::all();
+        $satuans = Satuan::all();
+        $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')->get();
+        return view('pengaju.data_pengaju.index', compact('judul', 'datapengaju', 'jenis', 'satuans'));
     }
 
     /**
@@ -38,7 +33,14 @@ class PengajuController extends Controller
      */
     public function create()
     {
-        //
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'data pengaju',
+        ];
+
+        $datapengaju = Datapengaju::all();
+
+        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju'));
     }
 
     /**

@@ -58,7 +58,7 @@ class JenisbarangController extends Controller
         {
             return response()->json([
                 'status'=>400,
-                'errors'=>$validator->messages(),
+                'data'=>$validator->errors(),
             ]);
         }
         else
@@ -118,24 +118,39 @@ class JenisbarangController extends Controller
      */
     public function update(Request $request)
     {
-        $id = explode('data',$request->id);
-        $data = Jenisbarang::find($id[1]);
-        $data->update([
-            'jenisbarang'=>$request->jenisbarang
+        $validator = Validator::make($request->all(),[
+            'jenisbarangedit' => 'required',
+        ],[
+            'jenisbarangedit.required' => 'Jenis Barang harus diisi',
         ]);
-        
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'data'=>$validator->errors(),
+            ]);
+        }else{
+            $id = explode('data',$request->id);
+            $data = Jenisbarang::find($id[1]);
+            $data->update([
+                'jenisbarang'=>$request->jenisbarangedit
+            ]);
+            
+    
+            $jenisbarang = [
+                'jenisbarang' =>$request->jenisbarangedit
+            ];
+            
+            return response()->json([
+                'status'=>200,
+                "data" => $jenisbarang,
+                'message'=>'Jenis barang berhasil diupdate',
+            ]);
+        }
 
-        $jenisbarang = [
-            'jenisbarang' =>$request->jenisbarang
-        ];
 
-        return response()->json([
-            'status'=>200,
-            "data" => $jenisbarang,
-            'message'=>'Jenis barang berhasil diupdate',
-        ]);
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *

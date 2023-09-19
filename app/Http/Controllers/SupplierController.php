@@ -46,7 +46,7 @@ class SupplierController extends Controller
             'alamat' => 'required',
             'no_telp' => 'required',
         ],[
-            'nama.required' => 'Nama harus diisi',
+            'nama.required' => 'Supplier harus diisi',
             'alamat.required' => 'Alamat harus diisi',
             'no_telp.required' => 'No Telepon harus diisi',
         ]);
@@ -55,7 +55,7 @@ class SupplierController extends Controller
         {
             return response()->json([
                 'status'=>400,
-                'errors'=>$validator->messages(),
+                'data'=>$validator->errors(),
             ]);
         }
         else

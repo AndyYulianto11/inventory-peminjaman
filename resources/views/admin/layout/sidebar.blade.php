@@ -139,6 +139,33 @@
                             </ul>
                         </li>
                         @endif
+
+                        @if (Auth::user()->role == 'pengaju')
+                        <li class="nav-item">
+                            <a href="{{ route('pengaju') }}" class="nav-link {{ request()->is('pengaju') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-line"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('cekdatabarang') }}" class="nav-link {{ request()->is('cekdatabarang') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-boxes"></i>
+                                <p>
+                                    Data Barang
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('datapengaju') }}" class="nav-link {{ request()->is('datapengaju') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-paste"></i>
+                                <p>
+                                    Pengaju
+                                </p>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

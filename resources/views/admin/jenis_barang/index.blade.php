@@ -66,12 +66,14 @@
                                     <td class="text-center">{{ $no++ }}</td>
                                     <td class="text-center">
                                         <span class="editSpan jenisbarang">{{ $item->jenisbarang }}</span>
-                                        <input type="text" class="editInput jenisbarang" name="jenisbarang" style="display:none;" value="{{ $item->jenisbarang }}">
+                                        <input type="text" class="editInput jenisbarang" name="jenisbarangedit" onclick="removenotif({{ $item->id }})" id="jenisbarangedit{{ $item->id }}" style="display:none;" value="{{ $item->jenisbarang }}">
+                                        <div class="invalid-feedback" id="jenisbarangedit-error">
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></button>
                                         <button class="btn text-primary  btnSave" style="display:none;"><i class="fa fa-check"></i></button>
-                                        <button class="btn text-danger  editCancel" style="display:none;"><i class="fa fa-times"></i></button>
+                                        <button class="btn text-danger  editCancel" onclick="removecancel({{ $item->id }})" style="display:none;"><i class="fa fa-times"></i></button>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -109,7 +111,9 @@
 
                     <div class="form-group mb-3">
                         <label for="">Jenis Barang</label>
-                        <input type="text" name="jenisbarang" class="jenisbarang form-control">
+                        <input type="text" name="jenisbarang" id="jenisbarang" class="jenisbarang form-control">
+                        <div class="invalid-feedback" id="jenisbarang-error">
+                        </div>
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -186,6 +190,11 @@
             "ordering": true,
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
+        // Menghilangkan alert error pada waktu tidak diinputkan
+        $('#jenisbarang').on('click', function() {
+            $('#jenisbarang').removeClass('is-valid is-invalid');
+        });
+
         // fetchjenisbarang();
 
         // function fetchjenisbarang() {
@@ -235,10 +244,16 @@
                 success: function(response) {
                     // console.log(response);
                     if (response.status == 400) {
-                        $('#saveform_errList').html("");
-                        $('#saveform_errList').addClass('alert alert-danger');
-                        $.each(response.errors, function(key, err_values) {
-                            $('#saveform_errList').append('<li>' + err_values + '</li>');
+                        // $('#saveform_errList').html("");
+                        // $('#saveform_errList').addClass('alert alert-danger');
+                        // $.each(response.errors, function(key, err_values) {
+                        //     $('#saveform_errList').append('<li>' + err_values + '</li>');
+                        // });
+
+                        // Validation jika setiap error dibawah masing" inputan
+                        $.each(response.data, function(field, errors) {
+                            $('#' + field).addClass('is-invalid');
+                            $('#' + field + '-error').text(errors[0]).wrapInner("<strong />");
                         });
                     } else {
                         Swal.fire({
@@ -366,6 +381,7 @@
         e.preventDefault();
         var trObj = $(this).closest("tr");
         var ID = $(this).closest("tr").attr('id');
+        data_id = ID.split("data");
         var inputData = $(this).closest("tr").find(".editInput").serialize();
         console.log(trObj);
 
@@ -403,10 +419,25 @@
                     trObj.find(".edit_inline").show();
                     trObj.find(".btnDelete").show();
 
+                }else{
+                    $.each(response.data, function(field, errors) {
+                            data = trObj.find(".editInput.jenisbarang");
+                            data.addClass('is-invalid');
+                            $('#' + field + '-error' + data_id).text(errors[0]).wrapInner("<strong />");
+
+                        });
                 }
             }
         });
     });
+    
+    function removenotif(id) {
+            $('#jenisbarangedit' + id).removeClass('is-valid is-invalid');
+    }
+
+    function removecancel(id) {
+        $('#jenisbarangedit' + id).removeClass('is-valid is-invalid');
+    }
 </script>
 
 @endsection

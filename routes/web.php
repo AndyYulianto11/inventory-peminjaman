@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\DatabarangController;
+use App\Http\Controllers\DatapengajuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
 use App\Http\Controllers\PengajuController;
@@ -89,8 +90,15 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'checkrole:user'])->group(function () {
-    // User Pengaju
+Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
+    // Home User Pengaju
     Route::get('/pengaju', [PengajuController::class, 'index'])->name('pengaju');
+
+    // Cek Data Barang
+    Route::get('/cekdatabarang', [PengajuController::class, 'cekdata'])->name('cekdatabarang');
+
+    // Data Pengaju
+    Route::get('/datapengaju', [DatapengajuController::class, 'index'])->name('datapengaju');
+    Route::get('/create-datapengaju', [DatapengajuController::class, 'create'])->name('create-datapengaju');
 
 });

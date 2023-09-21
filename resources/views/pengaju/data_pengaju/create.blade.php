@@ -62,19 +62,20 @@
                             <div class="form-group row">
                                 <label for="kode_nota" class="col-sm-2 col-form-label">User</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="code_pengajuan" name="code_pengajuan" readonly>
+                                    <input type="text" class="form-control" id="user" name="user" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="kode_nota" class="col-sm-2 col-form-label">Unit</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="code_pengajuan" name="code_pengajuan" readonly>
+                                    <input type="text" class="form-control" id="unit" name="unit" readonly>
                                 </div>
                             </div>
 
                             <hr>
-
+                            <button type="button" class="btn btn-primary btn-sm btn-flat" onclick="BtnAdd()"><i class="fas fa-plus"></i>
+                            </button>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped">
                                     <thead>
@@ -86,7 +87,14 @@
                                             <th>Hapus</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="bahan-ajax">
+                                    <tbody id="TBody">
+                                        <tr id="TRow" class="d-none">
+                                            <td><input type="text" class="form-control" id="kode_barang" name="kode_barang"></td>
+                                            <td><input type="text" class="form-control" id="nama_barang" name="nama_barang"></td>
+                                            <td><input type="text" class="form-control" id="satuan" name="satuan"></td>
+                                            <td><input type="text" class="form-control" id="qty" name="qty"></td>
+                                            <td class="text-center"><button class="btn btn-xs btn-danger hapus" onclick="BtnDel(this)"><i class="fa fa-trash"></i></button></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -114,6 +122,16 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
+
+    function BtnAdd() {
+        var v = $("#TRow").clone().appendTo("#TBody");
+        $(v).find("input").val('');
+        $(v).removeClass("d-none");
+    }
+
+    function BtnDel(v) {
+        $(v).parent().parent().remove();
+    }
 
 </script>
 

@@ -16,9 +16,14 @@ class CreateSupplierSeeder extends Seeder
     {
         $supplier = [
             [
-                'nama' => 'Noor',
-                'alamat' => 'Pacitan, Jawa Timur',
-                'no_telp' => '081234567890',
+                'nama' => 'Toko Gajah Terbang',
+                'alamat' => 'Jalan Satelit Sumenep',
+                'no_telp' => '085234769810',
+            ],
+            [
+                'nama' => 'Toko Wijaya Abadi',
+                'alamat' => 'Jalan Manalagi Mangga',
+                'no_telp' => '087432109876',
             ]
         ];
 

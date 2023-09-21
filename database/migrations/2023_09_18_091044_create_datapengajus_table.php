@@ -17,6 +17,8 @@ class CreateDatapengajusTable extends Migration
             $table->id();
             $table->string('code_pengajuan');
             $table->date('tgl_pengajuan');
+            $table->foreignId('user_id');
+            $table->foreignId('barang_id');
             $table->string('nama_barang');
             $table->foreignId('jenis_id');
             $table->integer('qty');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDatapengajusTable extends Migration
+class CreateItemDataPengajusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateDatapengajusTable extends Migration
      */
     public function up()
     {
-        Schema::create('datapengajus', function (Blueprint $table) {
+        Schema::create('item_data_pengajus', function (Blueprint $table) {
             $table->id();
-            $table->string('code_pengajuan');
-            $table->date('tgl_pengajuan');
-            $table->foreignId('user_id');
+            $table->foreignId('datapengaju_id');
+            $table->foreignId('barang_id');
+            $table->double('qty');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateDatapengajusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datapengajus');
+        Schema::dropIfExists('item_data_pengajus');
     }
 }

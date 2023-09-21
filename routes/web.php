@@ -9,6 +9,7 @@ use App\Http\Controllers\PengajuController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Models\Datapengaju;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::post('/store-barangmasuk', [BarangmasukController::class, 'store'])->name('store-barangmasuk');
     Route::get('/detail-barangmasuk/{id}', [BarangmasukController::class, 'show'])->name('detail-barangmasuk');
     Route::get('/edit-barangmasuk/{id}', [BarangmasukController::class, 'edit'])->name('edit-barangmasuk');
+    Route::put('/update-barangmasuk/{id}', [BarangmasukController::class, 'update'])->name('update-barangmasuk');
     Route::post('/delete-barangmasuk', [BarangmasukController::class, 'destroy'])->name('delete-barangmasuk');
 
     // Supplier
@@ -100,5 +102,6 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     // Data Pengaju
     Route::get('/datapengaju', [DatapengajuController::class, 'index'])->name('datapengaju');
     Route::get('/create-datapengaju', [DatapengajuController::class, 'create'])->name('create-datapengaju');
+    Route::post('/store-datapengaju', [DatapengajuController::class, 'store'])->name('store-datapengaju');
 
 });

@@ -182,7 +182,25 @@ class BarangmasukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'kode_nota' => 'required',
+                'tanggal_pembelian' => 'required',
+                'supplier_id' => 'required',
+            ]);
+
+            $post = Barangmasuk::findOrFail($id);
+
+            $post->update([
+                'kode_nota' => $request->kode_nota,
+                'tanggal_pembelian' => $request->tanggal_pembelian,
+                'supplier_id' => $request->supplier_id,
+            ]);
+
+            return redirect('barangmasuk')->with('success', 'Data berhasil diubah!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

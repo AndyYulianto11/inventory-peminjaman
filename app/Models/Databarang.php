@@ -27,4 +27,9 @@ class Databarang extends Model
     {
         return $this->hasMany(Barangmasuk::class);
     }
+
+    public function datapengajus()
+    {
+        return $this->hasMany(Datapengaju::class);
+    }
 }

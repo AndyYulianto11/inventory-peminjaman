@@ -43,7 +43,9 @@
                         </div>
                         <div class="card-body">
                             <ul id="saveform_errList"></ul>
-                            <form id="modal-form">
+                            <form action="{{ route('update-barangmasuk', $barangmasuk->id) }}" method="POST" id="modal-form">
+                                @csrf
+                                @method('PUT')
 
                                 <div class="form-group row">
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Kode Nota</label>
@@ -60,13 +62,11 @@
                                     </div>
                                 </div>
 
-                                <hr>
-
                                 <div class="form-group row">
-                                    <label for="barang" class="col-sm-2 col-form-label">Barang Masuk</label>
+                                    <label for="supplier_id" class="col-sm-2 col-form-label">Supplier</label>
                                     <div class="col-sm-10">
-                                        <select id="barang" class="form-control select2">
-                                            <option value="" selected disabled>-- Pilih Barang --</option>
+                                        <select id="supplier_id" name="supplier_id" class="form-control select2">
+                                            <option value="" selected disabled>-- Pilih Supplier --</option>
                                             @foreach ($supplier as $item)
                                                 <option value="{{ $item->id }}"
                                                     {{ $barangmasuk->supplier_id == $item->id ? 'selected' : '' }}>
@@ -74,6 +74,10 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-6 col-form-label">Data Barang Masuk</label>
                                 </div>
 
                                 <div class="table-responsive">
@@ -123,10 +127,10 @@
                                                     </div>
                                                     @if ($barangmasuk->ppn_angka != null)
                                                         <input type="number" class="form-control" id="ppn_angka"
-                                                            name="ppn_angka" value="{{ $barangmasuk->ppn_angka }}">
+                                                            name="ppn_angka" value="{{ $barangmasuk->ppn_angka }}" disabled>
                                                     @else
                                                         <input type="number" class="form-control" id="ppn_angka"
-                                                            name="ppn_angka" value="0">
+                                                            name="ppn_angka" value="0" disabled>
                                                     @endif
                                                 </div>
                                             </th>
@@ -139,10 +143,10 @@
                                                     </div>
                                                     @if ($barangmasuk->ppn_persen != null)
                                                         <input type="number" class="form-control" id="ppn_persen"
-                                                            name="ppn_persen" value="{{ $barangmasuk->ppn_persen }}">
+                                                            name="ppn_persen" value="{{ $barangmasuk->ppn_persen }}" disabled>
                                                     @else
                                                         <input type="number" class="form-control" id="ppn_persen"
-                                                            name="ppn_persen" value="0">
+                                                            name="ppn_persen" value="0" disabled>
                                                     @endif
                                                 </div>
                                             </th>
@@ -158,10 +162,10 @@
                                                     </div>
                                                     @if ($barangmasuk->diskon_angka != null)
                                                         <input type="number" class="form-control" id="diskon_angka"
-                                                            name="diskon_angka" value="{{ $barangmasuk->diskon_angka }}">
+                                                            name="diskon_angka" value="{{ $barangmasuk->diskon_angka }}" disabled>
                                                     @else
                                                         <input type="number" class="form-control" id="diskon_angka"
-                                                            name="diskon_angka" value="0">
+                                                            name="diskon_angka" value="0" disabled>
                                                     @endif
                                                 </div>
                                             </th>
@@ -175,10 +179,10 @@
                                                     @if ($barangmasuk->diskon_persen != null)
                                                         <input type="number" class="form-control" id="diskon_persen"
                                                             name="diskon_persen"
-                                                            value="{{ $barangmasuk->diskon_persen }}">
+                                                            value="{{ $barangmasuk->diskon_persen }}" disabled>
                                                     @else
                                                         <input type="number" class="form-control" id="diskon_persen"
-                                                            name="diskon_persen" value="0">
+                                                            name="diskon_persen" value="0" disabled>
                                                     @endif
                                                 </div>
                                             </th>
@@ -193,7 +197,7 @@
                                                         </span>
                                                     </div>
                                                     <input type="number" class="form-control" id="total_bayar_input"
-                                                        name="total_bayar_input" value="{{ $barangmasuk->total_bayar }}">
+                                                        name="total_bayar_input" value="{{ $barangmasuk->total_bayar }}" disabled>
                                                 </div>
                                             </th>
                                         </tr>

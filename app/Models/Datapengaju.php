@@ -10,6 +10,16 @@ class Datapengaju extends Model
     use HasFactory;
 
     protected $fillable = [
-        'code_pengajuan', 'tgl_pengajuan', 'nama_barang', 'jenis_id', 'qty', 'satuan_id'
+        'code_pengajuan', 'tgl_pengajuan', 'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function item_datapengaju()
+    {
+        return $this->hasMany(ItemDataPengaju::class);
+    }
 }

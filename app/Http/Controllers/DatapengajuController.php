@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Databarang;
 use App\Models\Datapengaju;
 use App\Models\ItemDataPengaju;
-use App\Models\Jenisbarang;
-use App\Models\Satuan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +80,7 @@ class DatapengajuController extends Controller
                 'code_pengajuan' => $request->code_pengajuan,
                 'tgl_pengajuan' => $request->tgl_pengajuan,
                 'user_id' => Auth::user()->id,
+                'status' => $request->status,
             ]);
 
             $barangs = Databarang::whereIn('id', $barang_id)->get();

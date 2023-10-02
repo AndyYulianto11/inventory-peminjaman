@@ -18,6 +18,7 @@ class CreateDatapengajusTable extends Migration
             $table->string('code_pengajuan');
             $table->date('tgl_pengajuan');
             $table->foreignId('user_id');
+            $table->enum('status', ['diajukan', 'proses', 'pending', 'sebagian sudah diserahkan', 'serah terima'])->default('diajukan');
             $table->timestamps();
         });
     }

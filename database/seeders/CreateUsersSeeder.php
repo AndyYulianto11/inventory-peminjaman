@@ -18,26 +18,30 @@ class CreateUsersSeeder extends Seeder
             [
                'name'=>'Administrator',
                'email'=>'administrator@gmail.com',
-                'role'=>'administrator',
+               'role'=>'administrator',
                'password'=> bcrypt('123123123'),
+               'unit' => '-',
             ],
             [
                'name'=>'Admin Gudang',
                'email'=>'admingudang@gmail.com',
-                'role'=>'admingudang',
+               'role'=>'admingudang',
                'password'=> bcrypt('123123123'),
+               'unit' => '-',
             ],
             [
                'name'=>'Kepala Gudang',
                'email'=>'kepalagudang@gmail.com',
-                'role'=>'kepalagudang',
+               'role'=>'kepalagudang',
                'password'=> bcrypt('123123123'),
+               'unit' => '-',
             ],
             [
                 'name'=>'Pengaju',
                 'email'=>'pengaju@gmail.com',
-                 'role'=>'pengaju',
+                'role'=>'pengaju',
                 'password'=> bcrypt('123123123'),
+                'unit' => '-',
              ],
         ];
 

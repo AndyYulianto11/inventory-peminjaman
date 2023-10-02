@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\AdminpengajuController;
 use App\Http\Controllers\BarangmasukController;
+use App\Http\Controllers\DashboardpengajuController;
 use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\DatapengajuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
-use App\Http\Controllers\PengajuController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
-use App\Models\Datapengaju;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +43,6 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::post('/store-databarang', [DatabarangController::class, 'store'])->name('store-databarang');
     Route::get('/edit-databarang/{id}', [DatabarangController::class, 'edit'])->name('edit-databarang');
     Route::put('/update-databarang/{id}', [DatabarangController::class, 'update'])->name('update-databarang');
-    Route::get('/databarang/{id}', [DatabarangController::class, 'show'])->name('show-databarang');
     Route::get('/databarang_shows', [DatabarangController::class, 'shows'])->name('shows-databarang');
     Route::post('/delete-databarang', [DatabarangController::class, 'destroy'])->name('databarang.destroy');
 
@@ -79,7 +78,9 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::post('/update-supplier', [SupplierController::class, 'update'])->name('supplier.update');
     Route::post('/delete-supplier', [SupplierController::class, 'destroy'])->name('supplier.destroy');
 
-
+    // Cek Pengaju
+    Route::get('/cek-pengaju', [AdminpengajuController::class, 'index'])->name('cek-pengaju');
+    Route::get('/cek-pengaju_shows', [AdminpengajuController::class, 'shows'])->name('shows-pengaju');
 
 });
 
@@ -94,10 +95,10 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
 
 Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     // Home User Pengaju
-    Route::get('/pengaju', [PengajuController::class, 'index'])->name('pengaju');
+    Route::get('/pengaju', [DashboardpengajuController::class, 'index'])->name('pengaju');
 
     // Cek Data Barang
-    Route::get('/cekdatabarang', [PengajuController::class, 'cekdata'])->name('cekdatabarang');
+    Route::get('/cekdatabarang', [DashboardpengajuController::class, 'cekdata'])->name('cekdatabarang');
 
     // Data Pengaju
     Route::get('/datapengaju', [DatapengajuController::class, 'index'])->name('datapengaju');

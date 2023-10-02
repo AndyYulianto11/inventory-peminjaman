@@ -51,6 +51,7 @@
                                     <th>E-Mail</th>
                                     <th>Level</th>
                                     <th>Last Seen</th>
+                                    <th>Unit</th>
                                     <th width="100px">Aksi</th>
                                 </tr>
                             </thead>
@@ -69,6 +70,7 @@
                                         <span class="badge bg-secondary">Offline</span>
                                         @endif
                                     </td>
+                                    <td class="text-center">{{ $item->unit }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm btn-flat btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
@@ -110,6 +112,13 @@
                         <label for="">Nama</label>
                         <input type="text" name="name" id="name" class="name form-control">
                         <div class="invalid-feedback" id="name-error">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">Unit</label>
+                        <input type="text" name="unit" id="unit" class="unit form-control">
+                        <div class="invalid-feedback" id="unit-error">
                         </div>
                     </div>
 
@@ -191,6 +200,10 @@
             $('#name').removeClass('is-valid is-invalid');
         });
 
+        $('#unit').on('click', function() {
+            $('#unit').removeClass('is-valid is-invalid');
+        });
+
         $('#email').on('click', function() {
             $('#email').removeClass('is-valid is-invalid');
         });
@@ -202,7 +215,7 @@
         $('#role').on('change', function() {
             $('#role').removeClass('is-valid is-invalid');
         });
-        
+
 
         $(document).on('submit', '#modal-form', function(e) {
             e.preventDefault();

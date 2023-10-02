@@ -71,6 +71,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('cek-pengaju') }}" class="nav-link {{ request()->is('cek-pengaju*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    Pengajuan
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('barangmasuk') }}" class="nav-link {{ request()->is('barangmasuk') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-sign-in-alt"></i>
                                 <p>
@@ -79,7 +87,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
+                            <a href="/" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>
                                     Barang Keluar

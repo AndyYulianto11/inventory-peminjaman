@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Barang Masuk - Administrator')
+@section('title', 'Cek Pengaju - Administrator')
 
 @section('css')
 
@@ -34,12 +34,6 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">{{ $data['subjudul'] }}</h3>
-
-                            <div class="card-tools">
-                                <a href="{{ route('create-barangmasuk') }}" type="button" class="btn btn-tool"><i
-                                        class="fas fa-plus"></i> Add Data
-                                </a>
-                            </div>
                             <!-- /.card-tools -->
                         </div>
                         <!-- /.card-header -->
@@ -48,38 +42,51 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th width="50px">No</th>
-                                        <th>ID Transaksi</th>
-                                        <th>Supplier</th>
+                                        <th>Kode Pengajuan</th>
+                                        <th>Nama Pengaju</th>
                                         <th>Tanggal</th>
-                                        <th>Jumlah Masuk</th>
+                                        <th>Unit</th>
+                                        <th>Status</th>
                                         <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="add_new">
                                     @php $no = 1 @endphp
-                                    @forelse ($barangmasuk as $item)
+                                    @forelse ($pengaju as $item)
                                         <tr class="text-center" id="data{{ $item->id }}">
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $item->kode_nota }}</td>
-                                            <td>{{ $item->supplier->nama }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($item->tanggal_pembelian)) }}</td>
+                                            <td>{{ $item->code_pengajuan }}</td>
+                                            <td>{{ $item->user->name }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
+                                            <td>{{ $item->user->unit }}</td>
                                             <td>
-                                                @if ($item->item_barangmasuk->count() > 0)
-                                                    {{ $item->item_barangmasuk->count() }}
+                                                @if ($item->status == 'diajukan')
+                                                    <span class="badge bg-warning">Diajukan</span>
+                                                @elseif ($item->status == 'proses')
+                                                    <span class="badge bg-secondary">Proses</span>
+                                                @elseif ($item->status == 'pending')
+                                                    <span class="badge bg-danger">Pending</span>
+                                                @elseif ($item->status == 'sebagian sudah diserahkan')
+                                                    <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
                                                 @else
-                                                    0
+                                                    <span class="badge bg-success">Serah Terima</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('detail-barangmasuk', $item->id) }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-eye"></i></a>
-                                                <a href="{{ route('edit-barangmasuk', $item->id) }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
+                                                <button href="{{ route('detail-barangmasuk', $item->id) }}"
+                                                    class="btn btn-primary btn-sm btn-flat"
+                                                    onclick="detail({{ $item->id }})" data-toggle="modal"
+                                                    data-target="#detail"><i class="fas fa-eye"></i></button>
+                                                <a href="{{ route('edit-barangmasuk', $item->id) }}"
+                                                    class="btn btn-warning btn-sm btn-flat  edit_inline"><i
+                                                        class="fas fa-pencil-alt"></i></a>
                                                 <button class="btn btn-danger btn-sm btn-flat btnDelete"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
                                     @empty
                                         <div class="alert alert-danger">
-                                            Data Barang Masuk belum Tersedia.
+                                            Data Pengajuan Barang belum Tersedia.
                                         </div>
                                     @endforelse
                                 </tbody>
@@ -92,6 +99,30 @@
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
+    </div>
+
+    <!-- Detail Barcode -->
+    <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="details">
+
+                    </div>
+                </div>
+                <tr>
+                </tr>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -119,6 +150,37 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function detail(id) {
+            console.log(id);
+            $.ajax({
+                type: "GET",
+                url: "{{ route('shows-pengaju') }}",
+                data: {
+                    id: id,
+                },
+                dataType: "JSON",
+                success: function(response) {
+                    html = `<table class="table table-bordered">
+                        <tr>
+                            <th class="text-center">Nama Barang</th>
+                            <th class="text-center">Stok</th>
+                            <th class="text-center">Jenis Barang</th>
+                            <th class="text-center">Satuan</th>
+                            <th class="text-center">Barcode</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">${response.data.nama_barang}</td>
+                            <td class="text-center">${response.data.stok}</td>
+                            <td class="text-center">${response.data.jenisbarang}</td>
+                            <td class="text-center">${response.data.satuan}</td>
+                            <td class="text-center">${response.data.code_barang}</td>
+                        </tr>
+                        </table>`;
+                    $('.details').html(html);
+                }
+            });
+        }
 
         $(document).ready(function() {
             $("#datatables").DataTable({

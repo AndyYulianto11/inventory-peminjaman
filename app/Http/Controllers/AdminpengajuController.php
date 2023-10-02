@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Databarang;
+use App\Models\Datapengaju;
 use Illuminate\Http\Request;
 
-class PengajuController extends Controller
+class AdminpengajuController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -18,17 +14,14 @@ class PengajuController extends Controller
      */
     public function index()
     {
-        return view('pengaju');
-    }
-
-    public function cekdata()
-    {
-        $judul = [
-            'subjudul' => 'Data Barang',
-            'submenu' => 'data barang',
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
         ];
-        $databarang = Databarang::select("*")->orderBy('created_at', 'DESC')->get();
-        return view('pengaju.cekdatabarang.index', compact('judul', 'databarang'));
+
+        $pengaju = Datapengaju::all();
+
+        return view('admin.cek_pengaju.index', compact('data' ,'pengaju'));
     }
 
     /**
@@ -58,9 +51,17 @@ class PengajuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $showpengajuanbarang = Datapengaju::leftJoin('jenisbarang','jenisbarang.id','databarangs.jenis_id')
+                                    ->leftJoin('satuans','satuans.id','databarangs.satuan_id')
+                                    ->where('databarangs.id',$request->id)
+                                    ->select('databarangs.*','satuans.satuan','jenisbarang.jenisbarang')->first();
+        // dd($showdatabarang);
+        return response()->json([
+            'status'=>200,
+            'data' => $showpengajuanbarang,
+        ]);
     }
 
     /**

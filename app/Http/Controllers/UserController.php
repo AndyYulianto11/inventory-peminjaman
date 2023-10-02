@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -47,6 +48,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'role' => 'required',
+            'unit' => 'required',
         ],[
             'name.required' => 'Nama harus diisi',
             'email.required' => 'Email harus diisi',
@@ -55,6 +57,7 @@ class UserController extends Controller
             'password.required' => 'Password harus diisi',
             'password.min' => 'Password minimal 8 karakter',
             'role.required' => 'Role harus diisi',
+            'unit.required' => 'Unit harus diisi',
         ]);
         if($validator->fails())
         {
@@ -68,8 +71,9 @@ class UserController extends Controller
             $user = new User;
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->password = bcrypt($request->password);
+            $user->password = Hash::make($request->password);
             $user->role = $request->input('role');
+            $user->unit = $request->input('unit');
             $user->save();
             return response()->json([
                 'status'=>200,

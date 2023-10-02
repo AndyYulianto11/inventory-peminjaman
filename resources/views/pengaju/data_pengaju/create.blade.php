@@ -53,6 +53,7 @@
                                             placeholder="Kode Pengajuan" required>
                                     </div>
                                 </div>
+                                <input type="hidden" name="status" id="status" value="diajukan">
                                 <div class="form-group row">
                                     <label for="tgl_pengajuan" class="col-sm-2 col-form-label">Tanggal</label>
                                     <div class="col-sm-10">
@@ -62,7 +63,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="kode_nota" class="col-sm-2 col-form-label">User</label>
+                                    <label for="kode_nota" class="col-sm-2 col-form-label">Nama Pengaju</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="user" name="user"
                                             value="{{ Auth::user()->name }}" readonly>
@@ -73,7 +74,7 @@
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Unit</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="unit" name="unit"
-                                            value="{{ Auth::user()->role }}" readonly>
+                                            value="{{ Auth::user()->unit }}/{{ Auth::user()->role }}" readonly>
                                     </div>
                                 </div>
 

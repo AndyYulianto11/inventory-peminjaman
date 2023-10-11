@@ -13,6 +13,7 @@ class ItemDataPengaju extends Model
         'datapengaju_id',
         'barang_id',
         'qty',
+        'status'
     ];
 
     public function datapengaju()

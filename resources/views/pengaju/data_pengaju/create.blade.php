@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Dashboard - Pengaju')
+@section('title', 'Pengajuan Barang - Pengaju')
 
 
 @section('css')
@@ -53,7 +53,6 @@
                                             placeholder="Kode Pengajuan" required>
                                     </div>
                                 </div>
-                                <input type="hidden" name="status" id="status" value="diajukan">
                                 <div class="form-group row">
                                     <label for="tgl_pengajuan" class="col-sm-2 col-form-label">Tanggal</label>
                                     <div class="col-sm-10">
@@ -172,6 +171,7 @@
                             <td class="text-center">
                                 <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
                             </td>
+                            <input type="hidden" name="status[]" id="status_${id}" id="status" value="diajukan">
                             <td class="text-center">
                                 <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
                             </td>

@@ -69,6 +69,7 @@ class DatapengajuController extends Controller
 
         $barang_id = $request->barang_id;
         $qty = $request->qty;
+        $status = $request->status;
 
         if ($validator->fails()) {
             return response()->json([
@@ -80,7 +81,6 @@ class DatapengajuController extends Controller
                 'code_pengajuan' => $request->code_pengajuan,
                 'tgl_pengajuan' => $request->tgl_pengajuan,
                 'user_id' => Auth::user()->id,
-                'status' => $request->status,
             ]);
 
             $barangs = Databarang::whereIn('id', $barang_id)->get();
@@ -90,6 +90,7 @@ class DatapengajuController extends Controller
                     'datapengaju_id' => $header,
                     'barang_id' => $value,
                     'qty' => $qty[$key],
+                    'status' => $status[$key],
                     'created_at' => Carbon::now(),
                 ]);
 
@@ -115,7 +116,15 @@ class DatapengajuController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+        $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+        return view('pengaju.data_pengaju.show', compact('data', 'datapengaju', 'itemDatapengaju'));
     }
 
     /**

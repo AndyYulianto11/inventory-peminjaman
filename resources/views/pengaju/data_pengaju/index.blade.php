@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Dashboard - Pengaju')
+@section('title', 'Pengajuan Barang - Pengaju')
 
 @section('css')
 
@@ -51,7 +51,6 @@
                                         <th>Kode Pengajuan</th>
                                         <th width="150px">Tanggal</th>
                                         <th>Qty</th>
-                                        <th>Status</th>
                                         <th width="150px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -69,24 +68,13 @@
                                                     0
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($item->status == 'diajukan')
-                                                    <span class="badge bg-warning">Diajukan</span>
-                                                @elseif ($item->status == 'proses')
-                                                    <span class="badge bg-secondary">Proses</span>
-                                                @elseif ($item->status == 'pending')
-                                                    <span class="badge bg-danger">Pending</span>
-                                                @elseif ($item->status == 'sebagian sudah diserahkan')
-                                                    <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
-                                                @else
-                                                    <span class="badge bg-success">Serah Terima</span>
-                                                @endif
-                                            </td>
                                             <td class="text-center">
-                                                <button class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
-                                                    data-target="#barcode"><i class="fas fa-eye"></i></button>
-                                                <a href="#" class="btn btn-warning btn-sm btn-flat  edit_inline"><i
-                                                        class="fas fa-pencil-alt"></i></a>
+                                                <a href="{{ route('lihat-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-warning btn-sm btn-flat  edit_inline">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
                                                 {{-- <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i
                                                         class="fas fa-trash"></i></button> --}}
                                             </td>

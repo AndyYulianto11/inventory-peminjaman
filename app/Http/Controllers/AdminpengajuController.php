@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Datapengaju;
+use App\Models\ItemDataPengaju;
+use Exception;
 use Illuminate\Http\Request;
 
 class AdminpengajuController extends Controller
@@ -21,7 +23,7 @@ class AdminpengajuController extends Controller
 
         $pengaju = Datapengaju::all();
 
-        return view('admin.cek_pengaju.index', compact('data' ,'pengaju'));
+        return view('admin.cek_pengaju.index', compact('data', 'pengaju'));
     }
 
     /**
@@ -51,17 +53,17 @@ class AdminpengajuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        $showpengajuanbarang = Datapengaju::leftJoin('jenisbarang','jenisbarang.id','databarangs.jenis_id')
-                                    ->leftJoin('satuans','satuans.id','databarangs.satuan_id')
-                                    ->where('databarangs.id',$request->id)
-                                    ->select('databarangs.*','satuans.satuan','jenisbarang.jenisbarang')->first();
-        // dd($showdatabarang);
-        return response()->json([
-            'status'=>200,
-            'data' => $showpengajuanbarang,
-        ]);
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+        $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+        return view('admin.cek_pengaju.show', compact('data', 'datapengaju', 'itemDatapengaju'));
     }
 
     /**
@@ -72,7 +74,15 @@ class AdminpengajuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+        $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+        return view('admin.cek_pengaju.edit', compact('data', 'datapengaju', 'itemDatapengaju'));
     }
 
     /**
@@ -84,7 +94,24 @@ class AdminpengajuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'status' => 'required',
+            ]);
+
+            $getDataPengaju = Datapengaju::findOrFail($id);
+
+            $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
+
+            foreach ($post as $a) {
+                $a->status = $request->status;
+                $a->save();
+            }
+
+            return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

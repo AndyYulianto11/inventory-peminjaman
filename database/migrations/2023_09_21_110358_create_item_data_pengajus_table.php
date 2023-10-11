@@ -18,6 +18,7 @@ class CreateItemDataPengajusTable extends Migration
             $table->foreignId('datapengaju_id');
             $table->foreignId('barang_id');
             $table->double('qty');
+            $table->enum('status', ['diajukan', 'proses', 'pending', 'sebagian sudah diserahkan', 'serah terima'])->default('diajukan');
             $table->timestamps();
         });
     }

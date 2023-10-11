@@ -80,7 +80,9 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 
     // Cek Pengaju
     Route::get('/cek-pengaju', [AdminpengajuController::class, 'index'])->name('cek-pengaju');
-    Route::get('/cek-pengaju_shows', [AdminpengajuController::class, 'shows'])->name('shows-pengaju');
+    Route::get('/detail-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('show-pengaju');
+    Route::get('/edit-cek-pengaju/{id}', [AdminpengajuController::class, 'edit'])->name('edit-cek-pengaju');
+    Route::put('/update-cek-pengaju/{id}', [AdminpengajuController::class, 'update'])->name('update-cek-pengaju');
 
 });
 
@@ -104,5 +106,7 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::get('/datapengaju', [DatapengajuController::class, 'index'])->name('datapengaju');
     Route::get('/create-datapengaju', [DatapengajuController::class, 'create'])->name('create-datapengaju');
     Route::post('/store-datapengaju', [DatapengajuController::class, 'store'])->name('store-datapengaju');
+
+    Route::get('/detail-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('lihat-data-pengaju');
 
 });

@@ -127,6 +127,19 @@ class DatapengajuController extends Controller
         return view('pengaju.data_pengaju.show', compact('data', 'datapengaju', 'itemDatapengaju'));
     }
 
+    public function cetak($id)
+    {
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+        $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+        return view('pengaju.pdf.cetak', compact('data', 'datapengaju', 'itemDatapengaju'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -36,8 +36,10 @@
                             <h3 class="card-title">{{ $data['subjudul'] }}</h3>
 
                             <div class="card-tools">
+                                <a href="{{ route('cetak', $datapengaju->id) }}" type="button" class="btn btn-tool" target="_blank">
+                                    <i class="fas fa-print"></i> Cetak
+                                </a>
                             </div>
-                            <!-- /.card-tools -->
                         </div>
                         <div class="card-body">
                             <table>

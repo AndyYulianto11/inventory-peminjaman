@@ -80,7 +80,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 
     // Cek Pengaju
     Route::get('/cek-pengaju', [AdminpengajuController::class, 'index'])->name('cek-pengaju');
-    Route::get('/detail-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('show-pengaju');
+    Route::get('/show-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('show-pengaju');
     Route::get('/edit-cek-pengaju/{id}', [AdminpengajuController::class, 'edit'])->name('edit-cek-pengaju');
     Route::put('/update-cek-pengaju/{id}', [AdminpengajuController::class, 'update'])->name('update-cek-pengaju');
 
@@ -107,6 +107,7 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::get('/create-datapengaju', [DatapengajuController::class, 'create'])->name('create-datapengaju');
     Route::post('/store-datapengaju', [DatapengajuController::class, 'store'])->name('store-datapengaju');
 
-    Route::get('/detail-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('lihat-data-pengaju');
+    Route::get('/detail-cek-pengaju/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
+    Route::get('/cetak/{id}', [DatapengajuController::class, 'cetak'])->name('cetak');
 
 });

@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bukti Pembayaran Daftar Ulang PMB</title>
+    <title>Bukti Pengajuan Barang</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
 
     <style>
@@ -65,9 +65,9 @@
                         <img src="{{ asset('adminlte/dist/img/logouniba.png') }}" height="70">
                     </th>
                     <th>
-                        BUKTI PEMBAYARAN DAFTAR ULANG MAHASISWA BARU <br>UNIVERSITAS BAHAUDIN MUDHARY MADURA<br>
+                        BUKTI PENGAJUAN BARANG <br>UNIVERSITAS BAHAUDIN MUDHARY MADURA<br>
                         <small>Jl. Raya Lenteng No. 10, Batuan, Kabupaten Sumenep, Jawa Timur 69451<br>E-Mail : <a
-                                href="mailto:pmb@unibamadura.ac.id">pmb@unibamadura.ac.id</a>,&nbsp;Whatsapp : <a
+                                href="mailto:uniba@unibamadura.ac.id">uniba@unibamadura.ac.id</a>,&nbsp;Whatsapp : <a
                                 href="#">082 181 66 1010</a> </small>
                     </th>
                 </tr>
@@ -147,9 +147,9 @@
                 <td colspan="3" style="text-align: right; padding-right:70px;">Sumenep, </td>
             </tr>
             <tr>
-                <td style="text-align: center;width: 50%">Mahasiswa</td>
+                <td style="text-align: center;width: 50%">Pengaju</td>
                 <td style="text-align: center;width: 20%"></td>
-                <td style="text-align: center;width: 0%">Keuangan UNIBA MADURA</td>
+                <td style="text-align: center;width: 0%">BAU-IT UNIBA MADURA</td>
             </tr>
             <tr>
                 <th style="height: 40px"></th>
@@ -163,5 +163,9 @@
         </table>
     </section>
 </body>
+
+<script>
+    window.print()
+</script>
 
 </html>

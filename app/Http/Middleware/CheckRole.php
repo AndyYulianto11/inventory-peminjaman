@@ -28,6 +28,8 @@ class CheckRole
 
         if (Auth::user()->role == 'pengaju') {
             return redirect('/pengaju');
+        } else if(Auth::user()->role == 'atasan') {
+            return redirect('/atasan');
         } else {
             return redirect('/');
         }

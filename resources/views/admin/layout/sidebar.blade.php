@@ -174,6 +174,18 @@
                             </a>
                         </li>
                         @endif
+
+                        @if (Auth::user()->role == 'atasan')
+                        <li class="nav-item">
+                            <a href="{{ route('atasan') }}" class="nav-link {{ request()->is('atasan') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-line"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

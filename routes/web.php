@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminpengajuController;
+use App\Http\Controllers\AtasanController;
 use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\DashboardpengajuController;
 use App\Http\Controllers\DatabarangController;
@@ -110,4 +111,9 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::get('/detail-cek-pengaju/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
     Route::get('/cetak/{id}', [DatapengajuController::class, 'cetak'])->name('cetak');
 
+});
+
+Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
+    // Home User Atasan
+    Route::get('/atasan', [AtasanController::class, 'index'])->name('atasan');
 });

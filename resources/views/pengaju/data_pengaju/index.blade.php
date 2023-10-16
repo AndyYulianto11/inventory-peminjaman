@@ -72,8 +72,8 @@
                                                 <a href="{{ route('lihat-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-warning btn-sm btn-flat  edit_inline">
-                                                    <i class="fas fa-pencil-alt"></i>
+                                                <!-- <a href="#" class="btn btn-warning btn-sm btn-flat  edit_inline">
+                                                    <i class="fas fa-pencil-alt"></i> -->
                                                 </a>
                                                 {{-- <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i
                                                         class="fas fa-trash"></i></button> --}}

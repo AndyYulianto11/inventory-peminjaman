@@ -25,8 +25,12 @@ class DatapengajuController extends Controller
         ];
 
         $databarang = Databarang::all();
-        $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')->get(); // ini untuk apa
+        // $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')->get(); 
 
+        $user = auth()->user(); // Sesuaikan dengan metode otentikasi Anda
+
+        $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
+                                    ->where('user_id', $user->id)->get();
         return view('pengaju.data_pengaju.index', compact('judul', 'databarang', 'datapengaju'));
     }
 
@@ -42,7 +46,7 @@ class DatapengajuController extends Controller
             'submenu' => 'data pengaju',
         ];
 
-        $datapengaju = Datapengaju::all(); // ini untuk apa
+        $datapengaju = Datapengaju::all(); 
 
         $databarang = Databarang::all();
 

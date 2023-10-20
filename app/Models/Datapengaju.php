@@ -10,7 +10,7 @@ class Datapengaju extends Model
     use HasFactory;
 
     protected $fillable = [
-        'code_pengajuan', 'tgl_pengajuan', 'user_id'
+        'code_pengajuan', 'tgl_pengajuan', 'user_id', 'status_setujuatasan', 'status_pengajuan', 'upload_dokumen'
     ];
 
     public function user()

@@ -116,4 +116,9 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
 Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
     // Home User Atasan
     Route::get('/atasan', [AtasanController::class, 'index'])->name('atasan');
+    // Cek Data Pengaju
+    Route::get('/cekdatapengaju', [AtasanController::class, 'cekdatapengaju'])->name('cekdatapengaju');
+
+    Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
+
 });

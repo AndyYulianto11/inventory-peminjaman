@@ -65,7 +65,7 @@
                                     <th class="text-center" width="5">No.</th>
                                     <th class="text-center">Nama Barang</th>
                                     <th class="text-center">Qty</th>
-                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Status Progress</th>
                                 </tr>
                                 @php $no = 1 @endphp
                                 @forelse ($itemDatapengaju as $item)

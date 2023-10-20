@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Databarang;
+use App\Models\Datapengaju;
+use App\Models\ItemDataPengaju;
 use App\Models\Jenisbarang;
 use App\Models\Satuan;
 use App\Models\User;
@@ -27,6 +29,18 @@ class AtasanController extends Controller
         $barang = Databarang::count();
         $satuan = Satuan::count();
         return view('atasan', compact('jenis', 'user', 'barang', 'satuan'));
+    }
+
+    public function cekdatapengaju()
+    {
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'data pengaju',
+        ];
+
+        $pengaju = Datapengaju::all();
+
+        return view('atasan.cekdata_pengaju.index', compact('judul', 'pengaju'));
     }
 
     /**
@@ -58,7 +72,15 @@ class AtasanController extends Controller
      */
     public function show($id)
     {
-        //
+        $judul = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+        $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+        return view('atasan.cekdata_pengaju.show', compact('judul', 'datapengaju', 'itemDatapengaju'));
     }
 
     /**

@@ -184,6 +184,14 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('cekdatapengaju') }}" class="nav-link {{ request()->is('cekdatapengaju') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-paste"></i>
+                                <p>
+                                    Cek Data Pengaju
+                                </p>
+                            </a>
+                        </li>
                         @endif
 
                     </ul>

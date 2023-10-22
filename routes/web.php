@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -92,6 +93,13 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::post('/user', [UserController::class, 'store']);
     Route::post('/delete-user', [UserController::class, 'destroy'])->name('user.destroy');
+
+    // Data Unit
+    Route::get('/unit', [UnitController::class, 'index'])->name('unit');
+    Route::post('/unit', [UnitController::class, 'store']);
+    Route::post('/edit-unit/{id}', [UnitController::class, 'edit']);
+    Route::post('/update-unit', [UnitController::class, 'update'])->name('unit.update');
+    Route::post('/delete-unit', [UnitController::class, 'destroy'])->name('unit.destroy');
 
 
 });

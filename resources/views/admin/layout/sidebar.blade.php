@@ -144,6 +144,12 @@
                                         <p>Manajemen User</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('unit') }}" class="nav-link {{ request()->is('unit') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Unit</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         @endif

@@ -44,9 +44,9 @@
                                         <th width="50px">No</th>
                                         <th>Kode Pengajuan</th>
                                         <th>Nama Pengaju</th>
+                                        <th>Tanggal</th>
                                         <th>Unit</th>
                                         <th>Status</th>
-                                        <th>Tanggal</th>
                                         <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -57,6 +57,7 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $item->code_pengajuan }}</td>
                                             <td>{{ $item->user->name }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
                                             <td>{{ $item->user->unit }}</td>
                                             <td>
                                                 @if($item->status_setujuatasan == 1)
@@ -71,7 +72,6 @@
                                                 <span class="badge bg-warning">Direvisi</span>
                                                 @endif
                                             </td>
-                                            <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
                                             <td>
                                                 <a href="{{ route('detail-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                                     <i class="fas fa-eye"></i>

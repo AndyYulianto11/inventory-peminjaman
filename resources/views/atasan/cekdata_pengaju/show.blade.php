@@ -60,8 +60,10 @@
                                 <th class="text-center" width="5">No.</th>
                                 <th class="text-center">Nama Barang</th>
                                 <th class="text-center">Qty</th>
+                                <th class="text-center">Satuan</th>
+                                <th class="text-center">Status</th>
                                 <th class="text-center">Status Progress</th>
-                                <th class="text-center" width="300px">Aksi</th>
+                                <th class="text-center">Aksi</th>
                                 <th class="text-center">Keterangan</th>
                             </tr>
                             @php $no = 1 @endphp
@@ -70,6 +72,18 @@
                                 <td class="text-center">{{ $no++ }}</td>
                                 <td>{{ $item->barang->nama_barang }}</td>
                                 <td class="text-center">{{ $item->qty }}</td>
+                                <td class="text-center">{{ $item->satuan }}</td>
+                                <td class="text-center">
+                                    @if ($item->status_persetujuanatasan == '0')
+                                    <span class="badge bg-info">Diajukan</span>
+                                    @elseif ($item->status_persetujuanatasan == '1')
+                                    <span class="badge bg-success">Disetujui</span>
+                                    @elseif ($item->status_persetujuanatasan == '2')
+                                    <span class="badge bg-danger">Ditolak</span>
+                                    @else
+                                    <span class="badge bg-warning">Direvisi</span>
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     @if ($item->status == 'diajukan')
                                     <span class="badge bg-warning">Diajukan</span>
@@ -93,7 +107,7 @@
                                     </select>
                                 </td>
                                 <td class="text-center">
-                                    <textarea name="" id="" cols="20" rows="3" class="form-control" readonly></textarea>
+                                    <textarea name="" id="" cols="20" rows="1" class="form-control"></textarea>
                                 </td>
                             </tr>
                             @empty

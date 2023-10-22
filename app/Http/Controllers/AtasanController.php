@@ -7,6 +7,7 @@ use App\Models\Datapengaju;
 use App\Models\ItemDataPengaju;
 use App\Models\Jenisbarang;
 use App\Models\Satuan;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -39,8 +40,9 @@ class AtasanController extends Controller
         ];
 
         $pengaju = Datapengaju::all();
+        $unit = Unit::all();
 
-        return view('atasan.cekdata_pengaju.index', compact('judul', 'pengaju'));
+        return view('atasan.cekdata_pengaju.index', compact('judul', 'pengaju', 'unit'));
     }
 
     /**

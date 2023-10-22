@@ -75,7 +75,7 @@
                                                     <i class="fas fa-pencil-alt"></i> 
                                         </a>-->
                                         @if($item->status_pengajuan == 1)
-                                        <button class="btn btn-warning btn-sm btn-flat action-button" data-id="{{ $item->id }}" data-status="{{ $item->status_pengajuan }}"><i class="fas fa-pencil-alt"></i> </button>
+                                        <button class="btn btn-warning btn-sm btn-flat"><i class="fas fa-pencil-alt"></i> </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -134,14 +134,6 @@
             "ordering": true,
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-        /*$('.action-button').each(function() {
-            var status_pengajuan = $(this).data('status_pengajuan');
-            if (status_pengajuan == 1) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });*/
     });
 </script>
 

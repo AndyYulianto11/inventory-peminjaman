@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Cek Pengaju - Administrator')
+@section('title', 'Cek Pengajuan - Administrator')
 
 @section('css')
 
@@ -46,6 +46,7 @@
                                         <th>Nama Pengaju</th>
                                         <th>Tanggal</th>
                                         <th>Unit</th>
+                                        <th>Status</th>
                                         <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -57,7 +58,22 @@
                                             <td>{{ $item->code_pengajuan }}</td>
                                             <td>{{ $item->user->name }}</td>
                                             <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
-                                            <td>{{ $item->user->unit }}</td>
+                                            <td>{{ $item->user->unit->nama_unit }}</td>
+                                            <td>
+                                                @if ($item->status_setujuatasan == 1)
+                                                    <span class="badge bg-info">Diajukan</span>
+                                                @elseif($item->status_setujuatasan == 2)
+                                                    <span class="badge bg-secondary">Diproses</span>
+                                                @elseif($item->status_setujuatasan == 3)
+                                                    <span class="badge bg-success">Disetujui</span>
+                                                @elseif($item->status_setujuatasan == 4)
+                                                    <span class="badge bg-danger">Ditolak</span>
+                                                @elseif($item->status_setujuatasan == 5)
+                                                    <span class="badge bg-warning">Direvisi</span>
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
                                             <td>
                                                 <a href="{{ route('show-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                                     <i class="fas fa-eye"></i>

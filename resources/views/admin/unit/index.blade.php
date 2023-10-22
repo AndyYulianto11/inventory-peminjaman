@@ -69,20 +69,12 @@
                                     <td class="text-center">{{ $no++ }}</td>
                                     <td class="text-center">
                                         <span class="editSpan jenisbarang">{{ $item->kode_unit }}</span>
-                                        <input type="text" class="editInput jenisbarang" name="jenisbarangedit" onclick="removenotif({{ $item->id }})" id="jenisbarangedit{{ $item->id }}" style="display:none;" value="{{ $item->jenisbarang }}">
-                                        <div class="invalid-feedback" id="jenisbarangedit-error">
-                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <span class="editSpan jenisbarang">{{ $item->nama_unit }}</span>
-                                        <input type="text" class="editInput jenisbarang" name="jenisbarangedit" onclick="removenotif({{ $item->id }})" id="jenisbarangedit{{ $item->id }}" style="display:none;" value="{{ $item->jenisbarang }}">
-                                        <div class="invalid-feedback" id="jenisbarangedit-error">
-                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <span class="editSpan jenisbarang">{{ $item->lokasi_unit }}</span>
-                                        <input type="text" class="editInput jenisbarang" name="jenisbarangedit" onclick="removenotif({{ $item->id }})" id="jenisbarangedit{{ $item->id }}" style="display:none;" value="{{ $item->jenisbarang }}">
-                                        <div class="invalid-feedback" id="jenisbarangedit-error">
                                         </div>
                                     </td>
                                     <td class="text-center">
@@ -91,14 +83,11 @@
                                         @elseif ($item->status_unit == '1')
                                         <span class="badge bg-success editSpan jenisbarang">Aktif</span>
                                         @endif
-                                        <input type="text" class="editInput jenisbarang" name="jenisbarangedit" onclick="removenotif({{ $item->id }})" id="jenisbarangedit{{ $item->id }}" style="display:none;" value="{{ $item->jenisbarang }}">
-                                        <div class="invalid-feedback" id="jenisbarangedit-error">
-                                        </div>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></button>
-                                        <button class="btn text-primary  btnSave" style="display:none;"><i class="fa fa-check"></i></button>
-                                        <button class="btn text-danger  editCancel" onclick="removecancel({{ $item->id }})" style="display:none;"><i class="fa fa-times"></i></button>
+                                        <a href="{{ route('unit.edit', $item->id) }}" type="button" class="btn btn-warning btn-sm btn-flat">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
                                         <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -169,35 +158,6 @@
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary btn-flat add_jenisbarang">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Edit Data -->
-<div class="modal fade" id="edit-data">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <ul id="updateform_errList"></ul>
-                <input type="text" id="edit_jenisbarang_id">
-                <form id="modal-form">
-                    <div class="form-group mb-3">
-                        <label for="">Kode Unit</label>
-                        <input type="text" id="edit_kode_unit" class="kode_unit form-control">
-                    </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary btn-flat update_unit">Update</button>
                 </form>
             </div>
         </div>
@@ -307,7 +267,7 @@
             });
         });
 
-        
+
 
         $(document).on('click', '.btnDelete', function(e) {
             e.preventDefault();

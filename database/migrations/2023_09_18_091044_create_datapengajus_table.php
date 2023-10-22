@@ -18,6 +18,10 @@ class CreateDatapengajusTable extends Migration
             $table->string('code_pengajuan');
             $table->date('tgl_pengajuan');
             $table->foreignId('user_id');
+            // 1 = diajukan, 2 = diproses, 3 = disetujui, 4 = ditolak, 5 = direvisi
+            $table->enum('status_setujuatasan', ['1', '2', '3', '4', '5'])->default('1');
+            $table->boolean('status_pengajuan')->default('0');
+            $table->string('upload_dokumen')->nullable();
             $table->timestamps();
         });
     }

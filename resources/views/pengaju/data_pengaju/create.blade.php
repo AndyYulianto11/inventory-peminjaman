@@ -73,7 +73,7 @@
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Unit</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="unit" name="unit"
-                                            value="{{ Auth::user()->unit }}/{{ Auth::user()->role }}" readonly>
+                                            value="{{ Auth::user()->unit->kode_unit }} / {{ Auth::user()->unit->nama_unit }}" readonly>
                                     </div>
                                 </div>
 
@@ -171,7 +171,9 @@
                             <td class="text-center">
                                 <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
                             </td>
-                            <input type="hidden" name="status[]" id="status_${id}" id="status" value="diajukan">
+                            <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
+                            <input type="hidden" name="status_persetujuanadmin[]" id="status_persetujuanadmin_${id}" id="status_persetujuanadmin" value="0">
+
                             <td class="text-center">
                                 <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
                             </td>

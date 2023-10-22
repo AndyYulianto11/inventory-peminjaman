@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Cek Pengaju - Administrator')
+@section('title', 'Cek Pengajuan - Atasan')
 
 @section('css')
 
@@ -58,22 +58,25 @@
                                             <td>{{ $item->code_pengajuan }}</td>
                                             <td>{{ $item->user->name }}</td>
                                             <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
-                                            <td>{{ $item->user->unit }}</td>
+                                            <td>{{ $item->user->unit->nama_unit }}</td>
                                             <td>
-                                                @if($item->status_setujuatasan == 1)
-                                                <span class="badge bg-info">Diajukan</span>
+                                                @if ($item->status_setujuatasan == 1)
+                                                    <span class="badge bg-info">Diajukan</span>
                                                 @elseif($item->status_setujuatasan == 2)
-                                                <span class="badge bg-secondary">Diproses</span>
+                                                    <span class="badge bg-secondary">Diproses</span>
                                                 @elseif($item->status_setujuatasan == 3)
-                                                <span class="badge bg-success">Disetujui</span>
+                                                    <span class="badge bg-success">Disetujui</span>
                                                 @elseif($item->status_setujuatasan == 4)
-                                                <span class="badge bg-danger">Ditolak</span>
+                                                    <span class="badge bg-danger">Ditolak</span>
                                                 @elseif($item->status_setujuatasan == 5)
-                                                <span class="badge bg-warning">Direvisi</span>
+                                                    <span class="badge bg-warning">Direvisi</span>
+                                                @else
+                                                    -
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('detail-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
+                                                <a href="{{ route('detail-data-pengaju', $item->id) }}"
+                                                    class="btn btn-primary btn-sm btn-flat">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>

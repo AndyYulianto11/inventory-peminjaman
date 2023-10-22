@@ -11,7 +11,14 @@ class Unit extends Model
 
     protected $table = 'unit';
     protected $fillable = [
-        'kode_unit', 'nama_unit', 'lokasi_unit', 'status_unit',
+        'kode_unit',
+        'nama_unit',
+        'lokasi_unit',
+        'status_unit',
     ];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

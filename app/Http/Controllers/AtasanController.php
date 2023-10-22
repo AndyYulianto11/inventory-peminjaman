@@ -9,6 +9,7 @@ use App\Models\Jenisbarang;
 use App\Models\Satuan;
 use App\Models\Unit;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class AtasanController extends Controller
@@ -105,7 +106,29 @@ class AtasanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'status_persetujuanatasan' => 'required',
+            ]);
+
+            $getDataPengaju = Datapengaju::findOrFail($id);
+
+            $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
+
+            foreach ($post as $key => $value) {
+                $value->status_persetujuanatasan = $request->status_persetujuanatasan[$key];
+                $value->keterangan = $request->keterangan[$key];
+                $value->save();
+            }
+
+            $getDataPengaju->update([
+                'status_pengajuan' => '1',
+            ]);
+
+            return redirect('cekdatapengaju')->with('success', 'Data berhasil diubah!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

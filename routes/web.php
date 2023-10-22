@@ -97,8 +97,8 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
     // Data Unit
     Route::get('/unit', [UnitController::class, 'index'])->name('unit');
     Route::post('/unit', [UnitController::class, 'store']);
-    Route::post('/edit-unit/{id}', [UnitController::class, 'edit']);
-    Route::post('/update-unit', [UnitController::class, 'update'])->name('unit.update');
+    Route::get('/edit-unit/{id}', [UnitController::class, 'edit'])->name('unit.edit');
+    Route::put('/update-unit/{id}', [UnitController::class, 'update'])->name('unit.update');
     Route::post('/delete-unit', [UnitController::class, 'destroy'])->name('unit.destroy');
 
 
@@ -116,8 +116,13 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::get('/create-datapengaju', [DatapengajuController::class, 'create'])->name('create-datapengaju');
     Route::post('/store-datapengaju', [DatapengajuController::class, 'store'])->name('store-datapengaju');
 
-    Route::get('/detail-cek-pengaju/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
+    Route::get('/detail-datapengaju/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
     Route::get('/cetak/{id}', [DatapengajuController::class, 'cetak'])->name('cetak');
+
+    Route::get('/edit-datapengaju/{id}', [DatapengajuController::class, 'edit'])->name('edit-datapengaju');
+    Route::put('/update-datapengaju/{id}', [DatapengajuController::class, 'update'])->name('update-datapengaju');
+
+    Route::post('/delete-item-datapengaju', [DatapengajuController::class, 'destroy'])->name('delete-item-datapengaju');
 
 });
 
@@ -128,5 +133,6 @@ Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
     Route::get('/cekdatapengaju', [AtasanController::class, 'cekdatapengaju'])->name('cekdatapengaju');
 
     Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
+    Route::put('/update-data-pengaju/{id}', [AtasanController::class, 'update'])->name('update-data-pengaju');
 
 });

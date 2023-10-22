@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Pengajuan Barang - Pengaju')
+@section('title', 'Detail Pengajuan - Pengaju')
 
 @section('css')
 
@@ -36,7 +36,8 @@
                             <h3 class="card-title">{{ $data['subjudul'] }}</h3>
 
                             <div class="card-tools">
-                                <a href="{{ route('cetak', $datapengaju->id) }}" type="button" class="btn btn-tool" target="_blank">
+                                <a href="{{ route('cetak', $datapengaju->id) }}" type="button" class="btn btn-tool"
+                                    target="_blank">
                                     <i class="fas fa-print"></i> Cetak
                                 </a>
                             </div>
@@ -58,12 +59,18 @@
                                     <td>:</td>
                                     <td>{{ $datapengaju->user->name }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Unit</td>
+                                    <td>:</td>
+                                    <td>{{ $datapengaju->user->unit->nama_unit }}</td>
+                                </tr>
                             </table>
                             <br><br>
                             <table class="table table-bordered">
                                 <tr>
                                     <th class="text-center" width="5">No.</th>
                                     <th class="text-center">Nama Barang</th>
+                                    <th class="text-center">Satuan</th>
                                     <th class="text-center">Qty</th>
                                     <th class="text-center">Status Progress</th>
                                 </tr>
@@ -72,9 +79,10 @@
                                     <tr>
                                         <td class="text-center">{{ $no++ }}</td>
                                         <td>{{ $item->barang->nama_barang }}</td>
+                                        <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                         <td class="text-center">{{ $item->qty }}</td>
                                         <td class="text-center">
-                                            @if ($item->status == 'diajukan')
+                                            {{-- @if ($item->status == 'diajukan')
                                                 <span class="badge bg-warning">Diajukan</span>
                                             @elseif ($item->status == 'proses')
                                                 <span class="badge bg-secondary">Proses</span>
@@ -84,16 +92,28 @@
                                                 <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
                                             @else
                                                 <span class="badge bg-success">Serah Terima</span>
+                                            @endif --}}
+
+                                            @if ($item->status_persetujuanatasan == '0')
+                                                <span class="badge bg-info">Diajukan</span>
+                                            @elseif ($item->status_persetujuanatasan == '1')
+                                                <span class="badge bg-success">Disetujui</span>
+                                            @elseif ($item->status_persetujuanatasan == '2')
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @elseif ($item->status_persetujuanatasan == '3')
+                                                <span class="badge bg-warning">Direvisi</span>
+                                            @else
+                                                -
                                             @endif
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>Kosong.</tr>
+                                    <tr> </tr>
                                 @endforelse
                             </table>
                             <br><br>
                             <div class="form-group">
-                                <a href="/cek-pengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                                <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
                             </div>
                         </div>
                         <!-- /.card-body -->

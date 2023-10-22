@@ -6,6 +6,7 @@ use App\Models\Databarang;
 use App\Models\Datapengaju;
 use App\Models\ItemDataPengaju;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +26,7 @@ class DatapengajuController extends Controller
         ];
 
         $databarang = Databarang::all();
-        // $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')->get(); 
+        // $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')->get();
 
         $user = auth()->user(); // Sesuaikan dengan metode otentikasi Anda
 
@@ -46,7 +47,7 @@ class DatapengajuController extends Controller
             'submenu' => 'data pengaju',
         ];
 
-        $datapengaju = Datapengaju::all(); 
+        $datapengaju = Datapengaju::all();
 
         $databarang = Databarang::all();
 
@@ -73,7 +74,8 @@ class DatapengajuController extends Controller
 
         $barang_id = $request->barang_id;
         $qty = $request->qty;
-        $status = $request->status;
+        $status_persetujuanatasan = $request->status_persetujuanatasan;
+        $status_persetujuanadmin = $request->status_persetujuanadmin;
 
         if ($validator->fails()) {
             return response()->json([
@@ -85,6 +87,9 @@ class DatapengajuController extends Controller
                 'code_pengajuan' => $request->code_pengajuan,
                 'tgl_pengajuan' => $request->tgl_pengajuan,
                 'user_id' => Auth::user()->id,
+                'status_setujuatasan' => '1',
+                'status_pengajuan' => 0,
+                'created_at' => Carbon::now(),
             ]);
 
             $barangs = Databarang::whereIn('id', $barang_id)->get();
@@ -94,7 +99,8 @@ class DatapengajuController extends Controller
                     'datapengaju_id' => $header,
                     'barang_id' => $value,
                     'qty' => $qty[$key],
-                    'status' => $status[$key],
+                    'status_persetujuanatasan' => $status_persetujuanatasan[$key],
+                    'status_persetujuanadmin' => $status_persetujuanadmin[$key],
                     'created_at' => Carbon::now(),
                 ]);
 
@@ -152,7 +158,15 @@ class DatapengajuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+        $databarang = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+        return view('pengaju.data_pengaju.edit', compact('data', 'datapengaju', 'databarang'));
     }
 
     /**
@@ -164,7 +178,25 @@ class DatapengajuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $getDataPengaju = Datapengaju::findOrFail($id);
+
+            $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
+
+            foreach ($post as $key => $value) {
+                $value->qty = $request->qty[$key];
+                $value->save();
+            }
+
+            $getDataPengaju->update([
+                'code_pengajuan' => $request->code_pengajuan,
+                'tgl_pengajuan' => $request->tgl_pengajuan,
+            ]);
+
+            return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -173,8 +205,15 @@ class DatapengajuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = explode('data',$request->ids);
+        $data = ItemDataPengaju::find($id[1]);
+        $data->delete();
+
+        return response()->json([
+            'status'=>200,
+            'data' => $id[1],
+        ]);
     }
 }

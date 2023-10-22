@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'unit', 'last_seen',
+        'name', 'email', 'password', 'role', 'unit_id', 'last_seen',
     ];
 
     /**
@@ -46,5 +46,10 @@ class User extends Authenticatable
     public function datapengajus()
     {
         return $this->hasMany(Datapengaju::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 }

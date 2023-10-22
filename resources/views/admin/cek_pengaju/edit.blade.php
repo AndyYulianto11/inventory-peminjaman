@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Pengajuan - Administrator')
+@section('title', 'Edit Pengajuan - Administrator')
 
 @section('css')
 

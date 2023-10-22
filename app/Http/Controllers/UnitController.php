@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unit;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -93,24 +94,9 @@ class UnitController extends Controller
      */
     public function edit($id)
     {
-        $unit = Unit::find($id);
-        if ($unit)
-        {
-            return response()->json([
-                'status'=>200,
-                'kode_unit'=>$unit,
-                'nama_unit'=>$unit,
-                'lokasi_unit'=>$unit,
-                'status_unit'=>$unit,
-            ]);
-        }
-        else
-        {
-            return response()->json([
-                'status'=>404,
-                'message'=>'Unit Tidak Ditemukan',
-            ]);
-        }
+        $units = Unit::findOrFail($id);
+
+        return view('admin.unit.edit', compact('units'));
     }
 
     /**
@@ -122,7 +108,27 @@ class UnitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'kode_unit' => 'required',
+                'nama_unit' => 'required',
+                'lokasi_unit' => 'required',
+                'status_unit' => 'required',
+            ]);
+
+            $post = Unit::findOrFail($id);
+
+            $post->update([
+                'kode_unit' => $request->kode_unit,
+                'nama_unit' => $request->nama_unit,
+                'lokasi_unit' => $request->lokasi_unit,
+                'status_unit' => $request->status_unit,
+            ]);
+
+            return redirect('unit')->with('success', 'Data berhasil diupdate!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

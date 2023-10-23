@@ -89,6 +89,7 @@
                                                 <th>Satuan</th>
                                                 <th>Qty</th>
                                                 <th>Status</th>
+                                                <th>Keterangan</th>
                                                 <th>Hapus</th>
                                             </tr>
                                         </thead>
@@ -117,6 +118,9 @@
                                                         @else
                                                             -
                                                         @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <textarea cols="20" rows="1" class="form-control" readonly>{{ $barang->keterangan }}</textarea>
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-xs btn-danger btnDelete">

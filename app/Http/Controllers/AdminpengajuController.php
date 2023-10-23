@@ -96,16 +96,16 @@ class AdminpengajuController extends Controller
     {
         try {
             $this->validate($request, [
-                'status' => 'required',
+                'status_persetujuanadmin' => 'required',
             ]);
 
             $getDataPengaju = Datapengaju::findOrFail($id);
 
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
 
-            foreach ($post as $a) {
-                $a->status = $request->status;
-                $a->save();
+            foreach ($post as $key => $value) {
+                $value->status_persetujuanadmin = $request->status_persetujuanadmin[$key];
+                $value->save();
             }
 
             return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');

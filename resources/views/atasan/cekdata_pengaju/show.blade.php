@@ -62,8 +62,53 @@
                                         <td>:</td>
                                         <td>{{ $datapengaju->user->unit->nama_unit }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td>:</td>
+                                        <td>
+                                            @if ($datapengaju->status_setujuatasan == 1)
+                                                <span class="badge bg-info">Diajukan</span>
+                                            @elseif($datapengaju->status_setujuatasan == 2)
+                                                <span class="badge bg-secondary">Diproses</span>
+                                            @elseif($datapengaju->status_setujuatasan == 3)
+                                                <span class="badge bg-success">Disetujui</span>
+                                            @elseif($datapengaju->status_setujuatasan == 4)
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @elseif($datapengaju->status_setujuatasan == 5)
+                                                <span class="badge bg-warning">Direvisi</span>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    </tr>
                                 </table>
-                                <br><br>
+
+                                <hr>
+
+                                <div class="form-group row">
+                                    <label for="barang" class="col-sm-2 col-form-label">Update Status</label>
+                                    <div class="col-sm-10">
+                                        <select name="status_setujuatasan" id="status_setujuatasan" class="form-control">
+                                            <option value="1"
+                                                {{ '1' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diajukan
+                                            </option>
+                                            <option value="2"
+                                                {{ '2' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diproses
+                                            </option>
+                                            <option value="3"
+                                                {{ '3' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Disetujui
+                                            </option>
+                                            <option value="4"
+                                                {{ '4' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Ditolak
+                                            </option>
+                                            <option value="5"
+                                                {{ '5' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Direvisi
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <br>
 
                                 <table class="table table-bordered">
                                     <tr>
@@ -71,9 +116,8 @@
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Qty</th>
                                         <th class="text-center">Satuan</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Status Progress</th>
-                                        <th class="text-center">Aksi</th>
+                                        <th class="text-center">Status Admin</th>
+                                        <th class="text-center">Status Atasan</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
                                     @php $no = 1 @endphp
@@ -86,19 +130,6 @@
                                             <td>{{ $item->barang->nama_barang }}</td>
                                             <td class="text-center">{{ $item->qty }}</td>
                                             <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
-                                            <td class="text-center">
-                                                @if ($item->status_persetujuanatasan == '0')
-                                                    <span class="badge bg-info">Diajukan</span>
-                                                @elseif ($item->status_persetujuanatasan == '1')
-                                                    <span class="badge bg-success">Disetujui</span>
-                                                @elseif ($item->status_persetujuanatasan == '2')
-                                                    <span class="badge bg-danger">Ditolak</span>
-                                                @elseif ($item->status_persetujuanatasan == '3')
-                                                    <span class="badge bg-warning">Direvisi</span>
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
                                             <td class="text-center">
                                                 @if ($item->status_persetujuanadmin == 0)
                                                     <span class="badge bg-warning">Diajukan</span>
@@ -117,14 +148,19 @@
                                             <td class="text-center">
                                                 <select name="status_persetujuanatasan[]" id="status_persetujuanatasan"
                                                     class="form-control">
-                                                    <option>--Status Persetujuan--</option>
-                                                    <option value="1">Disetujui</option>
-                                                    <option value="2">Ditolak</option>
-                                                    <option value="3">Direvisi</option>
+                                                    <option value="1"
+                                                        {{ '1' == $item->status_persetujuanatasan ? 'selected' : '' }}>
+                                                        Disetujui</option>
+                                                    <option value="2"
+                                                        {{ '2' == $item->status_persetujuanatasan ? 'selected' : '' }}>
+                                                        Ditolak</option>
+                                                    <option value="3"
+                                                        {{ '3' == $item->status_persetujuanatasan ? 'selected' : '' }}>
+                                                        Direvisi</option>
                                                 </select>
                                             </td>
                                             <td class="text-center">
-                                                <textarea name="keterangan[]" id="keterangan" cols="20" rows="3" class="form-control">{{ $item->keterangan }}</textarea>
+                                                <textarea name="keterangan[]" id="keterangan" cols="20" rows="1" class="form-control">{{ $item->keterangan }}</textarea>
                                             </td>
                                         </tr>
                                     @empty

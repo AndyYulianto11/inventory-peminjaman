@@ -60,6 +60,11 @@
                                         <td>:</td>
                                         <td>{{ $datapengaju->user->name }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Unit</td>
+                                        <td>:</td>
+                                        <td>{{ $datapengaju->user->unit->nama_unit }}</td>
+                                    </tr>
                                 </table>
                                 <br><br>
                                 <table class="table table-bordered">
@@ -67,33 +72,40 @@
                                         <th class="text-center" width="5">No.</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Qty</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Satuan</th>
+                                        <th class="text-center">Status Admin</th>
+                                        <th class="text-center">Keterangan</th>
                                     </tr>
                                     @php $no = 1 @endphp
                                     @forelse ($itemDatapengaju as $item)
                                         <tr>
-                                            <input type="hidden" class="form-control" name="datapengaju_id[]" value="{{ $item->datapengaju_id }}">
+                                            <input type="hidden" class="form-control" name="datapengaju_id[]"
+                                                value="{{ $item->datapengaju_id }}">
 
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $item->barang->nama_barang }}</td>
                                             <td class="text-center">{{ $item->qty }}</td>
+                                            <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                             <td class="text-center">
-                                                <select name="status" id="status" class="form-control">
-                                                    <option value="diajukan"
-                                                        {{ 'diajukan' == $item->status ? 'selected' : '' }}>Diajukan
+                                                <select name="status_persetujuanadmin[]" id="status_persetujuanadmin"
+                                                    class="form-control">
+                                                    <option value="0" {{ '0' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Diajukan
                                                     </option>
-                                                    <option value="proses"
-                                                        {{ 'proses' == $item->status ? 'selected' : '' }}>Proses</option>
-                                                    <option value="pending"
-                                                        {{ 'pending' == $item->status ? 'selected' : '' }}>Pending</option>
-                                                    <option value="sebagian sudah diserahkan"
-                                                        {{ 'sebagian sudah diserahkan' == $item->status ? 'selected' : '' }}>
+                                                    <option value="1" {{ '1' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Proses</option>
+                                                    <option value="2" {{ '2' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Pending</option>
+                                                    <option value="3" {{ '3' == $item->status_persetujuanadmin ? 'selected' : '' }}>
                                                         Sebagian Sudah Diserahkan
                                                     </option>
-                                                    <option value="serah terima"
-                                                        {{ 'serah terima' == $item->status ? 'selected' : '' }}>Serah
-                                                        Terima</option>
+                                                    <option value="4" {{ '4' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Serah Terima
+                                                    </option>
                                                 </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <textarea cols="20" rows="1" class="form-control" readonly>{{ $item->keterangan }}</textarea>
                                             </td>
                                         </tr>
                                     @empty

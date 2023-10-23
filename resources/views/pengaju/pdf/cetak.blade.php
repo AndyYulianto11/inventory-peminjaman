@@ -113,6 +113,7 @@
                 <th class="text-center" width="5">No.</th>
                 <th class="text-center">Nama Barang</th>
                 <th class="text-center">Qty</th>
+                <th class="text-center">Satuan</th>
                 <th class="text-center">Status</th>
             </tr>
             @php $no = 1 @endphp
@@ -122,16 +123,21 @@
                     <td>{{ $item->barang->nama_barang }}</td>
                     <td class="text-center">{{ $item->qty }}</td>
                     <td class="text-center">
-                        @if ($item->status == 'diajukan')
+                        {{ $item->barang->satuan->satuan }}
+                    </td>
+                    <td class="text-center">
+                        @if ($item->status_persetujuanadmin == 0)
                             <span class="badge bg-warning">Diajukan</span>
-                        @elseif ($item->status == 'proses')
+                        @elseif($item->status_persetujuanadmin == 1)
                             <span class="badge bg-secondary">Proses</span>
-                        @elseif ($item->status == 'pending')
+                        @elseif($item->status_persetujuanadmin == 2)
                             <span class="badge bg-danger">Pending</span>
-                        @elseif ($item->status == 'sebagian sudah diserahkan')
+                        @elseif($item->status_persetujuanadmin == 3)
                             <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
-                        @else
+                        @elseif($item->status_persetujuanadmin == 4)
                             <span class="badge bg-success">Serah Terima</span>
+                        @else
+                            -
                         @endif
                     </td>
                 </tr>
@@ -158,7 +164,7 @@
             <tr>
                 <th style="text-align: center;width: 50%">{{ $datapengaju->user->name }}</th>
                 <th style="text-align: center;width: 20%"></th>
-                <th style="text-align: center;width: 50%">{{ Auth::user()->name }}</th>
+                <th style="text-align: center;width: 50%">................................</th>
             </tr>
         </table>
     </section>

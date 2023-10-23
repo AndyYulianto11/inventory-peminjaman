@@ -72,7 +72,8 @@
                                     <th class="text-center">Nama Barang</th>
                                     <th class="text-center">Satuan</th>
                                     <th class="text-center">Qty</th>
-                                    <th class="text-center">Status Progress</th>
+                                    <th class="text-center">Status Admin</th>
+                                    <th class="text-center">Keterangan</th>
                                 </tr>
                                 @php $no = 1 @endphp
                                 @forelse ($itemDatapengaju as $item)
@@ -82,29 +83,22 @@
                                         <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                         <td class="text-center">{{ $item->qty }}</td>
                                         <td class="text-center">
-                                            {{-- @if ($item->status == 'diajukan')
+                                            @if ($item->status_persetujuanadmin == 0)
                                                 <span class="badge bg-warning">Diajukan</span>
-                                            @elseif ($item->status == 'proses')
+                                            @elseif($item->status_persetujuanadmin == 1)
                                                 <span class="badge bg-secondary">Proses</span>
-                                            @elseif ($item->status == 'pending')
+                                            @elseif($item->status_persetujuanadmin == 2)
                                                 <span class="badge bg-danger">Pending</span>
-                                            @elseif ($item->status == 'sebagian sudah diserahkan')
+                                            @elseif($item->status_persetujuanadmin == 3)
                                                 <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
-                                            @else
+                                            @elseif($item->status_persetujuanadmin == 4)
                                                 <span class="badge bg-success">Serah Terima</span>
-                                            @endif --}}
-
-                                            @if ($item->status_persetujuanatasan == '0')
-                                                <span class="badge bg-info">Diajukan</span>
-                                            @elseif ($item->status_persetujuanatasan == '1')
-                                                <span class="badge bg-success">Disetujui</span>
-                                            @elseif ($item->status_persetujuanatasan == '2')
-                                                <span class="badge bg-danger">Ditolak</span>
-                                            @elseif ($item->status_persetujuanatasan == '3')
-                                                <span class="badge bg-warning">Direvisi</span>
                                             @else
                                                 -
                                             @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <textarea cols="20" rows="1" class="form-control" readonly>{{ $item->keterangan }}</textarea>
                                         </td>
                                     </tr>
                                 @empty

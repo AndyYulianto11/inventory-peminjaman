@@ -122,6 +122,7 @@ class AtasanController extends Controller
             }
 
             $getDataPengaju->update([
+                'status_setujuatasan' => $request->status_setujuatasan,
                 'status_pengajuan' => '1',
             ]);
 

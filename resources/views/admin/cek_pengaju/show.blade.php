@@ -69,7 +69,8 @@
                                     <th class="text-center">Nama Barang</th>
                                     <th class="text-center">Satuan</th>
                                     <th class="text-center">Qty</th>
-                                    <th class="text-center">Status Progress</th>
+                                    <th class="text-center">Status Atasan</th>
+                                    <th class="text-center">Keterangan</th>
                                 </tr>
                                 @php $no = 1 @endphp
                                 @forelse ($itemDatapengaju as $item)
@@ -90,6 +91,9 @@
                                             @else
                                                 -
                                             @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <textarea cols="20" rows="1" class="form-control" readonly>{{ $item->keterangan }}</textarea>
                                         </td>
                                     </tr>
                                 @empty

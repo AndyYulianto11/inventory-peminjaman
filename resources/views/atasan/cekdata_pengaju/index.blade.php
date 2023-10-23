@@ -42,11 +42,11 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th width="50px">No</th>
-                                        <th>Kode Pengajuan</th>
+                                        <th>Kode <br> Pengajuan</th>
                                         <th>Nama Pengaju</th>
                                         <th>Tanggal</th>
                                         <th>Unit</th>
-                                        <th>Status</th>
+                                        <th>Status Atasan</th>
                                         <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>

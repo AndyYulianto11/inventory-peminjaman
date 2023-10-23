@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,8 +22,11 @@ class UserController extends Controller
             'subjudul' => 'Data User',
             'submenu' => 'user',
         ];
-        $user = User::select("*")->whereNotNull('last_seen')->orderBy('last_seen', 'DESC')->get();
-        return view('admin.user.index', compact('data', 'user'));
+
+        $user = User::select("*")->orderBy('last_seen', 'DESC')->get();
+        $units = Unit::all();
+
+        return view('admin.user.index', compact('data', 'user', 'units'));
     }
 
     /**
@@ -43,13 +47,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'role' => 'required',
-            'unit' => 'required',
-        ],[
+            'unit_id' => 'required',
+        ], [
             'name.required' => 'Nama harus diisi',
             'email.required' => 'Email harus diisi',
             'email.email' => 'Inputan harus email',
@@ -57,27 +61,24 @@ class UserController extends Controller
             'password.required' => 'Password harus diisi',
             'password.min' => 'Password minimal 8 karakter',
             'role.required' => 'Role harus diisi',
-            'unit.required' => 'Unit harus diisi',
+            'unit_id.required' => 'Unit harus diisi',
         ]);
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json([
-                'status'=>400,
-                'data'=>$validator->errors(),
+                'status' => 400,
+                'data' => $validator->errors(),
             ]);
-        }
-        else
-        {
+        } else {
             $user = new User;
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->password);
             $user->role = $request->input('role');
-            $user->unit = $request->input('unit');
+            $user->unit_id = $request->input('unit_id');
             $user->save();
             return response()->json([
-                'status'=>200,
-                'message'=>'User berhasil ditambahkan',
+                'status' => 200,
+                'message' => 'User berhasil ditambahkan',
             ]);
         }
     }
@@ -124,12 +125,12 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = explode('data',$request->ids);
+        $id = explode('data', $request->ids);
         $data = User::find($id[1]);
         $data->delete();
 
         return response()->json([
-            'status'=>200,
+            'status' => 200,
             'data' => $id[1],
         ]);
     }

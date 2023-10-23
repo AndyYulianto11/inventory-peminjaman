@@ -48,10 +48,10 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th width="50px">No</th>
-                                        <th>Kode Pengajuan</th>
+                                        <th>Kode <br> Pengajuan</th>
                                         <th width="150px">Tanggal</th>
                                         <th>Qty</th>
-                                        <th>Status</th>
+                                        <th>Status Atasan</th>
                                         <th width="150px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -96,7 +96,7 @@
                                                     </a>
                                                 @endif
                                                 @if ($item->status_setujuatasan == 3)
-                                                    <a href="#" class="btn btn-success btn-sm btn-flat">
+                                                    <a href="{{ route('upload', $item->id) }}" class="btn btn-success btn-sm btn-flat">
                                                         <i class="fas fa-arrow-up"></i>
                                                     </a>
                                                 @endif

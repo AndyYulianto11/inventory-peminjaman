@@ -216,4 +216,31 @@ class DatapengajuController extends Controller
             'data' => $id[1],
         ]);
     }
+
+    public function upload($id)
+    {
+        $data = [
+            'subjudul' => 'Pengajuan',
+            'submenu' => 'pengajuan',
+        ];
+
+        $datapengaju = Datapengaju::find($id);
+
+        return view('pengaju.upload.upload', compact('data', 'datapengaju'));
+    }
+
+    public function updatePdf(Request $request, $id)
+    {
+        try {
+            $getDataPengaju = Datapengaju::findOrFail($id);
+
+            $getDataPengaju->update([
+                'upload_dokumen' => $request->upload_dokumen,
+            ]);
+
+            return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 }

@@ -107,7 +107,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/" class="nav-link active">
+                                    <a href="{{ route('laporan-barang-masuk') }}" class="nav-link {{ request()->is('laporan-barang-masuk') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Laporan Barang Masuk</p>
                                     </a>
@@ -195,6 +195,28 @@
                                 <i class="nav-icon fas fa-paste"></i>
                                 <p>
                                     Cek Data Pengaju
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Auth::user()->role == 'keuangan')
+                        <li class="nav-item">
+                            <a href="{{ route('keuangan') }}" class="nav-link {{ request()->is('keuangan') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-line"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Auth::user()->role == 'rektor')
+                        <li class="nav-item">
+                            <a href="{{ route('rektor') }}" class="nav-link {{ request()->is('rektor') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-line"></i>
+                                <p>
+                                    Dashboard
                                 </p>
                             </a>
                         </li>

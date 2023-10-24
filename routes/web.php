@@ -8,6 +8,8 @@ use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\DatapengajuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
+use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\RektorController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
@@ -86,6 +88,10 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/edit-cek-pengaju/{id}', [AdminpengajuController::class, 'edit'])->name('edit-cek-pengaju');
     Route::put('/update-cek-pengaju/{id}', [AdminpengajuController::class, 'update'])->name('update-cek-pengaju');
 
+    // Laporan Barang Masuk
+    Route::get('/laporan-barang-masuk', [BarangmasukController::class, 'laporan_barang_masuk'])->name('laporan-barang-masuk');
+    Route::get('/cetak-laporan-barang-masuk/{tglawal}/{tglakhir}', [BarangmasukController::class, 'view_laporan_barang_masuk'])->name('cetak-laporan-barang-masuk');
+
 });
 
 Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
@@ -138,5 +144,17 @@ Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
 
     Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
     Route::put('/update-data-pengaju/{id}', [AtasanController::class, 'update'])->name('update-data-pengaju');
+
+});
+
+Route::middleware(['auth', 'checkrole:keuangan'])->group(function () {
+    // Home User Keuangan
+    Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
+
+});
+
+Route::middleware(['auth', 'checkrole:rektor'])->group(function () {
+    // Home User Keuangan
+    Route::get('/rektor', [RektorController::class, 'index'])->name('rektor');
 
 });

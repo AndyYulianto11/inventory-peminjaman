@@ -153,6 +153,8 @@
                                 <option value="kepalagudang">Kepala Gudang</option>
                                 <option value="atasan">Atasan</option>
                                 <option value="pengaju">Pengaju</option>
+                                <option value="keuangan">Keuangan</option>
+                                <option value="rektor">Rektor</option>
                             </select>
                             <div class="invalid-feedback" id="role-error">
                             </div>

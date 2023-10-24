@@ -222,4 +222,41 @@ class BarangmasukController extends Controller
             'data' => $id[1],
         ]);
     }
+
+    public function laporan_barang_masuk(Request $request)
+    {
+        $data = [
+            'subjudul' => 'Laporan Barang Masuk',
+            'submenu' => 'laporan barang masuk',
+        ];
+
+        $barangmasuk = Barangmasuk::all();
+
+        return view('admin.laporan.laporan_barang_masuk', compact('data', 'barangmasuk'));
+    }
+
+    public function view_laporan_barang_masuk($tglawal, $tglakhir)
+    {
+        // dd(["Tanggal Awal : ".$tglawal, "Tanggal Akhir : ".$tglakhir]);
+        // $barangmasuk = Barangmasuk::all();
+        // $cetaklaporan = ItemBarangMasuk::where('barangmasuk_id', $barangmasuk->id)
+        //                                 ->whereBetween('tanggal_pembelian',[$tglawal, $tglakhir])->get();
+        //                                 dd($cetaklaporan);
+        // $cetaklaporan = Barangmasuk::select("*")->whereBetween('tanggal_pembelian',[$tglawal, $tglakhir])->get();
+        $barangmasuk = Barangmasuk::whereBetween('tanggal_pembelian', [$tglawal, $tglakhir])->get();
+
+        $cetaklaporan = [];
+
+        foreach ($barangmasuk as $bm) {
+            $items = ItemBarangMasuk::where('barangmasuk_id', $bm->id)->get();
+            // Anda dapat memproses item-item ini sesuai kebutuhan Anda
+            // $items adalah koleksi item-item yang terkait dengan barang masuk saat ini
+            $cetaklaporan[] = [
+                'barangmasuk' => $bm,
+                'items' => $items,
+            ];
+            // dd($cetaklaporan);
+        }
+        return view('admin.laporan.v_print_barang_masuk', compact('cetaklaporan'));
+    }
 }

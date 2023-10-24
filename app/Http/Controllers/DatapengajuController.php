@@ -224,7 +224,7 @@ class DatapengajuController extends Controller
             'submenu' => 'pengajuan',
         ];
 
-        $datapengaju = Datapengaju::find($id);
+        $datapengaju = Datapengaju::findOrFail($id);
 
         return view('pengaju.upload.upload', compact('data', 'datapengaju'));
     }
@@ -232,11 +232,21 @@ class DatapengajuController extends Controller
     public function updatePdf(Request $request, $id)
     {
         try {
-            $getDataPengaju = Datapengaju::findOrFail($id);
-
-            $getDataPengaju->update([
-                'upload_dokumen' => $request->upload_dokumen,
+            $request->validate([
+                'files' => 'required|file|mimes:pdf|max:2048',
             ]);
+
+            $datapengaju = Datapengaju::findOrFail($id);
+            $files = $request->file('files');
+
+            if ($request->hasFile('files')) {
+                $path = $files->store('public/berkas');
+                // $url = str_replace('public/berkas', 'storage/berkas', $path);
+
+                $datapengaju->update([
+                    'upload_dokumen' => $path,
+                ]);
+            }
 
             return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
         } catch (Exception $e) {

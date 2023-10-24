@@ -40,13 +40,13 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('upload-pdf', $datapengaju->id) }}" method="POST" id="modal-form">
+                            <form action="{{ route('upload-pdf', $datapengaju->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
                                 <div class="form-group mb-3">
                                     <label for="">Upload File PDF</label>
-                                    <input type="file" name="upload_dokumen" class="form-control">
+                                    <input type="file" name="files" id="files" class="form-control" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-flat">Save</button>

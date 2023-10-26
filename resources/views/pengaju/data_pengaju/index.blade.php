@@ -52,6 +52,7 @@
                                         <th width="150px">Tanggal</th>
                                         <th>Qty</th>
                                         <th>Status Atasan</th>
+                                        <th>File</th>
                                         <th width="150px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -84,6 +85,12 @@
                                                     -
                                                 @endif
                                             </td>
+                                            <td>
+                                                @if ($item->upload_dokumen != null)
+                                                    <a href="{{ route('lihat-dokumen', $item->id) }}" target="_blank">Lihat
+                                                        File</a>
+                                                @endif
+                                            </td>
                                             <td class="text-center">
                                                 <a href="{{ route('lihat-data-pengaju', $item->id) }}"
                                                     class="btn btn-primary btn-sm btn-flat">
@@ -95,12 +102,13 @@
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
                                                 @endif
-                                                @if ($item->status_setujuatasan == 3 && $item->upload_dokumen == NULL)
-                                                    <a href="{{ route('upload', $item->id) }}" class="btn btn-success btn-sm btn-flat">
+                                                @if ($item->status_setujuatasan == 3 && $item->upload_dokumen == null)
+                                                    <a href="{{ route('upload', $item->id) }}"
+                                                        class="btn btn-success btn-sm btn-flat">
                                                         <i class="fas fa-arrow-up"></i>
                                                     </a>
                                                 @endif
-                                                @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != NULL && $item->status_submit == NULL)
+                                                @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != null && $item->status_submit == null)
                                                     <a href="#" class="btn btn-success btn-sm btn-flat">
                                                         <i class="fas fa-share"></i>
                                                     </a>

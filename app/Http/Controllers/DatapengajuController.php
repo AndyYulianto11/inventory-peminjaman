@@ -253,4 +253,11 @@ class DatapengajuController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function dokumen($id)
+    {
+        $datapengaju = Datapengaju::findOrFail($id);
+
+        return view('pengaju.dokumen.index', compact('datapengaju'));
+    }
 }

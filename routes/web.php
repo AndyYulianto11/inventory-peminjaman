@@ -130,6 +130,8 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
 
     Route::post('/delete-item-datapengaju', [DatapengajuController::class, 'destroy'])->name('delete-item-datapengaju');
 
+    Route::get('/lihat-dokumen/{id}', [DatapengajuController::class, 'dokumen'])->name('lihat-dokumen');
+
     // upload file pdf
     Route::get('/upload/{id}', [DatapengajuController::class, 'upload'])->name('upload');
     Route::put('/upload-pdf/{id}', [DatapengajuController::class, 'updatePdf'])->name('upload-pdf');

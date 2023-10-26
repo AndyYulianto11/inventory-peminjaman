@@ -233,7 +233,7 @@ class DatapengajuController extends Controller
     {
         try {
             $request->validate([
-                'files' => 'required|file|mimes:pdf|max:2048',
+                'files' => 'required|file|mimes:pdf|max:500',
             ]);
 
             $datapengaju = Datapengaju::findOrFail($id);

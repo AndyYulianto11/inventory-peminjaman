@@ -95,9 +95,14 @@
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
                                                 @endif
-                                                @if ($item->status_setujuatasan == 3)
+                                                @if ($item->status_setujuatasan == 3 && $item->upload_dokumen == NULL)
                                                     <a href="{{ route('upload', $item->id) }}" class="btn btn-success btn-sm btn-flat">
                                                         <i class="fas fa-arrow-up"></i>
+                                                    </a>
+                                                @endif
+                                                @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != NULL && $item->status_submit == NULL)
+                                                    <a href="#" class="btn btn-success btn-sm btn-flat">
+                                                        <i class="fas fa-share"></i>
                                                     </a>
                                                 @endif
                                             </td>

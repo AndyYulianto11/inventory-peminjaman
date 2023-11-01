@@ -69,12 +69,6 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12">
-                            <hr>
-                            <div class="Tabel">
-
-                            </div>
-                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -122,29 +116,5 @@
 
     });
 
-    function ViewTabelLaporan() {
-        let tglawal = $('#tglawal').val();
-        let tglakhir = $('#tglakhir').val();
-        if (tglawal == "") {
-            Swal.fire('Tanggal Awal Belum Dipilih!')
-        } else if(tglakhir == "") {
-            Swal.fire('Tanggal Akhir Belum Dipilih!')
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "/cetak-laporan-barang-masuk",
-                data : {
-                    tglawal: tglawal,
-                    tglakhir: tglakhir,
-                },
-                dataType: "JSON",
-                success : function(response) {
-                    if (response.data) {
-                        $('.Tabel ').html(response.data)
-                    }
-                }
-            });
-        }
-    }
 </script>
 @endsection

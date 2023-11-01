@@ -50,7 +50,7 @@
                             class="form-control @error('password') is-invalid @enderror" name="password" required
                             autocomplete="current-password" placeholder="Password">
                         <div class="input-group-append">
-                            <div class="input-group-text">
+                            <div class="input-group-text" id="show_password">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
@@ -61,11 +61,11 @@
                         @enderror
                     </div>
                     <div class="row">
-                        <div class="col-8">
-
+                        <div class="col-6">
+                            <a href="{{ route('register') }}" class="btn btn-info btn-block">Register</a>
                         </div>
                         <!-- /.col -->
-                        <div class="col-4">
+                        <div class="col-6">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
@@ -87,3 +87,12 @@
 </body>
 
 </html>
+
+<script>
+    document.getElementById('show_password').addEventListener('click', function () {
+        var passwordField = document.getElementById('password');
+        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+</script>

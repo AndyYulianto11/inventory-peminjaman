@@ -16,6 +16,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +99,8 @@ Route::middleware(['auth', 'checkrole:administrator'])->group(function () {
     // Data User
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::post('/user', [UserController::class, 'store']);
+    Route::get('/edit-user/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/update-user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::post('/delete-user', [UserController::class, 'destroy'])->name('user.destroy');
 
     // Data Unit

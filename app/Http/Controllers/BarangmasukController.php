@@ -230,33 +230,20 @@ class BarangmasukController extends Controller
             'submenu' => 'laporan barang masuk',
         ];
 
-        $barangmasuk = Barangmasuk::all();
-
-        return view('admin.laporan.laporan_barang_masuk', compact('data', 'barangmasuk'));
+        return view('admin.laporan.laporan_barang_masuk', compact('data'));
     }
 
     public function view_laporan_barang_masuk($tglawal, $tglakhir)
     {
-        // dd(["Tanggal Awal : ".$tglawal, "Tanggal Akhir : ".$tglakhir]);
-        // $barangmasuk = Barangmasuk::all();
-        // $cetaklaporan = ItemBarangMasuk::where('barangmasuk_id', $barangmasuk->id)
-        //                                 ->whereBetween('tanggal_pembelian',[$tglawal, $tglakhir])->get();
-        //                                 dd($cetaklaporan);
-        // $cetaklaporan = Barangmasuk::select("*")->whereBetween('tanggal_pembelian',[$tglawal, $tglakhir])->get();
-        $barangmasuk = Barangmasuk::whereBetween('tanggal_pembelian', [$tglawal, $tglakhir])->get();
+        // $cetaklaporan = ItemBarangMasuk::with('barangmasuk_id')->whereBetween('tanggal_pembelian', [$tglawal, $tglakhir])->get();
 
-        $cetaklaporan = [];
+        $cetaklaporan = DB::table('barangmasuks')
+                            ->join('item_barang_masuks', 'barangmasuks.id', '=', 'item_barang_masuks.barangmasuk_id')
+                            ->select('barangmasuks.*', 'item_barang_masuks.*')
+                            ->whereBetween('barangmasuks.tanggal_pembelian', [$tglawal, $tglakhir])
+                            ->get();
 
-        foreach ($barangmasuk as $bm) {
-            $items = ItemBarangMasuk::where('barangmasuk_id', $bm->id)->get();
-            // Anda dapat memproses item-item ini sesuai kebutuhan Anda
-            // $items adalah koleksi item-item yang terkait dengan barang masuk saat ini
-            $cetaklaporan[] = [
-                'barangmasuk' => $bm,
-                'items' => $items,
-            ];
-            // dd($cetaklaporan);
-        }
         return view('admin.laporan.v_print_barang_masuk', compact('cetaklaporan'));
+
     }
 }

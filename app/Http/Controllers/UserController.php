@@ -102,7 +102,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -114,7 +116,32 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required',
+                'role' => 'required',
+            ]);
+    
+            $user = User::findOrFail($id);
+    
+            $data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => $request->role,
+            ];
+    
+            // Periksa jika password diisi
+            if ($request->filled('password')) {
+                $data['password'] = Hash::make($request->password);
+            }
+    
+            $user->update($data);
+    
+            return redirect('user')->with('success', 'Data berhasil diupdate!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -133,5 +160,10 @@ class UserController extends Controller
             'status' => 200,
             'data' => $id[1],
         ]);
+    }
+
+    public function forget_password()
+    {
+        
     }
 }

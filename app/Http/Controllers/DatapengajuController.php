@@ -256,8 +256,13 @@ class DatapengajuController extends Controller
 
     public function dokumen($id)
     {
+        $data = [
+            'subjudul' => 'Dokumen',
+            'submenu' => 'dokumen',
+        ];
+
         $datapengaju = Datapengaju::findOrFail($id);
 
-        return view('pengaju.dokumen.index', compact('datapengaju'));
+        return view('pengaju.dokumen.index', compact('data', 'datapengaju'));
     }
 }

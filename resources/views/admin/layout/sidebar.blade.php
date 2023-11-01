@@ -72,7 +72,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('cek-pengaju') }}" class="nav-link {{ request()->is('cek-pengaju*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <i class="nav-icon fas fa-dolly-flatbed"></i>
                                 <p>
                                     Pengajuan
                                 </p>

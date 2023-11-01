@@ -44,6 +44,14 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            @if(session('success'))
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-check"></i>
+                                    {{ session('success') }}
+                                </h5>
+                            </div>
+                            @endif
                             <table id="datatables" class="table table-bordered">
                                 <thead>
                                     <tr class="text-center">
@@ -74,6 +82,9 @@
                                             </td>
                                             <td class="text-center">{{ $item->unit->nama_unit }}</td>
                                             <td class="text-center">
+                                            <a href="{{ route('user.edit', $item->id) }}" type="button" class="btn btn-warning btn-sm btn-flat">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
                                                 <button class="btn btn-danger btn-sm btn-flat btnDelete"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>

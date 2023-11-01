@@ -87,8 +87,10 @@
                                             </td>
                                             <td>
                                                 @if ($item->upload_dokumen != null)
-                                                    <a href="{{ route('lihat-dokumen', $item->id) }}" target="_blank">Lihat
-                                                        File</a>
+                                                    <a href="{{ route('lihat-dokumen', $item->id) }}" target="_blank"><span class="badge bg-info">Lihat
+                                                        File</span></a>
+                                                @elseif($item->upload_dokumen == null)
+                                                -
                                                 @endif
                                             </td>
                                             <td class="text-center">

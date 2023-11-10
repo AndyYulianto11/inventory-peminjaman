@@ -104,7 +104,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('admin.user.edit', compact('user'));
+        $units = Unit::all();
+
+        return view('admin.user.edit', compact('user', 'units'));
     }
 
     /**
@@ -121,23 +123,25 @@ class UserController extends Controller
                 'name' => 'required',
                 'email' => 'required',
                 'role' => 'required',
+                'unit_id' => 'required',
             ]);
-    
+
             $user = User::findOrFail($id);
-    
+
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => $request->role,
+                'unit_id' => $request->unit_id,
             ];
-    
+
             // Periksa jika password diisi
             if ($request->filled('password')) {
                 $data['password'] = Hash::make($request->password);
             }
-    
+
             $user->update($data);
-    
+
             return redirect('user')->with('success', 'Data berhasil diupdate!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -164,6 +168,6 @@ class UserController extends Controller
 
     public function forget_password()
     {
-        
+
     }
 }

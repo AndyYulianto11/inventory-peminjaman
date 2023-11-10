@@ -62,6 +62,17 @@
                                 </div>
 
                                 <div class="form-group mb-3">
+                                    <label for="unit_id">Unit</label>
+                                    <select name="unit_id" class="form-control" id="unit_id">
+                                        @foreach ($units as $unit)
+                                            <option value="{{ $unit->id }}" {{ $unit->id == $user->unit_id ? 'selected' : '' }}>{{ $unit->nama_unit }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback" id="unit_id-error">
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
                                     <label for="email">Email</label>
                                     <input type="text" name="email" id="email" value="{{ $user->email }}"
                                         class="form-control" required>

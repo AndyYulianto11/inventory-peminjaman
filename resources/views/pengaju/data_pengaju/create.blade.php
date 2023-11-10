@@ -50,7 +50,7 @@
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Kode Pengajuan</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="code_pengajuan" name="code_pengajuan"
-                                            placeholder="Kode Pengajuan" required>
+                                        value="{{ $codePengajuan }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -73,7 +73,8 @@
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Unit</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="unit" name="unit"
-                                            value="{{ Auth::user()->unit->kode_unit }} / {{ Auth::user()->unit->nama_unit }}" readonly>
+                                            value="{{ Auth::user()->unit->kode_unit }} / {{ Auth::user()->unit->nama_unit }}"
+                                            readonly>
                                     </div>
                                 </div>
 

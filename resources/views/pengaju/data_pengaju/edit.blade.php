@@ -52,7 +52,7 @@
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Kode Pengajuan</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="code_pengajuan" name="code_pengajuan"
-                                            value="{{ $datapengaju->code_pengajuan }}" required>
+                                            value="{{ $datapengaju->code_pengajuan }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -96,7 +96,7 @@
                                         <a href="{{ route('lihat-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        @if ($item->status_pengajuan == 1)
+                                        @if ($item->status_pengajuan == 1 && $item->upload_dokumen == null && $item->status_setujuatasan == 5)
                                         <a href="{{ route('edit-datapengaju', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
@@ -106,7 +106,7 @@
                                             <i class="fas fa-arrow-up"></i>
                                         </a>
                                         @endif
-                                        @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != null && $item->status_submit == null)
+                                        @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != null && $item->status_submit == '0')
                                         <a class="btn btn-success btn-sm btn-flat" onclick="updateStatus({{ $item->id }})">
                                             <i class="fas fa-share"></i>
                                         </a>

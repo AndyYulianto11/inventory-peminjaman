@@ -15,6 +15,7 @@ class Datapengaju extends Model
         'user_id',
         'status_setujuatasan',
         'status_pengajuan',
+        'status_submit',
         'upload_dokumen',
     ];
 

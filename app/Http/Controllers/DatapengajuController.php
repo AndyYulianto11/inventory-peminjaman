@@ -35,6 +35,45 @@ class DatapengajuController extends Controller
         return view('pengaju.data_pengaju.index', compact('judul', 'databarang', 'datapengaju'));
     }
 
+    public function generateCodePengajuan()
+    {
+        $currentDate = now();
+        $formattedDate = $currentDate->format('ymd');
+
+        $lastCode = Datapengaju::orderBy('code_pengajuan', 'desc')->first();
+
+        if ($lastCode) {
+            $lastNumber = intval(substr($lastCode->code_pengajuan, -7));
+            $newNumber = str_pad($lastNumber + 1, 7, '0', STR_PAD_LEFT);
+        } else {
+            $newNumber = '0000001';
+        }
+
+        return $formattedDate . $this->getFormattedNumber($newNumber);
+    }
+
+    protected function getFormattedNumber($number)
+    {
+        $length = strlen($number);
+
+        switch ($length) {
+            case 1:
+                return '000000' . $number;
+            case 2:
+                return '00000' . $number;
+            case 3:
+                return '0000' . $number;
+            case 4:
+                return '000' . $number;
+            case 5:
+                return '00' . $number;
+            case 6:
+                return '0' . $number;
+            default:
+                return $number;
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,7 +90,9 @@ class DatapengajuController extends Controller
 
         $databarang = Databarang::all();
 
-        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju', 'databarang'));
+        $codePengajuan = $this->generateCodePengajuan();
+
+        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju', 'databarang', 'codePengajuan'));
     }
 
     /**
@@ -63,10 +104,8 @@ class DatapengajuController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code_pengajuan' => 'required',
             'tgl_pengajuan' => 'required',
         ], [
-            'code_pengajuan.required' => 'code_pengajuan harus diisi',
             'tgl_pengajuan.required' => 'tgl_pengajuan harus diisi',
         ]);
 
@@ -233,7 +272,7 @@ class DatapengajuController extends Controller
     {
         try {
             $request->validate([
-                'files' => 'required|file|mimes:pdf|max:500',
+                'files' => 'required|file|mimes:pdf',
             ]);
 
             $datapengaju = Datapengaju::findOrFail($id);
@@ -245,6 +284,7 @@ class DatapengajuController extends Controller
 
                 $datapengaju->update([
                     'upload_dokumen' => $path,
+                    'status_submit' => '0',
                 ]);
             }
 

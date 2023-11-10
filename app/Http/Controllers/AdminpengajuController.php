@@ -21,7 +21,7 @@ class AdminpengajuController extends Controller
             'submenu' => 'pengajuan',
         ];
 
-        $pengaju = Datapengaju::all();
+        $pengaju = Datapengaju::where('status_submit', 1)->get();
 
         return view('admin.cek_pengaju.index', compact('data', 'pengaju'));
     }

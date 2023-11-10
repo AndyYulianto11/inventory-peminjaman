@@ -139,6 +139,9 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::get('/upload/{id}', [DatapengajuController::class, 'upload'])->name('upload');
     Route::put('/upload-pdf/{id}', [DatapengajuController::class, 'updatePdf'])->name('upload-pdf');
 
+    // ubah status submit pengaju
+    Route::put('/update-status/{id}', [DatapengajuController::class, 'updateStatus'])->name('update.status');
+
 });
 
 Route::middleware(['auth', 'checkrole:atasan'])->group(function () {

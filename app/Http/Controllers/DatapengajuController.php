@@ -265,4 +265,20 @@ class DatapengajuController extends Controller
 
         return view('pengaju.dokumen.index', compact('data', 'datapengaju'));
     }
+
+    public function updateStatus($id)
+    {
+        $item = Datapengaju::find($id);
+        if ($item) {
+            $item->status_submit = 1;
+            $item->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data sudah terkirim',
+            ]);
+        }
+
+        return response()->json(['status' => 'error']);
+    }
 }

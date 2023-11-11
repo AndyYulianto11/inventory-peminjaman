@@ -173,7 +173,6 @@
                                 <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
                             </td>
                             <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
-                            <input type="hidden" name="status_persetujuanadmin[]" id="status_persetujuanadmin_${id}" id="status_persetujuanadmin" value="0">
 
                             <td class="text-center">
                                 <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>

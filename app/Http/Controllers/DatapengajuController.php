@@ -114,7 +114,6 @@ class DatapengajuController extends Controller
         $barang_id = $request->barang_id;
         $qty = $request->qty;
         $status_persetujuanatasan = $request->status_persetujuanatasan;
-        $status_persetujuanadmin = $request->status_persetujuanadmin;
 
         if ($validator->fails()) {
             return response()->json([
@@ -139,7 +138,6 @@ class DatapengajuController extends Controller
                     'barang_id' => $value,
                     'qty' => $qty[$key],
                     'status_persetujuanatasan' => $status_persetujuanatasan[$key],
-                    'status_persetujuanadmin' => $status_persetujuanadmin[$key],
                     'created_at' => Carbon::now(),
                 ]);
 

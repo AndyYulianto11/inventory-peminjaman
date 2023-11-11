@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Unit::class, 'unit_id');
     }
+
+    public function dataasetunits()
+    {
+        return $this->hasMany(DataAsetUnit::class);
+    }
 }

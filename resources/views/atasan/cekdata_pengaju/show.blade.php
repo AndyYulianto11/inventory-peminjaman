@@ -63,7 +63,7 @@
                                         <td>{{ $datapengaju->user->unit->nama_unit }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Status</td>
+                                        <td>Status Atasan</td>
                                         <td>:</td>
                                         <td>
                                             @if ($datapengaju->status_setujuatasan == 1)
@@ -76,6 +76,23 @@
                                                 <span class="badge bg-danger">Ditolak</span>
                                             @elseif($datapengaju->status_setujuatasan == 5)
                                                 <span class="badge bg-warning">Direvisi</span>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Admin</td>
+                                        <td>:</td>
+                                        <td>
+                                            @if ($datapengaju->status_setujuadmin == 0)
+                                                <span class="badge bg-info">Diajukan</span>
+                                            @elseif($datapengaju->status_setujuadmin == 1)
+                                                <span class="badge bg-secondary">Proses</span>
+                                            @elseif($datapengaju->status_setujuadmin == 2)
+                                                <span class="badge bg-warning">Pending</span>
+                                            @elseif($datapengaju->status_setujuadmin == 3)
+                                                <span class="badge bg-success">Selesai</span>
                                             @else
                                                 -
                                             @endif
@@ -114,10 +131,12 @@
                                     <tr>
                                         <th class="text-center" width="5">No.</th>
                                         <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Qty</th>
+                                        <th class="text-center">Jumlah <br>Peminjaman</th>
+                                        <th class="text-center">Stok</th>
+                                        <th class="text-center">Selisih</th>
                                         <th class="text-center">Satuan</th>
-                                        <th class="text-center">Status Admin</th>
                                         <th class="text-center">Status Atasan</th>
+                                        <th class="text-center">Status Admin</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
                                     @php $no = 1 @endphp
@@ -129,22 +148,17 @@
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $item->barang->nama_barang }}</td>
                                             <td class="text-center">{{ $item->qty }}</td>
+                                            <td class="text-center">{{ $item->barang->stok }}</td>
+                                            @if ($item->barang->stok > $item->qty)
+                                                <td class="text-center">
+                                                    0
+                                                </td>
+                                            @elseif ($item->barang->stok < $item->qty)
+                                                <td class="text-center">
+                                                    {{ $item->qty - $item->barang->stok }}
+                                                </td>
+                                            @endif
                                             <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
-                                            <td class="text-center">
-                                                @if ($item->status_persetujuanadmin == 0)
-                                                    <span class="badge bg-warning">Diajukan</span>
-                                                @elseif($item->status_persetujuanadmin == 1)
-                                                    <span class="badge bg-secondary">Proses</span>
-                                                @elseif($item->status_persetujuanadmin == 2)
-                                                    <span class="badge bg-danger">Pending</span>
-                                                @elseif($item->status_persetujuanadmin == 3)
-                                                    <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
-                                                @elseif($item->status_persetujuanadmin == 4)
-                                                    <span class="badge bg-success">Serah Terima</span>
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
                                             <td class="text-center">
                                                 <select name="status_persetujuanatasan[]" id="status_persetujuanatasan"
                                                     class="form-control">
@@ -158,6 +172,15 @@
                                                         {{ '3' == $item->status_persetujuanatasan ? 'selected' : '' }}>
                                                         Direvisi</option>
                                                 </select>
+                                            </td>
+                                            <td class="text-center">
+                                                @if ($item->status_persetujuanadmin == '0')
+                                                    <span class="badge bg-info">Serah Terima</span>
+                                                @elseif ($item->status_persetujuanadmin == '1')
+                                                    <span class="badge bg-success">Sebagian Diserahterimakan</span>
+                                                @else
+                                                    -
+                                                @endif
                                             </td>
                                             <td class="text-center">
                                                 <textarea name="keterangan[]" id="keterangan" cols="20" rows="1" class="form-control">{{ $item->keterangan }}</textarea>

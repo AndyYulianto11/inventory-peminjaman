@@ -14,6 +14,7 @@ class Datapengaju extends Model
         'tgl_pengajuan',
         'user_id',
         'status_setujuatasan',
+        'status_setujuadmin',
         'status_pengajuan',
         'status_submit',
         'upload_dokumen',

@@ -20,8 +20,8 @@ class CreateItemDataPengajusTable extends Migration
             $table->double('qty');
             // 0 = diajukan, 1 = disetujui, 2 = ditolak, 3 = direvisi
             $table->enum('status_persetujuanatasan', ['0', '1', '2', '3'])->default('0');
-            // 0 = diajukan, 1 = proses, 2 = pending, 3 = sebagian sudah diserahkan, 4 = serah terima
-            $table->enum('status_persetujuanadmin', ['0', '1', '2', '3', '4'])->default('0');
+            // 0 = serah terima, 1 = Sebagian Diserahterimakan
+            $table->boolean('status_persetujuanadmin')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

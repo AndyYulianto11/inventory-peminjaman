@@ -32,4 +32,9 @@ class Databarang extends Model
     {
         return $this->hasMany(Datapengaju::class);
     }
+
+    public function dataasetunits()
+    {
+        return $this->hasMany(DataAsetUnit::class);
+    }
 }

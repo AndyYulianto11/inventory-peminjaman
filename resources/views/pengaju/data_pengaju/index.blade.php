@@ -51,6 +51,7 @@
                                     <th width="150px">Tanggal</th>
                                     <th>Qty</th>
                                     <th>Status Atasan</th>
+                                    <th>Status Admin</th>
                                     <th>File</th>
                                     <th width="150px">Aksi</th>
                                 </tr>
@@ -82,6 +83,19 @@
                                         <span class="badge bg-warning">Direvisi</span>
                                         @else
                                         -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->status_setujuadmin == 0)
+                                            <span class="badge bg-info">Diajukan</span>
+                                        @elseif($item->status_setujuadmin == 1)
+                                            <span class="badge bg-secondary">Proses</span>
+                                        @elseif($item->status_setujuadmin == 2)
+                                            <span class="badge bg-warning">Pending</span>
+                                        @elseif($item->status_setujuadmin == 3)
+                                            <span class="badge bg-success">Selesai</span>
+                                        @else
+                                            -
                                         @endif
                                     </td>
                                     <td>

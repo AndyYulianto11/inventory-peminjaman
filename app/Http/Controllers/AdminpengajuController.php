@@ -106,8 +106,13 @@ class AdminpengajuController extends Controller
 
             foreach ($post as $key => $value) {
                 $value->status_persetujuanadmin = $request->status_persetujuanadmin[$key];
+                $value->keterangan = $request->keterangan[$key];
                 $value->save();
             }
+
+            $getDataPengaju->update([
+                'status_setujuadmin' => $request->status_setujuadmin,
+            ]);
 
             return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');
         } catch (Exception $e) {

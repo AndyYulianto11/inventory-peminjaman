@@ -47,6 +47,7 @@
                                         <th>Tanggal</th>
                                         <th>Unit</th>
                                         <th>Status Atasan</th>
+                                        <th>Status Admin</th>
                                         <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -70,6 +71,19 @@
                                                     <span class="badge bg-danger">Ditolak</span>
                                                 @elseif($item->status_setujuatasan == 5)
                                                     <span class="badge bg-warning">Direvisi</span>
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->status_setujuadmin == 0)
+                                                    <span class="badge bg-info">Diajukan</span>
+                                                @elseif($item->status_setujuadmin == 1)
+                                                    <span class="badge bg-secondary">Proses</span>
+                                                @elseif($item->status_setujuadmin == 2)
+                                                    <span class="badge bg-warning">Pending</span>
+                                                @elseif($item->status_setujuadmin == 3)
+                                                    <span class="badge bg-success">Selesai</span>
                                                 @else
                                                     -
                                                 @endif

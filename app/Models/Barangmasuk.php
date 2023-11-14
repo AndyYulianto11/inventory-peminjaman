@@ -34,4 +34,9 @@ class Barangmasuk extends Model
     {
         return $this->hasMany(ItemBarangMasuk::class);
     }
+
+    public function historystokbarangs()
+    {
+        return $this->hasMany(HistoryStokBarang::class);
+    }
 }

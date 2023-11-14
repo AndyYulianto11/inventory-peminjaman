@@ -124,6 +124,9 @@
                                         <tr>
                                             <input type="hidden" class="form-control" name="datapengaju_id[]"
                                                 value="{{ $item->datapengaju_id }}">
+                                            <input type="hidden" class="form-control" name="barang_id[]"
+                                                value="{{ $item->barang_id }}">
+                                            <input type="hidden" name="qty[]" value="{{ $item->qty }}">
 
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $item->barang->nama_barang }}</td>

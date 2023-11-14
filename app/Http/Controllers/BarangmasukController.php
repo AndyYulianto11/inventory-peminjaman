@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barangmasuk;
 use App\Models\Databarang;
+use App\Models\HistoryStokBarang;
 use App\Models\ItemBarangMasuk;
 use App\Models\Supplier;
 use Carbon\Carbon;
@@ -114,6 +115,14 @@ class BarangmasukController extends Controller
                 $barang = $barangs->where('id', $value)->first();
                 $barang->stok += $qty[$key];
                 $barang->save();
+
+                // Record history stok data barang
+                HistoryStokBarang::create([
+                    'databarang_id' => $value,
+                    'barangmasuk_id' => $header,
+                    'qty' => $qty[$key],
+                    'keterangan' => 'Barang Masuk',
+                ]);
             }
 
             $updateHarga = Barangmasuk::where('id', $header)->first();

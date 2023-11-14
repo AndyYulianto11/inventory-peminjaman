@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Databarang;
 use App\Models\Datapengaju;
+use App\Models\HistoryStokBarang;
 use App\Models\ItemDataPengaju;
 use Exception;
 use Illuminate\Http\Request;
@@ -101,13 +103,30 @@ class AdminpengajuController extends Controller
             ]);
 
             $getDataPengaju = Datapengaju::findOrFail($id);
+            $barang_id = $request->barang_id;
+            $qty = $request->qty;
 
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
+
+            $barangs = Databarang::whereIn('id', $barang_id)->get();
 
             foreach ($post as $key => $value) {
                 $value->status_persetujuanadmin = $request->status_persetujuanadmin[$key];
                 $value->keterangan = $request->keterangan[$key];
                 $value->save();
+
+                // Update otomatis stok data barang
+                $barang = $barangs->where('id', $value->barang_id)->first();
+                $barang->stok -= $qty[$key];
+                $barang->save();
+
+                // Record history stok data barang
+                HistoryStokBarang::create([
+                    'databarang_id' => $value->barang_id,
+                    'itemdatapengaju_id' => $value->id,
+                    'qty' => $qty[$key],
+                    'keterangan' => 'Barang Dipinjam',
+                ]);
             }
 
             $getDataPengaju->update([

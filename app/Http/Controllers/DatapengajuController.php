@@ -130,7 +130,7 @@ class DatapengajuController extends Controller
                 'created_at' => Carbon::now(),
             ]);
 
-            $barangs = Databarang::whereIn('id', $barang_id)->get();
+            // $barangs = Databarang::whereIn('id', $barang_id)->get();
 
             foreach ($barang_id as $key => $value) {
                 $data = ItemDataPengaju::insert([
@@ -142,9 +142,9 @@ class DatapengajuController extends Controller
                 ]);
 
                 // Update otomatis stok data barang
-                $barang = $barangs->where('id', $value)->first();
-                $barang->stok -= $qty[$key];
-                $barang->save();
+                // $barang = $barangs->where('id', $value)->first();
+                // $barang->stok -= $qty[$key];
+                // $barang->save();
             }
 
             return response()->json([

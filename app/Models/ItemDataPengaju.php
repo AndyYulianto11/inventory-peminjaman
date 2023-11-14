@@ -27,4 +27,9 @@ class ItemDataPengaju extends Model
     {
         return $this->belongsTo(Databarang::class, 'barang_id');
     }
+
+    public function historystokbarangs()
+    {
+        return $this->hasMany(HistoryStokBarang::class);
+    }
 }

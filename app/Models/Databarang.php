@@ -37,4 +37,9 @@ class Databarang extends Model
     {
         return $this->hasMany(DataAsetUnit::class);
     }
+
+    public function historystokbarangs()
+    {
+        return $this->hasMany(HistoryStokBarang::class);
+    }
 }

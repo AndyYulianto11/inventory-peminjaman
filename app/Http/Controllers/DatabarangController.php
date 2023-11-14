@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Databarang;
+use App\Models\HistoryStokBarang;
 use App\Models\Jenisbarang;
 use App\Models\Satuan;
 use Exception;
@@ -52,7 +53,7 @@ class DatabarangController extends Controller
         }
 
         $request['code_barang'] = $number;
-        
+
         try {
             $request->validate([
                 'nama_barang' => 'required',
@@ -67,6 +68,12 @@ class DatabarangController extends Controller
                 'jenis_id' => $request->jenis_id,
                 'stok' => $request->stok,
                 'satuan_id' => $request->satuan_id,
+            ]);
+
+            HistoryStokBarang::create([
+                'databarang_id' => $post->id,
+                'qty' => $post->stok,
+                'keterangan' => 'Insert Data Barang',
             ]);
 
             return redirect('databarang')->with('success', 'Data berhasil ditambahkan!');
@@ -95,7 +102,7 @@ class DatabarangController extends Controller
         return response()->json([
             'status'=>200,
             'data' => $showdatabarang,
-        ]);                            
+        ]);
 
         // return view('admin.data_barang.index', compact('databarang'));
     }
@@ -130,7 +137,7 @@ class DatabarangController extends Controller
         }
 
         $request['code_barang'] = $number;
-        
+
         try {
             $this->validate($request, [
                 'nama_barang' => 'required',

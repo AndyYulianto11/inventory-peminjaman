@@ -79,6 +79,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('cek-dataasetunit') }}" class="nav-link {{ request()->is('cek-dataasetunit*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>
+                                    Data Aset Unit
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('barangmasuk') }}" class="nav-link {{ request()->is('barangmasuk') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-sign-in-alt"></i>
                                 <p>

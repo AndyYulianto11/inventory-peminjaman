@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminpengajuController;
 use App\Http\Controllers\AtasanController;
 use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\DashboardpengajuController;
+use App\Http\Controllers\DataasetunitController;
 use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\DatapengajuController;
 use App\Http\Controllers\HomeController;
@@ -92,6 +93,10 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     // Laporan Barang Masuk
     Route::get('/laporan-barang-masuk', [BarangmasukController::class, 'laporan_barang_masuk'])->name('laporan-barang-masuk');
     Route::get('/cetak-laporan-barang-masuk/{tglawal}/{tglakhir}', [BarangmasukController::class, 'view_laporan_barang_masuk'])->name('cetak-laporan-barang-masuk');
+
+    // Data Aset Unit
+    Route::get('/cek-dataasetunit', [DataasetunitController::class, 'index'])->name('cek-dataasetunit');
+    Route::get('/show-cek-dataasetunit/{id}', [DataasetunitController::class, 'show'])->name('show-dataasetunit');
 
 });
 

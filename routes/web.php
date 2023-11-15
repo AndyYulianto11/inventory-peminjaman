@@ -89,6 +89,8 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/show-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('show-pengaju');
     Route::get('/edit-cek-pengaju/{id}', [AdminpengajuController::class, 'edit'])->name('edit-cek-pengaju');
     Route::put('/update-cek-pengaju/{id}', [AdminpengajuController::class, 'update'])->name('update-cek-pengaju');
+    // Mengirim data ke Data Aset Item
+    Route::post('/proses-insert/{id}', [AdminpengajuController::class, 'prosesInsert'])->name('proses.insert');
 
     // Laporan Barang Masuk
     Route::get('/laporan-barang-masuk', [BarangmasukController::class, 'laporan_barang_masuk'])->name('laporan-barang-masuk');

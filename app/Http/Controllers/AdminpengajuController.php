@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataAsetUnit;
 use App\Models\Databarang;
 use App\Models\Datapengaju;
 use App\Models\HistoryStokBarang;
+use App\Models\ItemDataAsetUnit;
 use App\Models\ItemDataPengaju;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminpengajuController extends Controller
 {
@@ -148,5 +151,38 @@ class AdminpengajuController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function prosesInsert($id)
+    {
+        $dataA = Datapengaju::find($id); // Ambil data dari tabel A berdasarkan ID
+        
+        if (!$dataA) {
+            return response()->json(['error' => 'Data not found'], 404);
+        }
+        // Mendapatkan data user yang sudah login
+        $user = Auth::user();
+
+        DataAsetUnit::create([
+            'kode_transaksi' => $dataA->code_pengajuan,
+            'tgl_transaksi' => $dataA->tgl_pengajuan,
+            'user_id' => $dataA->user_id,
+            'yang_menyerahkan' => $user->name,
+            // Tambahkan kolom lain yang sesuai
+        ]);
+
+        // Kode untuk item_data_aset_unit kebawah ini masih belum masuk ke tablenya
+        // Kadang masuk tapi isiannya gak sesuai
+        $dataB = ItemDataPengaju::find($id);
+        
+        if ($dataB) {
+            ItemDataAsetUnit::create([
+                    'dataasetunit_id' => $dataB->datapengaju_id,
+                    'barang_id' => $dataB->barang_id,
+                    'qty' => $dataB->qty,
+                ]);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

@@ -156,14 +156,14 @@ class AdminpengajuController extends Controller
     public function prosesInsert($id)
     {
         $dataA = Datapengaju::find($id); // Ambil data dari tabel A berdasarkan ID
-        
+
         if (!$dataA) {
             return response()->json(['error' => 'Data not found'], 404);
         }
         // Mendapatkan data user yang sudah login
         $user = Auth::user();
 
-        DataAsetUnit::create([
+        $header = DataAsetUnit::insertGetId([
             'kode_transaksi' => $dataA->code_pengajuan,
             'tgl_transaksi' => $dataA->tgl_pengajuan,
             'user_id' => $dataA->user_id,
@@ -173,15 +173,18 @@ class AdminpengajuController extends Controller
 
         // Kode untuk item_data_aset_unit kebawah ini masih belum masuk ke tablenya
         // Kadang masuk tapi isiannya gak sesuai
-        $dataB = ItemDataPengaju::find($id);
-        
-        if ($dataB) {
+
+        $dataB = ItemDataPengaju::whereIn('datapengaju_id', $dataA->id)->get();
+
+        // if ($dataB) {
+        foreach ($dataB as $key => $value) {
             ItemDataAsetUnit::create([
-                    'dataasetunit_id' => $dataB->datapengaju_id,
-                    'barang_id' => $dataB->barang_id,
-                    'qty' => $dataB->qty,
-                ]);
+                'dataasetunit_id' => $header,
+                'barang_id' => $value->barang_id,
+                'qty' => $value->qty,
+            ]);
         }
+        // }
 
         return response()->json(['success' => true]);
     }

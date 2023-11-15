@@ -203,24 +203,35 @@
             });
         });
 
-       
-            $(document).on('click','.insertData',function() {
-                var id = $(this).data('id');
-                // console.log(id);
-                $.ajax({
-                    type: 'POST',
-                    url: '/proses-insert/' + id,
-                    dataType: 'json',
-                    success: function(response) {
-                        alert('Data inserted successfully!');
-                    },
-                    error: function(error) {
-                        console.log(error);
-                        alert('Error while inserting data!');
-                    }
-                });
+
+        $(document).on('click', '.insertData', function() {
+            var id = $(this).data('id');
+            // console.log(id);
+            $.ajax({
+                type: 'POST',
+                url: '/proses-insert/' + id,
+                dataType: 'json',
+                success: function(response) {
+                    // alert('Data inserted successfully!');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                    swal.fire(
+                        'Cancel',
+                        'Data sudah diproses',
+                        'error'
+                    )
+                }
             });
         });
-
+    });
 </script>
 @endsection

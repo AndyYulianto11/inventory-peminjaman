@@ -101,16 +101,56 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <!-- chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        $(function () {
-                $("#example1").DataTable({
+        $(function() {
+            $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
                 "paging": true,
                 "ordering": false,
-                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            });
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['September', 'Oktober', 'November', 'Desember'],
+                datasets: [{
+                    label: 'Grafik Barang Masuk Bulan Nov 2023',
+                    data: [0, 12, 7, 19],
+                    backgroundColor: [
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Grafik Barang Keluar Bulan Nov 2023',
+                    data: [0, 6, 10, 12],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     </script>
 
     @yield('js')

@@ -64,7 +64,7 @@
                                         <a href="{{ route('show-dataasetunit', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="#" class="btn btn-warning btn-sm btn-flat">
+                                        <a href="{{ route('edit-cek-dataasetunit', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         <a href="#" class="btn btn-danger btn-sm btn-flat">

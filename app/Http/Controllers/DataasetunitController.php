@@ -73,7 +73,15 @@ class DataasetunitController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Data Aset Unit',
+            'submenu' => 'data aset unit',
+        ];
+
+        $dataasetunit = DataAsetUnit::find($id);
+        $itemDataasetunit = ItemDataAsetUnit::where('dataasetunit_id', $dataasetunit->id)->get();
+
+        return view('admin.data_aset_unit.edit', compact('data', 'dataasetunit', 'itemDataasetunit'));
     }
 
     /**
@@ -85,7 +93,24 @@ class DataasetunitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'kondisi_barang' => 'required',
+            ]);
+
+            $getDataPengaju = DataAsetUnit::findOrFail($id);
+
+            $post = ItemDataAsetUnit::where('dataasetunit_id', $getDataPengaju->id)->get();
+
+            foreach ($post as $key => $value) {
+                $value->kondisi_barang = $request->kondisi_barang[$key];
+                $value->save();
+            }
+
+            return response()->json(['status' => 'success', 'message' => 'Data berhasil diubah!']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 
     /**

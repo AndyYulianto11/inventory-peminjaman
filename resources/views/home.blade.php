@@ -101,13 +101,89 @@
             </div>
             <!-- /.row -->
             <!-- Main row -->
-            <div class="row">
-                <!-- content -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Monthly Recap Report</h5>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="text-center">
+                                    <strong>Report: 1 Sep, 2023 - 31 Des, 2023</strong>
+                                </p>
+                                <div class="chart">
+                                    <canvas id="myChart" width="100" height="35px"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card-header">
+                                    <h3 class="card-title"><strong>List Barang Baru</strong></h3>
+
+                                    <div class="card-tools">
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <ul class="products-list product-list-in-card pl-2 pr-2">
+                                        <li class="item">
+                                            <a href="javascript:void(0)" class="product-title">Kursi
+                                                <span class="badge badge-warning float-right">28 Unit</span></a>
+                                            <span class="product-description">
+                                                Kelas
+                                            </span>
+                                        </li>
+                                        <!-- /.item -->
+                                        <li class="item">
+                                            <a href="javascript:void(0)" class="product-title">Proyektor
+                                                <span class="badge badge-info float-right">31 Pcs</span></a>
+                                            <span class="product-description">
+                                                Kelas
+                                            </span>
+                                        </li>
+                                        <!-- /.item -->
+                                        <li class="item">
+                                            <a href="javascript:void(0)" class="product-title">Keyboard
+                                                <span class="badge badge-danger float-right">26 Pcs</span></a>
+                                            <span class="product-description">
+                                                Kelas
+                                            </span>
+                                        </li>
+                                        <!-- /.item -->
+                                        <li class="item">
+                                            <a href="javascript:void(0)" class="product-title">Kabel Proyektor
+                                                <span class="badge badge-success float-right">12 Pcs</span></a>
+                                            <span class="product-description">
+                                                Aset Staff
+                                            </span>
+                                        </li>
+                                        <!-- /.item -->
+                                    </ul>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer text-center">
+                                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+            <!-- content -->
+        </div>
+        <!-- /.row (main row) -->
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 </div>
 
 @endsection

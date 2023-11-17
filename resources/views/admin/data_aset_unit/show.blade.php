@@ -89,11 +89,11 @@
                                 <td class="text-center">
                                     @if ($item->kondisi_barang == 'null')
                                     <span class="badge bg-secondary">-</span>
-                                    @elseif ($item->kondisi_barang == 'Baik')
+                                    @elseif ($item->kondisi_barang == '1')
                                     <span class="badge bg-success">Baik</span>
-                                    @elseif ($item->kondisi_barang == 'Baru')
+                                    @elseif ($item->kondisi_barang == '2')
                                     <span class="badge bg-info">Baru</span>
-                                    @elseif ($item->kondisi_barang == 'Bekas')
+                                    @elseif ($item->kondisi_barang == '3')
                                     <span class="badge bg-warning">Bekas</span>
                                     @else
                                     -

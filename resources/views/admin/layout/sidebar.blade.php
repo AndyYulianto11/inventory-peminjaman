@@ -87,6 +87,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('cek-datapengadaanbarang') }}" class="nav-link {{ request()->is('cek-datapengadaanbarang*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-shopping-basket"></i>
+                                <p>
+                                    Data Pengadaan Barang
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('barangmasuk') }}" class="nav-link {{ request()->is('barangmasuk') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-sign-in-alt"></i>
                                 <p>

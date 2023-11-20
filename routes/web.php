@@ -6,6 +6,7 @@ use App\Http\Controllers\BarangmasukController;
 use App\Http\Controllers\DashboardpengajuController;
 use App\Http\Controllers\DataasetunitController;
 use App\Http\Controllers\DatabarangController;
+use App\Http\Controllers\DatapengadaanbarangController;
 use App\Http\Controllers\DatapengajuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
@@ -101,6 +102,9 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/show-cek-dataasetunit/{id}', [DataasetunitController::class, 'show'])->name('show-dataasetunit');
     Route::get('/edit-cek-dataasetunit/{id}', [DataasetunitController::class, 'edit'])->name('edit-cek-dataasetunit');
     Route::put('/update-cek-dataasetunit/{id}', [DataasetunitController::class, 'update'])->name('update-cek-dataasetunit');
+
+    // Data Aset Unit
+    Route::get('/cek-datapengadaanbarang', [DatapengadaanbarangController::class, 'index'])->name('cek-datapengadaanbarang');
 
 });
 

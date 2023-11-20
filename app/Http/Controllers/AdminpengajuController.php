@@ -124,9 +124,9 @@ class AdminpengajuController extends Controller
                 $barang->save();
 
                 // Hitung dan simpan selisih
-                $selisih = max(0, $barang->stok - $qty[$key]);
-                $value->selisih = $selisih;
-                $value->save();
+                // $selisih = max(0, $barang->stok - $qty[$key]);
+                // $value->selisih = $selisih;
+                // $value->save();
 
                 // Record history stok data barang
                 HistoryStokBarang::create([
@@ -161,7 +161,7 @@ class AdminpengajuController extends Controller
     public function prosesInsert($id)
     {
         $dataA = Datapengaju::find($id); // Ambil data dari tabel A berdasarkan ID
-        
+
         if (!$dataA) {
             return response()->json(['error' => 'Data not found'], 404);
         }
@@ -180,7 +180,7 @@ class AdminpengajuController extends Controller
 
         // $dataB = ItemDataPengaju::whereIn('datapengaju_id', $dataA->id)->get();
         $dataB = ItemDataPengaju::whereIn('id', $datapengajuIds)->get();
-        
+
         // if ($dataB) {
         foreach ($dataB as $value) {
             ItemDataAsetUnit::create([

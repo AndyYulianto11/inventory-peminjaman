@@ -130,21 +130,25 @@ class DatapengajuController extends Controller
                 'created_at' => Carbon::now(),
             ]);
 
-            // $barangs = Databarang::whereIn('id', $barang_id)->get();
+            $barangs = Databarang::whereIn('id', $barang_id)->get();
 
             foreach ($barang_id as $key => $value) {
+                $barang = $barangs->where('id', $value)->first();
+
+                if ($barang->stok > $qty[$key]) {
+                    $selisih = 0;
+                } elseif ($barang->stok < $qty[$key]) {
+                    $selisih = $barang->stok - $qty[$key];
+                }
+
                 $data = ItemDataPengaju::insert([
                     'datapengaju_id' => $header,
                     'barang_id' => $value,
                     'qty' => $qty[$key],
+                    'selisih' => $selisih,
                     'status_persetujuanatasan' => $status_persetujuanatasan[$key],
                     'created_at' => Carbon::now(),
                 ]);
-
-                // Update otomatis stok data barang
-                // $barang = $barangs->where('id', $value)->first();
-                // $barang->stok -= $qty[$key];
-                // $barang->save();
             }
 
             return response()->json([

@@ -16,6 +16,7 @@ class ItemDataPengaju extends Model
         'status_persetujuanatasan',
         'status_persetujuanadmin',
         'keterangan',
+        'selisih',
     ];
 
     public function datapengaju()

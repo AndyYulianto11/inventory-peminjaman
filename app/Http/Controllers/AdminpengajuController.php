@@ -123,6 +123,11 @@ class AdminpengajuController extends Controller
                 $barang->stok -= $qty[$key];
                 $barang->save();
 
+                // Hitung dan simpan selisih
+                $selisih = max(0, $barang->stok - $qty[$key]);
+                $value->selisih = $selisih;
+                $value->save();
+
                 // Record history stok data barang
                 HistoryStokBarang::create([
                     'databarang_id' => $value->barang_id,

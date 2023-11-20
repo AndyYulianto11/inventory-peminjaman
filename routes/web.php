@@ -102,6 +102,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/show-cek-dataasetunit/{id}', [DataasetunitController::class, 'show'])->name('show-dataasetunit');
     Route::get('/edit-cek-dataasetunit/{id}', [DataasetunitController::class, 'edit'])->name('edit-cek-dataasetunit');
     Route::put('/update-cek-dataasetunit/{id}', [DataasetunitController::class, 'update'])->name('update-cek-dataasetunit');
+    Route::get('/cetak-dataasetunit/{id}', [DataasetunitController::class, 'cetak'])->name('cetak-dataasetunit');
 
     // Data Aset Unit
     Route::get('/cek-datapengadaanbarang', [DatapengadaanbarangController::class, 'index'])->name('cek-datapengadaanbarang');

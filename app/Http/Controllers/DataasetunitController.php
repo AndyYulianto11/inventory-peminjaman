@@ -123,4 +123,17 @@ class DataasetunitController extends Controller
     {
         //
     }
+
+    public function cetak($id)
+    {
+        $data = [
+            'subjudul' => 'Data Aset Unit',
+            'submenu' => 'data aset unit',
+        ];
+
+        $dataasetunit = DataAsetUnit::find($id);
+        $itemDataasetunit = ItemDataAsetUnit::where('dataasetunit_id', $dataasetunit->id)->get();
+
+        return view('admin.data_aset_unit.cetak', compact('data', 'dataasetunit', 'itemDataasetunit'));
+    }
 }

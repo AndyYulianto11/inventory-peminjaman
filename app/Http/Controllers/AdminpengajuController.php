@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\DataAsetUnit;
 use App\Models\Databarang;
+use App\Models\DataPengadaanBarang;
 use App\Models\Datapengaju;
 use App\Models\HistoryStokBarang;
 use App\Models\ItemDataAsetUnit;
+use App\Models\ItemDataPengadaanBarang;
 use App\Models\ItemDataPengaju;
 use Exception;
 use Illuminate\Http\Request;
@@ -168,26 +170,45 @@ class AdminpengajuController extends Controller
         // Mendapatkan data user yang sudah login
         $user = Auth::user();
 
-        $header = DataAsetUnit::create([
-            'kode_transaksi' => $dataA->code_pengajuan,
-            'tgl_transaksi' => $dataA->tgl_pengajuan,
-            'user_id' => $dataA->user_id,
-            'yang_menyerahkan' => $user->name,
-            // Tambahkan kolom lain yang sesuai
-        ]);
-
         $datapengajuIds = ItemDataPengaju::where('datapengaju_id', $dataA->id)->pluck('id')->toArray();
 
         // $dataB = ItemDataPengaju::whereIn('datapengaju_id', $dataA->id)->get();
         $dataB = ItemDataPengaju::whereIn('id', $datapengajuIds)->get();
 
-        // if ($dataB) {
         foreach ($dataB as $value) {
-            ItemDataAsetUnit::create([
+            // Ambil nilai selisih dari tabel item_data_pengaju
+            $selisihStok = $value->selisih;
+            
+            if ($selisihStok === 0) {
+                $header = DataAsetUnit::create([
+                    'kode_transaksi' => $dataA->code_pengajuan,
+                    'tgl_transaksi' => $dataA->tgl_pengajuan,
+                    'user_id' => $dataA->user_id,
+                    'yang_menyerahkan' => $user->name,
+                    // Tambahkan kolom lain yang sesuai
+                ]);
+
+                ItemDataAsetUnit::create([
                     'dataasetunit_id' => $header->id,
                     'barang_id' => $value->barang_id,
                     'qty' => $value->qty,
                 ]);
+            } else {
+
+                $headerPengadaan = DataPengadaanBarang::create([
+                    'kode_transaksi' => $dataA->code_pengajuan,
+                    'tgl_transaksi' => $dataA->tgl_pengajuan,
+                    'user_id' => $dataA->user_id,
+                    'yang_menyerahkan' => $user->name,
+                    // Tambahkan kolom lain yang sesuai
+                ]);
+
+                ItemDataPengadaanBarang::create([
+                    'datapengadaanbarang_id' => $headerPengadaan->id,
+                    'barang_id' => $value->barang_id,
+                    'qty' => $value->qty,
+                ]);
+            }
         }
 
         return response()->json([

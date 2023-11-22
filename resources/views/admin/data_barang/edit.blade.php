@@ -19,7 +19,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
+                        <li class="breadcrumb-item active">edit data barang</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -72,6 +72,11 @@
                                     <option value="{{ $satuan->id }}" {{ $databarang->satuan_id == $satuan->id ? 'selected' : '' }}>{{ $satuan->satuan }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="">Harga</label>
+                                <input type="text" name="harga" value="{{ $databarang->harga }}" class="harga form-control">
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-flat add_jenisbarang">Save</button>

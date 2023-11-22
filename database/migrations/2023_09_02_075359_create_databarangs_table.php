@@ -20,6 +20,7 @@ class CreateDatabarangsTable extends Migration
             $table->foreignId('jenis_id');
             $table->integer('stok');
             $table->foreignId('satuan_id');
+            $table->double('harga');
             $table->timestamps();
         });
     }

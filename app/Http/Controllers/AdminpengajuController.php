@@ -178,7 +178,7 @@ class AdminpengajuController extends Controller
         foreach ($dataB as $value) {
             // Ambil nilai selisih dari tabel item_data_pengaju
             $selisihStok = $value->selisih;
-            
+
             if ($selisihStok === 0) {
                 $header = DataAsetUnit::create([
                     'kode_transaksi' => $dataA->code_pengajuan,

@@ -53,6 +53,7 @@
                                         <th>Jenis</th>
                                         <th>Stok</th>
                                         <th>Satuan</th>
+                                        <th>Harga</th>
                                         <th width="150px">Aksi</th>
                                     </tr>
                                 </thead>
@@ -66,6 +67,7 @@
                                             <td>{{ $item->jenisbarang->jenisbarang }}</td>
                                             <td>{{ $item->stok }}</td>
                                             <td>{{ $item->satuan->satuan }}</td>
+                                            <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                                             <td class="text-center">
                                                 <button class="btn btn-primary btn-sm btn-flat"
                                                     onclick="detail({{ $item->id }})" data-toggle="modal"
@@ -164,6 +166,11 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="form-group mb-3">
+                            <label for="">Harga</label>
+                            <input type="text" name="harga" class="harga form-control">
+                        </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
@@ -218,6 +225,7 @@
                             <th class="text-center">Stok</th>
                             <th class="text-center">Jenis Barang</th>
                             <th class="text-center">Satuan</th>
+                            <th class="text-center">Harga</th>
                             <th class="text-center">Barcode</th>
                         </tr>
                         <tr>
@@ -225,6 +233,7 @@
                             <td class="text-center">${response.data.stok}</td>
                             <td class="text-center">${response.data.jenisbarang}</td>
                             <td class="text-center">${response.data.satuan}</td>
+                            <td class="text-center">Rp ${response.data.harga.toLocaleString('id-ID')}</td>
                             <td class="text-center">${response.data.code_barang}</td>
                         </tr>
                         </table>`;

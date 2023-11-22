@@ -40,8 +40,43 @@
                     <div class="card-body">
                         <table id="datatables" class="table table-bordered table-striped">
                             <thead>
+                                <tr class="text-center">
+                                    <th width="50px">No</th>
+                                    <th>Kode <br> Pengajuan</th>
+                                    <th>Tanggal</th>
+                                    <th>Unit</th>
+                                    <th>Penerima</th>
+                                    <th>Menyerahkan</th>
+                                    <th width="100px">Aksi</th>
+                                </tr>
                             </thead>
                             <tbody id="add_new">
+                                @php $no = 1 @endphp
+                                @forelse ($datapengadaanbarang as $item)
+                                <tr class="text-center">
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->kode_transaksi }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($item->tgl_transaksi)) }}</td>
+                                    <td>{{ $item->user->unit->nama_unit }}</td>
+                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->yang_menyerahkan }}</td>
+                                    <td>
+                                        <a href="{{ route('show-datapengadaanbarang', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('edit-cek-datapengadaanbarang', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @empty
+                                <div class="alert alert-danger">
+                                    Data Pengadaan Barang belum Tersedia.
+                                </div>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

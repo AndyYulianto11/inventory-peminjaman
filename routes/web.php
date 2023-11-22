@@ -104,8 +104,13 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::put('/update-cek-dataasetunit/{id}', [DataasetunitController::class, 'update'])->name('update-cek-dataasetunit');
     Route::get('/cetak-dataasetunit/{id}', [DataasetunitController::class, 'cetak'])->name('cetak-dataasetunit');
 
-    // Data Aset Unit
+    // Data Pengadaan Barang
     Route::get('/cek-datapengadaanbarang', [DatapengadaanbarangController::class, 'index'])->name('cek-datapengadaanbarang');
+    Route::get('/show-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'show'])->name('show-datapengadaanbarang');
+    Route::get('/edit-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'edit'])->name('edit-cek-datapengadaanbarang');
+    Route::put('/update-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'update'])->name('update-cek-datapengadaanbarang');
+
+    Route::get('/cetak-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'cetak'])->name('cetak-datapengadaanbarang');
 
 });
 

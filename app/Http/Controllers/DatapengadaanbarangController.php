@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataPengadaanBarang;
+use App\Models\ItemDataPengadaanBarang;
 use Illuminate\Http\Request;
 
 class DatapengadaanbarangController extends Controller
@@ -18,9 +20,9 @@ class DatapengadaanbarangController extends Controller
             'submenu' => 'data pengadaan barang',
         ];
 
-        // $dataasetunit = DataAsetUnit::all();
+        $datapengadaanbarang = DataPengadaanBarang::all();
 
-        return view('admin.data_pengadaan_barang.index', compact('data'));
+        return view('admin.data_pengadaan_barang.index', compact('data', 'datapengadaanbarang'));
     }
 
     /**
@@ -52,7 +54,16 @@ class DatapengadaanbarangController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Data Pengadaan Barang',
+            'submenu' => 'data pengadaan barang',
+        ];
+
+        $datapengadaanbarang = DataPengadaanBarang::find($id);
+        $itemDatapengadaanbarang = ItemDataPengadaanBarang::where('datapengadaanbarang_id', $datapengadaanbarang->id)->get();
+
+        // dd($itemDatapengadaanbarang);
+        return view('admin.data_pengadaan_barang.show', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
 
     /**
@@ -63,7 +74,15 @@ class DatapengadaanbarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Data Pengadaan Barang',
+            'submenu' => 'data pengadaan barang',
+        ];
+
+        $datapengadaanbarang = DataPengadaanBarang::find($id);
+        $itemDatapengadaanbarang = ItemDataPengadaanBarang::where('datapengadaanbarang_id', $datapengadaanbarang->id)->get();
+
+        return view('admin.data_pengadaan_barang.edit', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
 
     /**
@@ -75,7 +94,24 @@ class DatapengadaanbarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'kondisi_barang' => 'required',
+            ]);
+
+            $getDataPengaju = DataPengadaanBarang::findOrFail($id);
+
+            $post = ItemDataPengadaanBarang::where('datapengadaanbarang_id', $getDataPengaju->id)->get();
+
+            foreach ($post as $key => $value) {
+                $value->kondisi_barang = $request->kondisi_barang[$key];
+                $value->save();
+            }
+
+            return response()->json(['status' => 'success', 'message' => 'Data berhasil diubah!']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 
     /**

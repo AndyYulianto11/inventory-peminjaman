@@ -60,6 +60,7 @@ class DatabarangController extends Controller
                 'jenis_id' => 'required',
                 'stok' => 'required',
                 'satuan_id' => 'required',
+                'harga' => 'required',
             ]);
 
             $post = Databarang::create([
@@ -68,6 +69,7 @@ class DatabarangController extends Controller
                 'jenis_id' => $request->jenis_id,
                 'stok' => $request->stok,
                 'satuan_id' => $request->satuan_id,
+                'harga' => $request->harga,
             ]);
 
             HistoryStokBarang::create([
@@ -144,6 +146,7 @@ class DatabarangController extends Controller
                 'jenis_id' => 'required',
                 'stok' => 'required',
                 'satuan_id' => 'required',
+                'harga' => 'required',
             ]);
 
             $post = Databarang::findOrFail($id);
@@ -154,9 +157,10 @@ class DatabarangController extends Controller
                 'jenis_id' => $request->jenis_id,
                 'stok' => $request->stok,
                 'satuan_id' => $request->satuan_id,
+                'harga' => $request->harga,
             ]);
 
-            return redirect('databarang')->with('success', 'Data berhasil ditambahkan!');
+            return redirect('databarang')->with('success', 'Data berhasil diupdate!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

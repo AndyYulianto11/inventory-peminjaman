@@ -162,30 +162,28 @@ class AdminpengajuController extends Controller
 
     public function prosesInsert($id)
     {
-        $dataA = Datapengaju::find($id); // Ambil data dari tabel A berdasarkan ID
+        $dataA = Datapengaju::find($id);
 
         if (!$dataA) {
             return response()->json(['error' => 'Data not found'], 404);
         }
-        // Mendapatkan data user yang sudah login
+
         $user = Auth::user();
 
+        // Memproses ItemDataPengaju yang terkait dengan $id yang sedang diproses
         $datapengajuIds = ItemDataPengaju::where('datapengaju_id', $dataA->id)->pluck('id')->toArray();
-
-        // $dataB = ItemDataPengaju::whereIn('datapengaju_id', $dataA->id)->get();
         $dataB = ItemDataPengaju::whereIn('id', $datapengajuIds)->get();
 
         foreach ($dataB as $value) {
-            // Ambil nilai selisih dari tabel item_data_pengaju
             $selisihStok = $value->selisih;
 
             if ($selisihStok === 0) {
-                $header = DataAsetUnit::create([
+                // Jika selisih adalah 0, masukkan data ke DataAsetUnit dan ItemDataAsetUnit
+                $header = DataAsetUnit::firstOrCreate([
                     'kode_transaksi' => $dataA->code_pengajuan,
                     'tgl_transaksi' => $dataA->tgl_pengajuan,
                     'user_id' => $dataA->user_id,
                     'yang_menyerahkan' => $user->name,
-                    // Tambahkan kolom lain yang sesuai
                 ]);
 
                 ItemDataAsetUnit::create([
@@ -194,13 +192,12 @@ class AdminpengajuController extends Controller
                     'qty' => $value->qty,
                 ]);
             } else {
-
-                $headerPengadaan = DataPengadaanBarang::create([
+                // Jika selisih bukan 0, masukkan data ke DataPengadaanBarang dan ItemDataPengadaanBarang
+                $headerPengadaan = DataPengadaanBarang::firstOrCreate([
                     'kode_transaksi' => $dataA->code_pengajuan,
                     'tgl_transaksi' => $dataA->tgl_pengajuan,
                     'user_id' => $dataA->user_id,
                     'yang_menyerahkan' => $user->name,
-                    // Tambahkan kolom lain yang sesuai
                 ]);
 
                 ItemDataPengadaanBarang::create([

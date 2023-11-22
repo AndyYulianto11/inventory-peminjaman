@@ -132,12 +132,13 @@
                                             <td>{{ $item->barang->nama_barang }}</td>
                                             <td class="text-center">{{ $item->qty }}</td>
                                             <td class="text-center">{{ $item->barang->stok }}</td>
-                                            
-                                            @if ($item->barang->stok > $item->qty)
+
+                                            {{-- @if ($item->barang->stok > $item->qty)
                                                 <td class="text-center">0</td>
-                                            @elseif ($item->barang->stok < $item->qty)
-                                                <td class="text-center">{{ $item->selisih }}</td>
-                                            @endif
+                                            @elseif ($item->barang->stok < $item->qty) --}}
+                                                {{-- absolute -> mengabaikan nilai positif atau negatif --}}
+                                                <td class="text-center">{{ abs($item->selisih) }}</td>
+                                            {{-- @endif --}}
 
                                             <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                             <td class="text-center">

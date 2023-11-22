@@ -111,9 +111,10 @@ class BarangmasukController extends Controller
                     'created_at' => Carbon::now(),
                 ]);
 
-                // Update otomatis stok data barang
+                // Update otomatis stok data barang & replace harga
                 $barang = $barangs->where('id', $value)->first();
                 $barang->stok += $qty[$key];
+                $barang->harga = $harga[$key];
                 $barang->save();
 
                 // Record history stok data barang

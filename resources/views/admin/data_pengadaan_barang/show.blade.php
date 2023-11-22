@@ -80,6 +80,8 @@
                                 <th class="text-center">Nama Barang</th>
                                 <th class="text-center">Qty</th>
                                 <th class="text-center">Satuan</th>
+                                <th class="text-center">Harga</th>
+                                <th class="text-center">Jumlah</th>
                             </tr>
                             @php $no = 1 @endphp
                             @forelse ($itemDatapengadaanbarang as $item)
@@ -89,6 +91,8 @@
                                 <td>{{ $item->barang->nama_barang }}</td>
                                 <td class="text-center">{{ $item->qty }}</td>
                                 <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
+                                <td class="text-center">Rp {{ number_format($item->barang->harga, 0, ',', '.') }}</td>
+                                <td class="text-center">Rp {{ number_format($item->qty * $item->barang->harga, 0, ',', '.') }}</td>
                             </tr>
                             @empty
                             <tr>Kosong.</tr>

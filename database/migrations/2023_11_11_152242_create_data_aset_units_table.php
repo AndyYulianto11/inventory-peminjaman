@@ -20,7 +20,7 @@ class CreateDataAsetUnitsTable extends Migration
             $table->foreignId('user_id');
             $table->string('yang_menyerahkan');
             $table->string('upload_dokumen_serahterima')->nullable();
-            $table->boolean('status');
+            $table->boolean('status')->nullable();
             $table->timestamps();
         });
     }

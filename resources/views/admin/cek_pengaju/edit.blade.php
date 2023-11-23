@@ -153,6 +153,10 @@
                                                         {{ '1' == $item->status_persetujuanadmin ? 'selected' : '' }}>
                                                         Sebagian Diserahterimakan
                                                     </option>
+                                                    <option value="2"
+                                                        {{ '2' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Tidak Ready
+                                                    </option>
                                                 </select>
                                             </td>
                                             <td class="text-center">

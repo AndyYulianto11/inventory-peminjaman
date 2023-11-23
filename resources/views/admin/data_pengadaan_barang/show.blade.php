@@ -84,6 +84,9 @@
                                 <th class="text-center">Jumlah</th>
                             </tr>
                             @php $no = 1 @endphp
+                            @php
+                                $grandTotal = 0; // Inisialisasi grand total
+                            @endphp
                             @forelse ($itemDatapengadaanbarang as $item)
                             <tr>
                                 <td class="text-center">{{ $no++ }}</td>
@@ -94,9 +97,17 @@
                                 <td class="text-center">Rp {{ number_format($item->barang->harga, 0, ',', '.') }}</td>
                                 <td class="text-center">Rp {{ number_format($item->qty * $item->barang->harga, 0, ',', '.') }}</td>
                             </tr>
+                            <!-- Hitung grand total -->
+                            @php
+                                $grandTotal += $item->qty * $item->barang->harga;
+                            @endphp
                             @empty
                             <tr>Kosong.</tr>
                             @endforelse
+                            <tr>
+                                    <th colspan="6" style="text-align: right;">Grand Total : </th>
+                                    <td class="text-right">Rp {{ number_format($grandTotal, 0, ',', '.') }}</td>
+                                </tr>
                         </table>
                         <br><br>
                         <div class="form-group">

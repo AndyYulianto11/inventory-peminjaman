@@ -193,15 +193,15 @@ class AdminpengajuController extends Controller
                 ]);
             } else {
                 // Jika selisih bukan 0, masukkan data ke DataPengadaanBarang dan ItemDataPengadaanBarang
-                $headerPengadaan = DataPengadaanBarang::firstOrCreate([
-                    'kode_transaksi' => $dataA->code_pengajuan,
-                    'tgl_transaksi' => $dataA->tgl_pengajuan,
-                    'user_id' => $dataA->user_id,
-                    'yang_menyerahkan' => $user->name,
-                ]);
+                // $headerPengadaan = DataPengadaanBarang::firstOrCreate([
+                //     'kode_transaksi' => $dataA->code_pengajuan,
+                //     'tgl_transaksi' => $dataA->tgl_pengajuan,
+                //     'user_id' => $dataA->user_id,
+                //     'yang_menyerahkan' => $user->name,
+                // ]);
 
                 ItemDataPengadaanBarang::create([
-                    'datapengadaanbarang_id' => $headerPengadaan->id,
+                    'datapengadaanbarang_id' => $value->id,
                     'barang_id' => $value->barang_id,
                     'qty' => $value->qty,
                 ]);

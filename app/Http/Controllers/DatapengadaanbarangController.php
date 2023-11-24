@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataPengadaanBarang;
 use App\Models\ItemDataPengadaanBarang;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DatapengadaanbarangController extends Controller
@@ -32,7 +33,13 @@ class DatapengadaanbarangController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'subjudul' => 'Transaksi Pengadaan Barang',
+            'submenu' => 'transaksi pengadaan barang',
+        ];
+        $currentDateTime = Carbon::now();
+
+        return view('admin.data_pengadaan_barang.create', compact('data', 'currentDateTime'));
     }
 
     /**
@@ -123,5 +130,19 @@ class DatapengadaanbarangController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDataByDate(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        // Query untuk mengambil data berdasarkan filter tanggal
+        $filteredData = ItemDataPengadaanBarang::with('barang.satuan')
+                                                ->where('status', '1')
+                                                ->whereBetween('created_at', [$start_date, $end_date]) 
+                                                ->get();
+
+        return response()->json(['filteredData' => $filteredData]);
     }
 }

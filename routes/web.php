@@ -106,11 +106,14 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 
     // Data Pengadaan Barang
     Route::get('/cek-datapengadaanbarang', [DatapengadaanbarangController::class, 'index'])->name('cek-datapengadaanbarang');
+    Route::get('/create-datapengadaanbarang', [DatapengadaanbarangController::class, 'create'])->name('create-datapengadaanbarang');
     Route::get('/show-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'show'])->name('show-datapengadaanbarang');
     Route::get('/edit-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'edit'])->name('edit-cek-datapengadaanbarang');
     Route::put('/update-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'update'])->name('update-cek-datapengadaanbarang');
 
     Route::get('/cetak-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'cetak'])->name('cetak-datapengadaanbarang');
+    Route::get('/get-data-by-date', [DatapengadaanbarangController::class, 'getDataByDate']);
+
 
 });
 

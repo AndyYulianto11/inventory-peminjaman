@@ -34,6 +34,11 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">{{ $data['subjudul'] }}</h3>
+
+                        <div class="card-tools">
+                            <a href="{{ route('create-datapengadaanbarang') }}" type="button" class="btn btn-tool"><i class="fas fa-plus"></i> Add Data
+                            </a>
+                        </div>
                         <!-- /.card-tools -->
                     </div>
                     <!-- /.card-header -->

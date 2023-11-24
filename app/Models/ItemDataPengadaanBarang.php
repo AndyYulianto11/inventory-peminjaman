@@ -24,4 +24,9 @@ class ItemDataPengadaanBarang extends Model
     {
         return $this->belongsTo(Databarang::class, 'barang_id');
     }
+
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class, 'satuan_id', 'id');
+    }
 }

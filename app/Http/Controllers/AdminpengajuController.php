@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DataAsetUnit;
 use App\Models\Databarang;
-use App\Models\DataPengadaanBarang;
 use App\Models\Datapengaju;
 use App\Models\HistoryStokBarang;
 use App\Models\ItemDataAsetUnit;
@@ -122,7 +121,12 @@ class AdminpengajuController extends Controller
 
                 // Update otomatis stok data barang
                 $barang = $barangs->where('id', $value->barang_id)->first();
-                $barang->stok -= $qty[$key];
+                $qtyToReduce = $qty[$key];
+                if ($barang->stok >= $qtyToReduce) {
+                    $barang->stok -= $qtyToReduce;
+                } else {
+                    $barang->stok = 0;
+                }
                 $barang->save();
 
                 // Hitung dan simpan selisih
@@ -171,6 +175,7 @@ class AdminpengajuController extends Controller
         $user = Auth::user();
 
         // Memproses ItemDataPengaju yang terkait dengan $id yang sedang diproses
+
         $datapengajuIds = ItemDataPengaju::where('datapengaju_id', $dataA->id)->pluck('id')->toArray();
         $dataB = ItemDataPengaju::whereIn('id', $datapengajuIds)->get();
 
@@ -179,6 +184,7 @@ class AdminpengajuController extends Controller
 
             if ($selisihStok === 0) {
                 // Jika selisih adalah 0, masukkan data ke DataAsetUnit dan ItemDataAsetUnit
+
                 $header = DataAsetUnit::firstOrCreate([
                     'kode_transaksi' => $dataA->code_pengajuan,
                     'tgl_transaksi' => $dataA->tgl_pengajuan,
@@ -193,6 +199,7 @@ class AdminpengajuController extends Controller
                 ]);
             } else {
                 // Jika selisih bukan 0, masukkan data ke DataPengadaanBarang dan ItemDataPengadaanBarang
+
                 // $headerPengadaan = DataPengadaanBarang::firstOrCreate([
                 //     'kode_transaksi' => $dataA->code_pengajuan,
                 //     'tgl_transaksi' => $dataA->tgl_pengajuan,
@@ -201,9 +208,9 @@ class AdminpengajuController extends Controller
                 // ]);
 
                 ItemDataPengadaanBarang::create([
-                    'datapengadaanbarang_id' => $value->id,
                     'barang_id' => $value->barang_id,
                     'qty' => $value->qty,
+                    'status' => 1,
                 ]);
             }
         }

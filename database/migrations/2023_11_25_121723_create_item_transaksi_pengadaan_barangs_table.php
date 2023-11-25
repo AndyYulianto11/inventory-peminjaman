@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemDataPengadaanBarangsTable extends Migration
+class CreateItemTransaksiPengadaanBarangsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateItemDataPengadaanBarangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_data_pengadaan_barangs', function (Blueprint $table) {
+        Schema::create('item_transaksi_pengadaan_barangs', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('datapengadaanbarang_id');
+            $table->foreignId('transaksipengadaanbarang_id');
             $table->foreignId('barang_id');
             $table->double('qty');
-            // 0 = barang sudah diajukan, 1 = barang baru belum diajukan,
-            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateItemDataPengadaanBarangsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_data_pengadaan_barangs');
+        Schema::dropIfExists('item_transaksi_pengadaan_barangs');
     }
 }

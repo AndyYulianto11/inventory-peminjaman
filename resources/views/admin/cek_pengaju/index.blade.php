@@ -98,7 +98,7 @@
                                         <button class="btn btn-danger btn-sm btn-flat btnDelete">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                        <button class="btn btn-info btn-sm btn-flat insertData" data-id="{{$item->id}}" title="Proses Data">
+                                        <button class="btn btn-info btn-sm btn-flat insertData" data-id="{{ $item->id }}" title="Proses Data">
                                             <i class="fas fa-share"></i>
                                         </button>
                                     </td>

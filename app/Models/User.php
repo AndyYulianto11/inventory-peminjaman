@@ -17,7 +17,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'unit_id', 'last_seen',
+        'name',
+        'email',
+        'password',
+        'role',
+        'unit_id',
+        'last_seen',
     ];
 
     /**
@@ -56,5 +61,10 @@ class User extends Authenticatable
     public function dataasetunits()
     {
         return $this->hasMany(DataAsetUnit::class);
+    }
+
+    public function transaksipengadaanbarangs()
+    {
+        return $this->hasMany(TransaksiPengadaanBarang::class);
     }
 }

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ItemDataPengadaanBarang extends Model
+class ItemTransaksiPengadaanBarang extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'transaksipengadaanbarang_id',
         'barang_id',
-        'qty',
-        'status'
+        'qty'
     ];
 
     public function barang()
@@ -20,8 +20,8 @@ class ItemDataPengadaanBarang extends Model
         return $this->belongsTo(Databarang::class, 'barang_id');
     }
 
-    public function satuan()
+    public function transaksipengadaanbarang()
     {
-        return $this->belongsTo(Satuan::class, 'satuan_id', 'id');
+        return $this->belongsTo(TransaksiPengadaanBarang::class, 'transaksipengadaanbarang_id');
     }
 }

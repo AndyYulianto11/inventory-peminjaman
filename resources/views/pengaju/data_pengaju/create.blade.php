@@ -47,7 +47,7 @@
                             <form id="modal-form">
 
                                 <div class="form-group row">
-                                    <label for="kode_nota" class="col-sm-2 col-form-label">Kode Pengajuan</label>
+                                    <label for="code_pengajuan" class="col-sm-2 col-form-label">Kode Pengajuan</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="code_pengajuan" name="code_pengajuan"
                                         value="{{ $codePengajuan }}" readonly>
@@ -62,7 +62,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="kode_nota" class="col-sm-2 col-form-label">Nama Pengaju</label>
+                                    <label for="user" class="col-sm-2 col-form-label">Nama Pengaju</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="user" name="user"
                                             value="{{ Auth::user()->name }}" readonly>
@@ -70,7 +70,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="kode_nota" class="col-sm-2 col-form-label">Unit</label>
+                                    <label for="unit" class="col-sm-2 col-form-label">Unit</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="unit" name="unit"
                                             value="{{ Auth::user()->unit->kode_unit }} / {{ Auth::user()->unit->nama_unit }}"

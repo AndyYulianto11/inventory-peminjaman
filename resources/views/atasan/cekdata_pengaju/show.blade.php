@@ -162,6 +162,7 @@
                                             <td class="text-center">
                                                 <select name="status_persetujuanatasan[]" id="status_persetujuanatasan"
                                                     class="form-control">
+                                                    <option value="" selected disabled>--Pilih Status--</option>
                                                     <option value="1"
                                                         {{ '1' == $item->status_persetujuanatasan ? 'selected' : '' }}>
                                                         Disetujui</option>

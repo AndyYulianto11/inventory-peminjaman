@@ -47,11 +47,11 @@
                             <thead>
                                 <tr class="text-center">
                                     <th width="50px">No</th>
-                                    <th>Kode <br> Pengajuan</th>
+                                    <th>Kode <br> Transaksi</th>
                                     <th>Tanggal</th>
-                                    <th>Unit</th>
-                                    <th>Penerima</th>
-                                    <th>Menyerahkan</th>
+                                    <th>Nama Transaksi</th>
+                                    <th>Admin</th>
+                                    <th>Status</th>
                                     <th width="100px">Aksi</th>
                                 </tr>
                             </thead>
@@ -62,9 +62,25 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->kode_transaksi }}</td>
                                     <td>{{ date('d-m-Y', strtotime($item->tgl_transaksi)) }}</td>
-                                    <td>{{ $item->user->unit->nama_unit }}</td>
+                                    <td>{{ $item->nama_transaksi }}</td>
                                     <td>{{ $item->user->name }}</td>
-                                    <td>{{ $item->yang_menyerahkan }}</td>
+                                    <td>
+                                    @if ($item->status_transaksi == '0')
+                                    <span class="badge bg-primary">Diajukan</span>
+                                    @elseif ($item->status_transaksi == '1')
+                                    <span class="badge bg-warning">Draft</span>
+                                    @elseif ($item->status_transaksi == '2')
+                                    <span class="badge bg-success">Disetujui</span>
+                                    @elseif ($item->status_transaksi == '3')
+                                    <span class="badge bg-danger">Direvisi</span>
+                                    @elseif ($item->status_transaksi == '4')
+                                    <span class="badge bg-danger">Ditolak</span>
+                                    @elseif ($item->status_transaksi == '5')
+                                    <span class="badge bg-secondary">Dipending</span>
+                                    @else
+                                    -
+                                    @endif
+                                    </td>
                                     <td>
                                         <a href="{{ route('show-datapengadaanbarang', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                             <i class="fas fa-eye"></i>

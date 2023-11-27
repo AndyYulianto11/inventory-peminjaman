@@ -45,9 +45,14 @@
                     <div class="card-body">
                         <table>
                             <tr>
-                                <td width="200">Kode Pengajuan</td>
+                                <td width="200">Kode Transaksi</td>
                                 <td width="50">:</td>
                                 <td>{{ $datapengadaanbarang->kode_transaksi }}</td>
+                            </tr>
+                            <tr>
+                                <td>Nama Transaksi</td>
+                                <td>:</td>
+                                <td>{{ $datapengadaanbarang->nama_transaksi }}</td>
                             </tr>
                             <tr>
                                 <td>Tanggal</td>
@@ -55,19 +60,35 @@
                                 <td>{{ date('d-m-Y', strtotime($datapengadaanbarang->tgl_transaksi)) }}</td>
                             </tr>
                             <tr>
+                                <td>Admin</td>
+                                <td>:</td>
+                                <td>{{ $datapengadaanbarang->user->name }}</td>
+                            </tr>
+                            <tr>
                                 <td>Unit</td>
                                 <td>:</td>
                                 <td>{{ $datapengadaanbarang->user->unit->nama_unit }}</td>
                             </tr>
                             <tr>
-                                <td>Nama Penerima</td>
+                                <td>Status Transaksi</td>
                                 <td>:</td>
-                                <td>{{ $datapengadaanbarang->user->name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Menyerahkan</td>
-                                <td>:</td>
-                                <td>{{ $datapengadaanbarang->yang_menyerahkan }}</td>
+                                <td>
+                                    @if ($datapengadaanbarang->status_transaksi == '0')
+                                    <span class="badge bg-primary">Diajukan</span>
+                                    @elseif ($datapengadaanbarang->status_transaksi == '1')
+                                    <span class="badge bg-warning">Draft</span>
+                                    @elseif ($datapengadaanbarang->status_transaksi == '2')
+                                    <span class="badge bg-success">Disetujui</span>
+                                    @elseif ($datapengadaanbarang->status_transaksi == '3')
+                                    <span class="badge bg-danger">Direvisi</span>
+                                    @elseif ($datapengadaanbarang->status_transaksi == '4')
+                                    <span class="badge bg-danger">Ditolak</span>
+                                    @elseif ($datapengadaanbarang->status_transaksi == '5')
+                                    <span class="badge bg-secondary">Dipending</span>
+                                    @else
+                                    -
+                                    @endif
+                                </td>
                             </tr>
                         </table>
 

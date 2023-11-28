@@ -10,6 +10,7 @@ use App\Http\Controllers\DatapengadaanbarangController;
 use App\Http\Controllers\DatapengajuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisbarangController;
+use App\Http\Controllers\KepalaController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\RektorController;
 use App\Http\Controllers\SatuanController;
@@ -187,5 +188,12 @@ Route::middleware(['auth', 'checkrole:keuangan'])->group(function () {
 Route::middleware(['auth', 'checkrole:rektor'])->group(function () {
     // Home User Keuangan
     Route::get('/rektor', [RektorController::class, 'index'])->name('rektor');
+
+});
+
+Route::middleware(['auth', 'checkrole:kepalagudang'])->group(function () {
+    // Data Pengadaan Barang
+    Route::get('/cek-datapengadaan', [KepalaController::class, 'index'])->name('cek-datapengadaan');
+    Route::get('/show-cek-datapengadaan/{id}', [KepalaController::class, 'show'])->name('show-datapengadaan');
 
 });

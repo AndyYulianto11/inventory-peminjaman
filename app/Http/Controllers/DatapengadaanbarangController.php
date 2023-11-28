@@ -223,6 +223,19 @@ class DatapengadaanbarangController extends Controller
         //
     }
 
+    public function cetak($id)
+    {
+        $data = [
+            'subjudul' => 'Data Pengadaan Barang',
+            'submenu' => 'data pengadaan barang',
+        ];
+
+        $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+
+        return view('admin.data_pengadaan_barang.cetak', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
+    }
+
     public function getDataByDate(Request $request)
     {
         $start_date = $request->input('start_date');

@@ -62,7 +62,7 @@
                                     @forelse ($databarang as $item)
                                         <tr id="data{{ $item->id }}" class="{{ $item->stok <= 0 ? 'bg-danger' : '' }}">
                                             <td class="text-center">{{ $no++ }}</td>
-                                            <td>{!! DNS2D::getBarcodeHTML("$item->code_barang", 'QRCODE') !!}</td>
+                                            <td>{!! DNS1D::getBarcodeHTML("$item->code_barang", 'CODABAR') !!}</td>
                                             <td>{{ $item->nama_barang }}</td>
                                             <td>{{ $item->jenisbarang->jenisbarang }}</td>
                                             <td>{{ $item->stok }}</td>

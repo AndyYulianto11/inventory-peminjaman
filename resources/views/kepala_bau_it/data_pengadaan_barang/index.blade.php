@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Data Pengadaan Barang - Administrator')
+@section('title', 'Data Pengadaan Barang - Kepala BAU-IT')
 
 @section('css')
 
@@ -82,17 +82,9 @@
                                     @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('show-datapengadaanbarang', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
+                                        <a href="{{ route('show-datapengadaan', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        @if ($item->status_transaksi == 1)
-                                        <a href="{{ route('edit-cek-datapengadaanbarang', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-danger btn-sm btn-flat">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        @endif
                                     </td>
                                 </tr>
                                 @empty

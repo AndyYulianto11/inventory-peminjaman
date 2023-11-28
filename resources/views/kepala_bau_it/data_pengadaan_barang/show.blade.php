@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Detail Data Pengadaan Barang - Administrator')
+@section('title', 'Detail Data Pengadaan Barang - Kepala BAU-IT')
 
 @section('css')
 
@@ -132,7 +132,7 @@
                         </table>
                         <br><br>
                         <div class="form-group">
-                            <a href="/cek-datapengadaanbarang" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                            <a href="/cek-datapengadaan" class="btn btn-success btn-sm btn-flat">Kembali</a>
                         </div>
                     </div>
                     <!-- /.card-body -->

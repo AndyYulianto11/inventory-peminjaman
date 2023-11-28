@@ -23,16 +23,16 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        @if (Auth::user()->role == 'administrator' || Auth::user()->role == 'admingudang')
-                        <li class="nav-item">
+                        with font-awesome or any other icon font library -->
+                        <!-- <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-chart-line"></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
+                        @if (Auth::user()->role == 'administrator' || Auth::user()->role == 'admingudang')
                         <li class="nav-item">
                             <a href="#" class="nav-link {{ request()->is('jenisbarang') ? 'active' : '' || request()->is('satuan') ? 'active' : '' || request()->is('databarang') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-boxes"></i>
@@ -107,6 +107,17 @@
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>
                                     Barang Keluar
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Auth::user()->role == 'kepalagudang')
+                        <li class="nav-item">
+                            <a href="{{ route('cek-datapengadaan') }}" class="nav-link {{ request()->is('cek-datapengadaan*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-shopping-basket"></i>
+                                <p>
+                                    Data Pengadaan Barang
                                 </p>
                             </a>
                         </li>

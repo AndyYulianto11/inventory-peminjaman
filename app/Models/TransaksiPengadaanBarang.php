@@ -15,6 +15,7 @@ class TransaksiPengadaanBarang extends Model
         'tgl_transaksi',
         'user_id',
         'status_transaksi',
+        'status_pengajuan',
     ];
 
     public function user()

@@ -104,6 +104,10 @@ class DatapengadaanbarangController extends Controller
         ]);
 
         $barang_id = $request->barang_id;
+        $code_barang = $request->code_barang;
+        $nama_barang = $request->nama_barang;
+        $satuan = $request->satuan;
+        $harga = $request->harga;
         $qty = $request->qty;
 
         if ($validator->fails()) {
@@ -127,6 +131,10 @@ class DatapengadaanbarangController extends Controller
                 $data = ItemTransaksiPengadaanBarang::insert([
                     'transaksipengadaanbarang_id' => $header,
                     'barang_id' => $value,
+                    'code_barang' => $code_barang[$key],
+                    'nama_barang' => $nama_barang[$key],
+                    'satuan' => $satuan[$key],
+                    'harga' => $harga[$key],
                     'qty' => $qty[$key],
                     'created_at' => Carbon::now(),
                 ]);

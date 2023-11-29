@@ -12,6 +12,10 @@ class ItemTransaksiPengadaanBarang extends Model
     protected $fillable = [
         'transaksipengadaanbarang_id',
         'barang_id',
+        'code_barang',
+        'nama_barang',
+        'satuan',
+        'harga',
         'qty'
     ];
 

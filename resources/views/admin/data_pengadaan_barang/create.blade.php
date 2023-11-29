@@ -237,20 +237,24 @@
                                 <tr>
                                     <td class="text-center">
                                         ${item.barang.code_barang}
+                                        <input type="hidden" class="form-control" name="code_barang[]" value="${item.barang.code_barang}" id="code_barang_${item.barang.code_barang}" id="code_barang">
                                     </td>
                                     <td class="text-center">
                                         ${item.barang.nama_barang}
                                         <input type="hidden" class="form-control" name="barang_id[]" value="${item.barang.id}" id="barang_id_${item.barang.id}">
+                                        <input type="hidden" class="form-control" name="nama_barang[]" value="${item.barang.nama_barang}" id="nama_barang_${item.barang.nama_barang}" id="code_barang">
                                     </td>
                                     <td class="text-center">
                                         ${item.barang.satuan.satuan}
+                                        <input type="hidden" class="form-control" name="satuan[]" value="${item.barang.satuan.satuan}" id="satuan_${item.barang.satuan.satuan}" id="satuan">
                                     </td>
                                     <td class="text-center">
                                         ${item.qty}
-                                        <input type="hidden" class="form-control" name="qty[]" value="${item.id}" id="qty_${item.id}" id="qty">
+                                        <input type="hidden" class="form-control" name="qty[]" value="${item.qty}" id="qty_${item.qty}" id="qty">
                                     </td>
                                     <td class="text-center">
                                         ${formatRupiah(item.barang.harga)}
+                                        <input type="hidden" class="form-control" name="harga[]" value="${item.barang.harga}" id="harga_${item.barang.harga}" id="code_barang">
                                     </td>
                                     <td class="text-center">
                                         ${formatRupiah(item.qty * item.barang.harga)}

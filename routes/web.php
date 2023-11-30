@@ -114,8 +114,9 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::put('/update-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'update'])->name('update-cek-datapengadaanbarang');
 
     Route::get('/cetak-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'cetak'])->name('cetak-datapengadaanbarang');
+    Route::get('/get-item-data', [DatapengadaanbarangController::class, 'dataitem'])->name('get-item-data');
     Route::get('/get-data-by-date', [DatapengadaanbarangController::class, 'getDataByDate']);
-
+    Route::post('/delete-item/{id}', [DatapengadaanbarangController::class, 'deleteItem'])->name('delete-item');
 
 });
 

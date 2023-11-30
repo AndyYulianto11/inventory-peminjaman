@@ -187,6 +187,7 @@ class DatapengadaanbarangController extends Controller
 
         $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
         $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+        // dd($itemDatapengadaanbarang);
 
         return view('admin.data_pengadaan_barang.edit', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
@@ -201,24 +202,53 @@ class DatapengadaanbarangController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $this->validate($request, [
-                'kondisi_barang' => 'required',
+            // Update TransaksiPengadaanBarang model
+            $transaksi = TransaksiPengadaanBarang::findOrFail($id);
+            $transaksi->update([
+                'nama_transaksi' => $request->input('nama_transaksi'),
+                'status_transaksi' => $request->input('status_transaksi'),
             ]);
 
-            $getDataPengaju = TransaksiPengadaanBarang::findOrFail($id);
-
-            $post = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $getDataPengaju->id)->get();
-
-            foreach ($post as $key => $value) {
-                $value->kondisi_barang = $request->kondisi_barang[$key];
-                $value->save();
+            // Update or delete ItemTransaksiPengadaanBarang items
+            foreach ($request->input('items') as $item) {
+                if (isset($item['id'])) {
+                    // If the item has an ID, update it
+                    $itemModel = ItemTransaksiPengadaanBarang::findOrFail($item['id']);
+                    $itemModel->update($item);
+                } else {
+                    // If the item doesn't have an ID, create a new one
+                    $transaksi->items()->create($item);
+                }
             }
 
-            return response()->json(['status' => 'success', 'message' => 'Data berhasil diubah!']);
+            return redirect()->back()->with('success', 'Data transaksi berhasil diupdate');
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Terjadi kesalahan. ' . $e->getMessage());
         }
     }
+
+    public function deleteItem($id)
+    {
+        try {
+            // Find the item by ID and delete it
+            $item = ItemTransaksiPengadaanBarang::findOrFail($id);
+            $item->delete();
+
+            $relatedItem = ItemDataPengadaanBarang::where('barang_id', $item->barang_id)->first();
+
+            if ($relatedItem) {
+                $relatedItem->status = 1;
+                $relatedItem->save();
+            }
+
+            // Return a success response (you can customize the response as needed)
+            return response()->json(['success' => true, 'message' => 'Item deleted successfully']);
+        } catch (\Exception $e) {
+            // Return an error response (you can customize the response as needed)
+            return response()->json(['success' => false, 'message' => 'Error deleting item']);
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -242,6 +272,12 @@ class DatapengadaanbarangController extends Controller
         $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
 
         return view('admin.data_pengadaan_barang.cetak', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
+    }
+
+    public function dataitem(Request $request)
+    {
+        $itemdatapengadaanbarang = ItemDataPengadaanBarang::with('barang.satuan')->get();
+        return response()->json(['item_data' => $itemdatapengadaanbarang]);
     }
 
     public function getDataByDate(Request $request)

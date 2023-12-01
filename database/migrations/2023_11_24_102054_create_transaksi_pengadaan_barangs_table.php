@@ -14,7 +14,7 @@ class CreateTransaksiPengadaanBarangsTable extends Migration
     public function up()
     {
         Schema::create('transaksi_pengadaan_barangs', function (Blueprint $table) {
-            $table->bigInteger('id');
+            $table->bigInteger('id')->autoIncrement();
             $table->string('kode_transaksi')->unique();
             $table->string('nama_transaksi');
             $table->date('tgl_transaksi');

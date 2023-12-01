@@ -276,7 +276,8 @@ class DatapengadaanbarangController extends Controller
 
     public function dataitem(Request $request)
     {
-        $itemdatapengadaanbarang = ItemDataPengadaanBarang::with('barang.satuan')->get();
+        $itemdatapengadaanbarang = ItemDataPengadaanBarang::with('barang.satuan')->where('status', 1)->get();
+
         return response()->json(['item_data' => $itemdatapengadaanbarang]);
     }
 

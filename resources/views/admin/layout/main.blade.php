@@ -105,52 +105,52 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "paging": true,
-                "ordering": false,
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            // $("#example1").DataTable({
+            //     "responsive": true,
+            //     "lengthChange": true,
+            //     "autoWidth": false,
+            //     "paging": true,
+            //     "ordering": false,
+            // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
 
-        const ctx = document.getElementById('myChart');
+        // const ctx = document.getElementById('myChart');
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['September', 'Oktober', 'November', 'Desember'],
-                datasets: [{
-                    label: 'Grafik Barang Masuk Bulan Nov 2023',
-                    data: [0, 12, 7, 19],
-                    backgroundColor: [
-                        'rgba(153, 102, 255, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(153, 102, 255, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Grafik Barang Keluar Bulan Nov 2023',
-                    data: [0, 6, 10, 12],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                    ],
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        // new Chart(ctx, {
+        //     type: 'line',
+        //     data: {
+        //         labels: ['September', 'Oktober', 'November', 'Desember'],
+        //         datasets: [{
+        //             label: 'Grafik Barang Masuk Bulan Nov 2023',
+        //             data: [0, 12, 7, 19],
+        //             backgroundColor: [
+        //                 'rgba(153, 102, 255, 0.2)',
+        //             ],
+        //             borderColor: [
+        //                 'rgba(153, 102, 255, 1)',
+        //             ],
+        //             borderWidth: 3
+        //         },
+        //         {
+        //             label: 'Grafik Barang Keluar Bulan Nov 2023',
+        //             data: [0, 6, 10, 12],
+        //             backgroundColor: [
+        //                 'rgba(54, 162, 235, 0.2)',
+        //             ],
+        //             borderColor: [
+        //                 'rgba(54, 162, 235, 1)',
+        //             ],
+        //             borderWidth: 3
+        //         }]
+        //     },
+        //     options: {
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true
+        //             }
+        //         }
+        //     }
+        // });
     </script>
 
     @yield('js')

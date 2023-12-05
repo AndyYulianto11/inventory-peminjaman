@@ -201,6 +201,13 @@ class DatapengadaanbarangController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request);
+        $barang_id = $request->barang_id;
+        $code_barang = $request->code_barang;
+        $nama_barang = $request->nama_barang;
+        $satuan = $request->satuan;
+        $harga = $request->harga;
+        $qty = $request->qty;
         try {
             // Update TransaksiPengadaanBarang model
             $transaksi = TransaksiPengadaanBarang::findOrFail($id);
@@ -210,15 +217,29 @@ class DatapengadaanbarangController extends Controller
             ]);
 
             // Update or delete ItemTransaksiPengadaanBarang items
-            foreach ($request->input('items') as $item) {
-                if (isset($item['id'])) {
-                    // If the item has an ID, update it
-                    $itemModel = ItemTransaksiPengadaanBarang::findOrFail($item['id']);
-                    $itemModel->update($item);
-                } else {
-                    // If the item doesn't have an ID, create a new one
-                    $transaksi->items()->create($item);
-                }
+            foreach ($barang_id as $key => $value) {
+                $data = ItemTransaksiPengadaanBarang::insert([
+                    'transaksipengadaanbarang_id' => $id,
+                    'barang_id' => $value,
+                    'code_barang' => $code_barang[$key],
+                    'nama_barang' => $nama_barang[$key],
+                    'satuan' => $satuan[$key],
+                    'harga' => $harga[$key],
+                    'qty' => $qty[$key],
+                    'created_at' => Carbon::now(),
+                ]);
+                // $getData = ItemDataPengadaanBarang::whereIn('barang_id', $barang_id)->get();
+                $barang = ItemDataPengadaanBarang::where('barang_id', $value)->first();
+                $barang->status = 0;
+                $barang->save();
+                // if (isset($item['id'])) {
+                //     // If the item has an ID, update it
+                //     $itemModel = ItemTransaksiPengadaanBarang::findOrFail($item['id']);
+                //     $itemModel->update($item);
+                // } else {
+                //     // If the item doesn't have an ID, create a new one
+                //     $transaksi->items()->create($item);
+                // }
             }
 
             return redirect()->back()->with('success', 'Data transaksi berhasil diupdate');

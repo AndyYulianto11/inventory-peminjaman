@@ -34,7 +34,8 @@
                         </li> -->
                         @if (Auth::user()->role == 'administrator' || Auth::user()->role == 'admingudang')
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ request()->is('jenisbarang') ? 'active' : '' || request()->is('satuan') ? 'active' : '' || request()->is('databarang') ? 'active' : '' }}">
+                            {{-- <a href="#" class="nav-link {{ request()->is('jenisbarang') ? 'active' : '' || request()->is('satuan') ? 'active' : '' || request()->is('databarang') ? 'active' : '' }}"> --}}
+                                <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-boxes"></i>
                                 <p>
                                     Master Barang

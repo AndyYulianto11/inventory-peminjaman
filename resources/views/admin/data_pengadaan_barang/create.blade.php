@@ -408,7 +408,7 @@
 
             // Event listener untuk tombol filter
             $('#filter_btn_modal').click(function() {
-                getDataByDateRange();
+                getDataByDateRange(); 
             });
 
             // Tombol Hapus diklik

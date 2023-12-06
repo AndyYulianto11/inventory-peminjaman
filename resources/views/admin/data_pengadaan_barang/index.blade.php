@@ -89,7 +89,7 @@
                                         <a href="{{ route('edit-cek-datapengadaanbarang', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a href="#" class="btn btn-danger btn-sm btn-flat">
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat hapus" data-id="{{ $item->id }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                         @endif
@@ -148,5 +148,35 @@
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
     });
+    $('.hapus').on('click', function(){
+        let id = $(this).data('id');
+        console.log(id)
+        Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Data item akan dihapus.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send an AJAX request to delete the item
+                    $.ajax({
+                        type: 'POST',
+                        url: '/delete-pengadaan/' + id,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                        },
+                        success: function(response) {
+                            window.location.reload()
+                        },
+                        error: function(err) {
+                            // Show an error message using SweetAlert
+                            Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                        }
+                    });
+                }
+            });
+    })
 </script>
 @endsection

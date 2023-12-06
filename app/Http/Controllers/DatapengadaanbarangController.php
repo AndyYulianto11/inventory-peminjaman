@@ -280,6 +280,14 @@ class DatapengadaanbarangController extends Controller
     public function destroy($id)
     {
         //
+        $transaksi = TransaksiPengadaanBarang::findOrFail($id);
+        $details = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $id)->get();
+        foreach ($details as $val){
+            ItemDataPengadaanBarang::where('barang_id', $val->barang_id)->update(['status' =>1]);
+        }
+        ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $id)->delete();
+        $transaksi->delete();
+            
     }
 
     public function cetak($id)

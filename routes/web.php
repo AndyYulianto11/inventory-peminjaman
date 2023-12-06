@@ -117,6 +117,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/get-item-data', [DatapengadaanbarangController::class, 'dataitem'])->name('get-item-data');
     Route::get('/get-data-by-date', [DatapengadaanbarangController::class, 'getDataByDate']);
     Route::post('/delete-item/{id}', [DatapengadaanbarangController::class, 'deleteItem'])->name('delete-item');
+    Route::post('/delete-pengadaan/{id}', [DatapengadaanbarangController::class, 'destroy'])->name('delete-pengadaan');
 
 });
 

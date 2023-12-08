@@ -185,10 +185,15 @@ Route::middleware(['auth', 'checkrole:keuangan'])->group(function () {
     // Home User Keuangan
     Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
 
+    // Data Pengadaan Barang
+    Route::get('/cek-datatransaksipengadaan', [KeuanganController::class, 'datatransaksipengadaan'])->name('cek-datatransaksipengadaan');
+    Route::get('/show-cek-datatransaksipengadaan/{id}', [KeuanganController::class, 'show'])->name('show-datatransaksipengadaan');
+    Route::get('/cetak-datatransaksipengadaan/{id}', [KeuanganController::class, 'cetak'])->name('cetak-datatransaksipengadaan');
+
 });
 
 Route::middleware(['auth', 'checkrole:rektor'])->group(function () {
-    // Home User Keuangan
+    // Home User Rektor
     Route::get('/rektor', [RektorController::class, 'index'])->name('rektor');
 
 });

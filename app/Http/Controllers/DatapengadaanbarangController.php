@@ -146,7 +146,7 @@ class DatapengadaanbarangController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Barang masuk berhasil ditambahkan',
+                'message' => 'Transaksi Pengadaan berhasil ditambahkan',
                 'data' => $data
             ]);
         }
@@ -242,7 +242,7 @@ class DatapengadaanbarangController extends Controller
                 // }
             }
 
-            return redirect()->back()->with('success', 'Data transaksi berhasil diupdate');
+            return redirect()->back()->with('success', 'Transaksi Pengadaan berhasil diupdate');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan. ' . $e->getMessage());
         }

@@ -235,7 +235,7 @@
                     // console.log(response);
                     Swal.fire({
                         title: 'Success!',
-                        text: 'Form successfully submitted!',
+                        text: 'Transaksi Pengadaan berhasil diupdate',
                         icon: 'success'
                     }).then(() => {
                         window.location.href = "{{ route('cek-datapengadaanbarang') }}";

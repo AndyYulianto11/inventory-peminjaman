@@ -24,15 +24,15 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
-                        <!-- <li class="nav-item">
+                        @if (Auth::user()->role == 'administrator' || Auth::user()->role == 'admingudang')
+                        <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-chart-line"></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
-                        </li> -->
-                        @if (Auth::user()->role == 'administrator' || Auth::user()->role == 'admingudang')
+                        </li>
                         <li class="nav-item">
                             {{-- <a href="#" class="nav-link {{ request()->is('jenisbarang') ? 'active' : '' || request()->is('satuan') ? 'active' : '' || request()->is('databarang') ? 'active' : '' }}"> --}}
                                 <a href="#" class="nav-link ">
@@ -114,6 +114,14 @@
                         @endif
 
                         @if (Auth::user()->role == 'kepalagudang')
+                        <li class="nav-item">
+                            <a href="{{ route('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-line"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('cek-datapengadaan') }}" class="nav-link {{ request()->is('cek-datapengadaan*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shopping-basket"></i>
@@ -234,6 +242,14 @@
                                 <i class="nav-icon fas fa-chart-line"></i>
                                 <p>
                                     Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('cek-datatransaksipengadaan') }}" class="nav-link {{ request()->is('cek-datatransaksipengadaan*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-shopping-basket"></i>
+                                <p>
+                                    Data Pengadaan Barang
                                 </p>
                             </a>
                         </li>

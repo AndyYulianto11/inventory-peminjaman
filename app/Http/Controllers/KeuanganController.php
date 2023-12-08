@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Databarang;
+use App\Models\ItemTransaksiPengadaanBarang;
 use App\Models\Jenisbarang;
 use App\Models\Satuan;
+use App\Models\TransaksiPengadaanBarang;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -29,11 +31,18 @@ class KeuanganController extends Controller
         return view('keuangan', compact('jenis', 'user', 'barang', 'satuan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function datatransaksipengadaan()
+    {
+        $data = [
+            'subjudul' => 'Transaksi Pengadaan Barang',
+            'submenu' => 'transaksi pengadaan barang',
+        ];
+
+        $datapengadaanbarang = TransaksiPengadaanBarang::all();
+
+        return view('keuangan.data_pengadaan_barang.index', compact('data', 'datapengadaanbarang'));
+    }
+
     public function create()
     {
         //
@@ -58,7 +67,16 @@ class KeuanganController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Transaksi Pengadaan Barang',
+            'submenu' => 'transaksi pengadaan barang',
+        ];
+
+        $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+
+        // dd($itemDatapengadaanbarang);
+        return view('keuangan.data_pengadaan_barang.show', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
 
     /**
@@ -93,5 +111,18 @@ class KeuanganController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cetak($id)
+    {
+        $data = [
+            'subjudul' => 'Transaksi Pengadaan Barang',
+            'submenu' => 'transaksi pengadaan barang',
+        ];
+
+        $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+
+        return view('keuangan.data_pengadaan_barang.cetak', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
 }

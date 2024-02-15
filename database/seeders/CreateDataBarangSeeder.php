@@ -24,6 +24,7 @@ class CreateDataBarangSeeder extends Seeder
                 'stok' => 12,
                 'satuan_id' => 1,
                 'harga' => 90000,
+                'slug' => 'Kursi'
             ]
         ];
 

@@ -27,10 +27,10 @@ class AdminpengajuController extends Controller
             'submenu' => 'pengajuan',
         ];
 
-        $pengaju = Datapengaju::where('status_submit', 1)->get();
+        // $pengaju = Datapengaju::where('status_submit', 1)->get();
         // $pengaju = Datapengaju::get();
 
-        return view('admin.cek_pengaju.index', compact('data', 'pengaju'));
+        return view('admin.cek_pengaju.index', compact('data'));
     }
 
     /**

@@ -49,7 +49,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     // Data Barang
     Route::get('/databarang', [DatabarangController::class, 'index'])->name('databarang');
     Route::post('/store-databarang', [DatabarangController::class, 'store'])->name('store-databarang');
-    Route::get('/edit-databarang/{id}', [DatabarangController::class, 'edit'])->name('edit-databarang');
+    Route::get('/edit-databarang/{slug}', [DatabarangController::class, 'edit'])->name('edit-databarang');
     Route::put('/update-databarang/{id}', [DatabarangController::class, 'update'])->name('update-databarang');
     Route::get('/databarang_shows', [DatabarangController::class, 'shows'])->name('shows-databarang');
     Route::post('/delete-databarang', [DatabarangController::class, 'destroy'])->name('databarang.destroy');

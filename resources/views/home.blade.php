@@ -49,7 +49,7 @@
                         <div class="icon">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/satuan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@
                         <div class="icon">
                             <i class="fas fa-cubes"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/databarang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
                         <div class="icon">
                             <i class="fas fa-users"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/user" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@
                         <div class="icon">
                             <i class="fas fa-list"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/jenisbarang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -104,7 +104,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Monthly Recap Report</h5>
+                        <h5 class="card-title">Years Recap Report</h5>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -114,15 +114,18 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            @if($from)
                             <div class="col-md-8">
                                 <p class="text-center">
-                                    <strong>Report: 1 Sep, 2023 - 31 Des, 2023</strong>
+                                    <strong>Report: @if($from){{ date("d F, Y", strtotime($from->barangmasuk->tanggal_pembelian)) }} - {{ date("d F, Y", strtotime($from->barangmasuk->tanggal_pembelian)) }} @endif</strong>
                                 </p>
-                                <div class="chart">
-                                    <canvas id="myChart" width="100" height="35px"></canvas>
-                                </div>
+                                @livewire('chart.report')
                             </div>
-
+                            @else
+                            <div class="col-md-8 text-center">
+                                <p class="alert alert-danger mt-5">Tidak ada Barang Masuk</p>
+                            </div>
+                            @endif
                             <div class="col-md-4">
                                 <div class="card-header">
                                     <h3 class="card-title"><strong>List Barang Baru</strong></h3>
@@ -131,45 +134,10 @@
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body p-0">
-                                    <ul class="products-list product-list-in-card pl-2 pr-2">
-                                        <li class="item">
-                                            <a href="javascript:void(0)" class="product-title">Kursi
-                                                <span class="badge badge-warning float-right">28 Unit</span></a>
-                                            <span class="product-description">
-                                                Kelas
-                                            </span>
-                                        </li>
-                                        <!-- /.item -->
-                                        <li class="item">
-                                            <a href="javascript:void(0)" class="product-title">Proyektor
-                                                <span class="badge badge-info float-right">31 Pcs</span></a>
-                                            <span class="product-description">
-                                                Kelas
-                                            </span>
-                                        </li>
-                                        <!-- /.item -->
-                                        <li class="item">
-                                            <a href="javascript:void(0)" class="product-title">Keyboard
-                                                <span class="badge badge-danger float-right">26 Pcs</span></a>
-                                            <span class="product-description">
-                                                Kelas
-                                            </span>
-                                        </li>
-                                        <!-- /.item -->
-                                        <li class="item">
-                                            <a href="javascript:void(0)" class="product-title">Kabel Proyektor
-                                                <span class="badge badge-success float-right">12 Pcs</span></a>
-                                            <span class="product-description">
-                                                Aset Staff
-                                            </span>
-                                        </li>
-                                        <!-- /.item -->
-                                    </ul>
-                                </div>
+                                @livewire('barang.new-item')
                                 <!-- /.card-body -->
                                 <div class="card-footer text-center">
-                                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                                    <a href="/barangmasuk" class="uppercase">View All Products</a>
                                 </div>
                                 <!-- /.card-footer -->
                             </div>
@@ -191,43 +159,5 @@
 
 @section('js')
 
-<script type="text/javascript">
-    const ctx = document.getElementById('myChart');
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['September', 'Oktober', 'November', 'Desember'],
-                datasets: [{
-                    label: 'Grafik Barang Masuk Bulan Nov 2023',
-                    data: [0, 12, 7, 19],
-                    backgroundColor: [
-                        'rgba(153, 102, 255, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(153, 102, 255, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Grafik Barang Keluar Bulan Nov 2023',
-                    data: [0, 6, 10, 12],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                    ],
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-</script>
 @endsection

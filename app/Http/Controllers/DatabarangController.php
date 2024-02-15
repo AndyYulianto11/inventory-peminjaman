@@ -8,6 +8,7 @@ use App\Models\Jenisbarang;
 use App\Models\Satuan;
 use Exception;
 use Illuminate\Http\Request;
+use Str;
 
 class DatabarangController extends Controller
 {
@@ -63,6 +64,8 @@ class DatabarangController extends Controller
                 'harga' => 'required',
             ]);
 
+            $slug = Str::slug($request->nama_barang);
+
             $post = Databarang::create([
                 'code_barang' => $number,
                 'nama_barang' => $request->nama_barang,
@@ -70,6 +73,7 @@ class DatabarangController extends Controller
                 'stok' => $request->stok,
                 'satuan_id' => $request->satuan_id,
                 'harga' => $request->harga,
+                'slug' => $slug
             ]);
 
             HistoryStokBarang::create([
@@ -115,11 +119,11 @@ class DatabarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
         $jenis = Jenisbarang::all();
         $satuans = Satuan::all();
-        $databarang = Databarang::findOrFail($id);
+        $databarang = Databarang::where('slug', $slug)->first();
         return view('admin.data_barang.edit', compact('databarang', 'jenis', 'satuans'));
     }
 
@@ -147,9 +151,11 @@ class DatabarangController extends Controller
                 'stok' => 'required',
                 'satuan_id' => 'required',
                 'harga' => 'required',
+                'slug' => 'required',
             ]);
 
             $post = Databarang::findOrFail($id);
+            $slug = Str::slug($request->nama_barang);
 
             $post->update([
                 'code_barang' => $number,
@@ -158,6 +164,7 @@ class DatabarangController extends Controller
                 'stok' => $request->stok,
                 'satuan_id' => $request->satuan_id,
                 'harga' => $request->harga,
+                'slug' => $slug
             ]);
 
             return redirect('databarang')->with('success', 'Data berhasil diupdate!');

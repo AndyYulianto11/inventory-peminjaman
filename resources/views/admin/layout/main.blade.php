@@ -8,6 +8,7 @@
     <link rel="icon" href="{{ asset('adminlte/dist/img/logouniba.png') }}">
     <title>@yield('title')</title>
 
+    @livewireStyles
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -34,6 +35,8 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
     <!-- sweetalert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" id="theme-styles" />
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     @yield('css')
 </head>
@@ -65,6 +68,7 @@
     </div>
     <!-- ./wrapper -->
 
+    @livewireScripts
     <!-- jQuery -->
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->

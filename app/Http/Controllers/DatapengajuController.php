@@ -30,9 +30,9 @@ class DatapengajuController extends Controller
 
         $user = auth()->user(); // Sesuaikan dengan metode otentikasi Anda
 
-        $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
-                                    ->where('user_id', $user->id)->get();
-        return view('pengaju.data_pengaju.index', compact('judul', 'databarang', 'datapengaju'));
+        // $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
+        //                             ->where('user_id', $user->id)->get();
+        return view('pengaju.data_pengaju.index', compact('judul', 'databarang'));
     }
 
     public function generateCodePengajuan()

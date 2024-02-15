@@ -72,7 +72,7 @@
                                                 <button class="btn btn-primary btn-sm btn-flat"
                                                     onclick="detail({{ $item->id }})" data-toggle="modal"
                                                     data-target="#barcode"><i class="fas fa-eye"></i></button>
-                                                <a href="{{ route('edit-databarang', $item->id) }}"
+                                                <a href="{{ route('edit-databarang', $item->slug) }}"
                                                     class="btn btn-warning btn-sm btn-flat  edit_inline"><i
                                                         class="fas fa-pencil-alt"></i></a>
                                                 <button class="btn btn-danger btn-sm btn-flat  btnDelete"><i

@@ -40,10 +40,9 @@ class AtasanController extends Controller
             'submenu' => 'data pengaju',
         ];
 
-        $pengaju = Datapengaju::all();
         $unit = Unit::all();
 
-        return view('atasan.cekdata_pengaju.index', compact('judul', 'pengaju', 'unit'));
+        return view('atasan.cekdata_pengaju.index', compact('judul', 'unit'));
     }
 
     /**

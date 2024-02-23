@@ -25,7 +25,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -114,12 +114,14 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @if($from)
+                            @if($itemBarang)
                             <div class="col-md-8">
                                 <p class="text-center">
-                                    <strong>Report: @if($from){{ date("d F, Y", strtotime($from->barangmasuk->tanggal_pembelian)) }} - {{ date("d F, Y", strtotime($from->barangmasuk->tanggal_pembelian)) }} @endif</strong>
+                                    <strong>Report: @if($from != $to){{ date("d F, Y", strtotime($from->tanggal_pembelian)) }} - {{ date("d F, Y", strtotime($to->tanggal_pembelian)) }} @else {{ date("d F, Y", strtotime($from->tanggal_pembelian)) }} @endif</strong>
                                 </p>
-                                @livewire('chart.report')
+                                <div class="chart">
+                                    <canvas id="myChart" width="100" height="35px"></canvas>
+                                </div>
                             </div>
                             @else
                             <div class="col-md-8 text-center">
@@ -154,10 +156,62 @@
 <!-- /.content -->
 </div>
 
+@php
+    $label = [];
+    $data = [];
+@endphp
+@foreach ($itemBarang as $row)
+    @php
+        $label[] = date("l-F-Y", strtotime($row->barangmasuk->tanggal_pembelian));
+        $data[] = $row->qty;
+    @endphp
+@endforeach
+@php
+    $label = array_merge([], $label);
+    $data = array_merge([], $data);
+@endphp
 
 @endsection
 
 @section('js')
+<script type="text/javascript">
 
+    const ctx = document.getElementById('myChart');
 
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @js($label),
+                datasets: [{
+                    label: 'Grafik Barang Masuk',
+                    data: @js($data),
+                    backgroundColor: [
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Grafik Barang Keluar',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+</script>
 @endsection

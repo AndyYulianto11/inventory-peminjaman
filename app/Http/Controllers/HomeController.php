@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Satuan, User, Jenisbarang, Databarang, ItemBarangMasuk};
+use App\Models\{Satuan, User, Jenisbarang, Databarang, ItemBarangMasuk, BarangMasuk};
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -28,9 +28,13 @@ class HomeController extends Controller
         $user = User::count();
         $barang = Databarang::count();
         $satuan = Satuan::count();
-        $from = ItemBarangMasuk::first();
-        $to = ItemBarangMasuk::latest();
-        return view('home', compact('jenis', 'user', 'barang', 'satuan', 'from', 'to'));
+        $itemBarang = ItemBarangMasuk::all();
+        $sort = BarangMasuk::all()->sortByDesc("tanggal_pembelian");
+        foreach($itemBarang as $i){
+            $from = BarangMasuk::whereDate('tanggal_pembelian', '<', $i->barangmasuk->tanggal_pembelian)->first();
+            $to = BarangMasuk::whereDate('tanggal_pembelian', '>', $i->barangmasuk->tanggal_pembelian)->first();
+        }
+        return view('home', compact('jenis', 'user', 'barang', 'satuan', 'from', 'to', 'itemBarang'));
     }
 
     public function adminHome()

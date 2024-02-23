@@ -56,6 +56,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         @yield('content')
+        @include('admin.layout.modal-user')
         <!-- /.content-wrapper -->
 
         @include('admin.layout.footer')

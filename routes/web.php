@@ -1,22 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminpengajuController;
-use App\Http\Controllers\AtasanController;
-use App\Http\Controllers\BarangmasukController;
-use App\Http\Controllers\DashboardpengajuController;
-use App\Http\Controllers\DataasetunitController;
-use App\Http\Controllers\DatabarangController;
-use App\Http\Controllers\DatapengadaanbarangController;
-use App\Http\Controllers\DatapengajuController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\JenisbarangController;
-use App\Http\Controllers\KepalaController;
-use App\Http\Controllers\KeuanganController;
-use App\Http\Controllers\RektorController;
-use App\Http\Controllers\SatuanController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\{AdminpengajuController, AtasanController, BarangmasukController, DashboardpengajuController, DataasetunitController,
+                          DatabarangController, DatapengadaanbarangController, DatapengajuController, HomeController, JenisbarangController, 
+                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;

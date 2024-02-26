@@ -17,7 +17,7 @@ class CreateBarangmasuksTable extends Migration
             $table->id();
             $table->string('kode_nota')->unique();
             $table->date('tanggal_pembelian');
-            $table->foreignId('supplier_id');
+            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->double('ppn_angka')->default(0)->nullable();
             $table->double('ppn_persen')->default(0)->nullable();
             $table->double('diskon_angka')->default(0)->nullable();

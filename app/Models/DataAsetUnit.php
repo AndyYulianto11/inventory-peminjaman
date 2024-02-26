@@ -18,13 +18,10 @@ class DataAsetUnit extends Model
         'status',
     ];
 
+    protected $with = ['user', 'item_dataasetunit'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function item_dataasetunit()
-    {
-        return $this->hasMany(ItemDataAsetUnit::class);
     }
 }

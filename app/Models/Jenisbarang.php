@@ -13,9 +13,4 @@ class Jenisbarang extends Model
     protected $fillable = [
         'jenisbarang',
     ];
-
-    public function databarangs()
-    {
-        return $this->hasMany(Databarang::class);
-    }
 }

@@ -18,13 +18,10 @@ class TransaksiPengadaanBarang extends Model
         'status_pengajuan',
     ];
 
+    protected $with = ['user', 'item_transaksipengadaanbarang'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function item_transaksipengadaanbarang()
-    {
-        return $this->hasMany(ItemTransaksiPengadaanBarang::class);
     }
 }

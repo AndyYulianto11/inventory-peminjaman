@@ -15,9 +15,9 @@ class CreateItemBarangMasuksTable extends Migration
     {
         Schema::create('item_barang_masuks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('barangmasuk_id');
-            $table->foreignId('user_id');
-            $table->foreignId('barang_id');
+            $table->foreignId('barangmasuk_id')->constrained('barangmasuks');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('barang_id')->constrained('databarangs');
             $table->integer('qty');
             $table->double('harga');
             $table->double('jumlah');

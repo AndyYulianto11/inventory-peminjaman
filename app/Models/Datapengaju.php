@@ -20,13 +20,10 @@ class Datapengaju extends Model
         'upload_dokumen',
     ];
 
+    protected $with = ['user'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function item_datapengaju()
-    {
-        return $this->hasMany(ItemDataPengaju::class);
     }
 }

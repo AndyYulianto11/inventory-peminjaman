@@ -18,6 +18,8 @@ class ItemBarangMasuk extends Model
         'jumlah',
     ];
 
+    protected $with = ['barangmasuk', 'barang'];
+
     public function barangmasuk()
     {
         return $this->belongsTo(Barangmasuk::class, 'barangmasuk_id');

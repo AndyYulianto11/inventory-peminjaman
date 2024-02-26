@@ -16,7 +16,7 @@ class CreateItemDataPengadaanBarangsTable extends Migration
         Schema::create('item_data_pengadaan_barangs', function (Blueprint $table) {
             $table->id();
             // $table->foreignId('datapengadaanbarang_id');
-            $table->foreignId('barang_id');
+            $table->foreignId('barang_id')->constrained('databarangs');
             $table->double('qty');
             // 0 = barang sudah diajukan, 1 = barang baru belum diajukan,
             $table->boolean('status')->default(1);

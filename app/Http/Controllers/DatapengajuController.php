@@ -282,10 +282,11 @@ class DatapengajuController extends Controller
 
             if ($request->hasFile('files')) {
                 $path = $files->store('public/berkas');
+                $files->move(public_path('storage/berkas/'), $files->getClientOriginalName());
                 // $url = str_replace('public/berkas', 'storage/berkas', $path);
 
                 $datapengaju->update([
-                    'upload_dokumen' => $path,
+                    'upload_dokumen' => $files->getClientOriginalName(),
                     'status_submit' => '0',
                 ]);
             }

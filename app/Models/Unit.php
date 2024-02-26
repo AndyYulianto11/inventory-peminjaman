@@ -16,9 +16,4 @@ class Unit extends Model
         'lokasi_unit',
         'status_unit',
     ];
-
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
 }

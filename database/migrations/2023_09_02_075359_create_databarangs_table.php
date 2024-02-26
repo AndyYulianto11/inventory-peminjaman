@@ -17,9 +17,9 @@ class CreateDatabarangsTable extends Migration
             $table->id();
             $table->string('code_barang');
             $table->string('nama_barang');
-            $table->foreignId('jenis_id');
+            $table->foreignId('jenis_id')->constrained('jenisbarang');
             $table->integer('stok');
-            $table->foreignId('satuan_id');
+            $table->foreignId('satuan_id')->constrained('satuans');
             $table->double('harga');
             $table->string('slug');
             $table->timestamps();

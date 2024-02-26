@@ -15,6 +15,8 @@ class ItemDataAsetUnit extends Model
         'qty'
     ];
 
+    protected $with = ['dataasetunit', 'barang'];
+
     public function dataasetunit()
     {
         return $this->belongsTo(DataAsetUnit::class, 'dataasetunit_id');

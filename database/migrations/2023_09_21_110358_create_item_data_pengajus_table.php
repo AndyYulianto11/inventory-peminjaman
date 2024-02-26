@@ -15,8 +15,8 @@ class CreateItemDataPengajusTable extends Migration
     {
         Schema::create('item_data_pengajus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('datapengaju_id');
-            $table->foreignId('barang_id');
+            $table->foreignId('datapengaju_id')->constrained('datapengajus');
+            $table->foreignId('barang_id')->constrained('databarangs');
             $table->double('qty');
             $table->integer('selisih')->nullable();
             // 0 = diajukan, 1 = disetujui, 2 = ditolak, 3 = direvisi

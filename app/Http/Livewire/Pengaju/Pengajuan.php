@@ -12,6 +12,7 @@ class Pengajuan extends Component
         $user = auth()->user();
         $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
                                     ->where('user_id', $user->id)->paginate(10);
+                                    
         return view('livewire.pengaju.pengajuan', compact('datapengaju'));
     }
 }

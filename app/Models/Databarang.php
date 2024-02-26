@@ -13,6 +13,8 @@ class Databarang extends Model
         'code_barang', 'nama_barang', 'jenis_id', 'stok', 'satuan_id', 'harga', 'slug'
     ];
 
+    protected $with = ['jenisbarang', 'satuan'];
+
     public function jenisbarang()
     {
         return $this->belongsTo(Jenisbarang::class, 'jenis_id');
@@ -21,25 +23,5 @@ class Databarang extends Model
     public function satuan()
     {
         return $this->belongsTo(Satuan::class, 'satuan_id');
-    }
-
-    public function barangmasuks()
-    {
-        return $this->hasMany(Barangmasuk::class);
-    }
-
-    public function datapengajus()
-    {
-        return $this->hasMany(Datapengaju::class);
-    }
-
-    public function dataasetunits()
-    {
-        return $this->hasMany(DataAsetUnit::class);
-    }
-
-    public function historystokbarangs()
-    {
-        return $this->hasMany(HistoryStokBarang::class);
     }
 }

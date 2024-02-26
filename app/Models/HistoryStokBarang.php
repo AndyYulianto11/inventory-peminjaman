@@ -17,6 +17,8 @@ class HistoryStokBarang extends Model
         'keterangan',
     ];
 
+    protected $with = ['barang', 'barangmasuk', 'itemdatapengaju'];
+
     public function barang()
     {
         return $this->belongsTo(Databarang::class, 'databarang_id');

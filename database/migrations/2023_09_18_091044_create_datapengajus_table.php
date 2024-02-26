@@ -17,7 +17,7 @@ class CreateDatapengajusTable extends Migration
             $table->id();
             $table->string('code_pengajuan')->unique();
             $table->date('tgl_pengajuan');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained('users');
             // 1 = diajukan, 2 = diproses, 3 = disetujui, 4 = ditolak, 5 = direvisi
             $table->enum('status_setujuatasan', ['1', '2', '3', '4', '5'])->default('1');
             // 0 = diajukan, 1 = proses, 2 = pending, 3 = selesai

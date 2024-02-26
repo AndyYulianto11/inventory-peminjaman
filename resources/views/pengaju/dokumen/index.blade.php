@@ -41,14 +41,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-bod">
-
-                        <?php
-                        $url = $datapengaju->upload_dokumen;
-                        $fixedUrl = preg_replace('/public+/', '', $url);
-                        ?>
-
-                        <embed src="{{ asset('storage/' . $fixedUrl) }}" type="application/pdf" width="100%" height="700px" />
-
+                        <embed src="{{ asset('storage/berkas/' . $datapengaju->upload_dokumen) }}" type="application/pdf" width="100%" height="700px" />
                     </div>
                     <!-- /.card-body -->
                 </div>

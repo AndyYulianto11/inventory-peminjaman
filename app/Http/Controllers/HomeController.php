@@ -30,11 +30,8 @@ class HomeController extends Controller
         $satuan = Satuan::count();
         $itemBarang = ItemBarangMasuk::all();
         $sort = BarangMasuk::all()->sortByDesc("tanggal_pembelian");
-        foreach($itemBarang as $i){
-            $from = BarangMasuk::whereDate('tanggal_pembelian', '<', $i->barangmasuk->tanggal_pembelian)->first();
-            $to = BarangMasuk::whereDate('tanggal_pembelian', '>', $i->barangmasuk->tanggal_pembelian)->first();
-        }
-        return view('home', compact('jenis', 'user', 'barang', 'satuan', 'from', 'to', 'itemBarang'));
+
+        return view('home', compact('jenis', 'user', 'barang', 'satuan', 'sort', 'itemBarang'));
     }
 
     public function adminHome()

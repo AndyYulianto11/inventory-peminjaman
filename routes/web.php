@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\{AdminpengajuController, AtasanController, BarangmasukController, DashboardpengajuController, DataasetunitController,
                           DatabarangController, DatapengadaanbarangController, DatapengajuController, HomeController, JenisbarangController, 
-                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController};
+                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController, BarangKeluarController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
@@ -77,6 +77,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/show-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('show-pengaju');
     Route::get('/edit-cek-pengaju/{id}', [AdminpengajuController::class, 'edit'])->name('edit-cek-pengaju');
     Route::put('/update-cek-pengaju/{id}', [AdminpengajuController::class, 'update'])->name('update-cek-pengaju');
+    Route::get('/lihat-berkas/{id}', [DatapengajuController::class, 'dokumen'])->name('lihat-berkas');
     // Mengirim data ke Data Aset Item
     Route::post('/proses-insert/{id}', [AdminpengajuController::class, 'prosesInsert'])->name('proses.insert');
 
@@ -104,6 +105,8 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::get('/get-data-by-date', [DatapengadaanbarangController::class, 'getDataByDate']);
     Route::post('/delete-item/{id}', [DatapengadaanbarangController::class, 'deleteItem'])->name('delete-item');
     Route::post('/delete-pengadaan/{id}', [DatapengadaanbarangController::class, 'destroy'])->name('delete-pengadaan');
+
+    Route::resource('barang-keluar', BarangKeluarController::class);
 
 });
 
@@ -164,7 +167,8 @@ Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
 
     Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
     Route::put('/update-data-pengaju/{id}', [AtasanController::class, 'update'])->name('update-data-pengaju');
-
+    
+    Route::get('/lihat-file/{id}', [DatapengajuController::class, 'dokumen'])->name('lihat-file');
 });
 
 Route::middleware(['auth', 'checkrole:keuangan'])->group(function () {

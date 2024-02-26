@@ -20,8 +20,8 @@
                 <td>{{ $item->code_pengajuan }}</td>
                 <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
                 <td>
-                    @if ($item->item_datapengaju->count() > 0)
-                    {{ $item->item_datapengaju->count() }}
+                    @if ($item->count() > 0)
+                    {{ $item->count() }}
                     @else
                     0
                     @endif

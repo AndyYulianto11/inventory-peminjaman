@@ -43,28 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function barangmasuks()
-    {
-        return $this->hasMany(Barangmasuk::class);
-    }
+    protected $with = ['unit'];
 
-    public function datapengajus()
-    {
-        return $this->hasMany(Datapengaju::class);
-    }
-
-    public function unit()
-    {
+    public function unit(){
         return $this->belongsTo(Unit::class, 'unit_id');
-    }
-
-    public function dataasetunits()
-    {
-        return $this->hasMany(DataAsetUnit::class);
-    }
-
-    public function transaksipengadaanbarangs()
-    {
-        return $this->hasMany(TransaksiPengadaanBarang::class);
     }
 }

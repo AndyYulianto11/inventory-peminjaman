@@ -9,6 +9,7 @@
                 <th>Unit</th>
                 <th>Status Atasan</th>
                 <th>Status Admin</th>
+                <th>File</th>
                 <th width="120px">Aksi</th>
             </tr>
         </thead>
@@ -48,6 +49,10 @@
                     @else
                     -
                     @endif
+                </td>
+                <td>
+                    <a href="{{ route('lihat-berkas', $item->id) }}" target="_blank"><span class="badge bg-info">Lihat
+                            File</span></a>
                 </td>
                 <td>
                     <a href="{{ route('show-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">

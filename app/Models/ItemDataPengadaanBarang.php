@@ -15,6 +15,8 @@ class ItemDataPengadaanBarang extends Model
         'status'
     ];
 
+    protected $with = ['barang', 'satuan'];
+
     public function barang()
     {
         return $this->belongsTo(Databarang::class, 'barang_id');

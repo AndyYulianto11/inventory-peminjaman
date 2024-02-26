@@ -15,21 +15,14 @@ class CreateItemTransaksiPengadaanBarangsTable extends Migration
     {
         Schema::create('item_transaksi_pengadaan_barangs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('transaksipengadaanbarang_id');
-            $table->foreignId('barang_id');
+            $table->foreignId('pengadaan_barang_id')->constrained('transaksi_pengadaan_barangs');
+            $table->foreignId('barang_id')->constrained('databarangs');
             $table->string('code_barang');
             $table->string('nama_barang');
             $table->string('satuan');
             $table->double('harga');
             $table->double('qty');
             $table->timestamps();
-
-            $table->foreign('transaksipengadaanbarang_id')
-                ->references('id')
-                ->on('transaksi_pengadaan_barangs')
-                ->onDelete('cascade')
-                ->onUpdate('cascade')
-                ->name('fk_item_tpb_transaksipengadaanbarang');
         });
     }
 

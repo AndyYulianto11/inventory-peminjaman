@@ -9,6 +9,7 @@
                 <th>Unit</th>
                 <th>Status Atasan</th>
                 <th>Status Admin</th>
+                <th>File</th>
                 <th width="100px">Aksi</th>
             </tr>
         </thead>
@@ -47,6 +48,14 @@
                             <span class="badge bg-success">Selesai</span>
                         @else
                             -
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->upload_dokumen != null)
+                        <a href="{{ route('lihat-file', $item->id) }}" target="_blank"><span class="badge bg-info">Lihat
+                                File</span></a>
+                        @elseif($item->upload_dokumen == null)
+                        -
                         @endif
                     </td>
                     <td>

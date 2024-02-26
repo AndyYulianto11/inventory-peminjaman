@@ -19,6 +19,8 @@ class ItemDataPengaju extends Model
         'selisih',
     ];
 
+    protected $with = ['datapengaju', 'barang'];
+
     public function datapengaju()
     {
         return $this->belongsTo(Datapengaju::class, 'datapengaju_id');
@@ -27,10 +29,5 @@ class ItemDataPengaju extends Model
     public function barang()
     {
         return $this->belongsTo(Databarang::class, 'barang_id');
-    }
-
-    public function historystokbarangs()
-    {
-        return $this->hasMany(HistoryStokBarang::class);
     }
 }

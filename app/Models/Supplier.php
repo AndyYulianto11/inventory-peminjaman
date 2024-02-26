@@ -12,9 +12,4 @@ class Supplier extends Model
     protected $fillable = [
         'nama', 'alamat', 'no_telp'
     ];
-
-    public function barangmasuks()
-    {
-        return $this->hasMany(Barangmasuk::class);
-    }
 }

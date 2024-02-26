@@ -12,9 +12,4 @@ class Satuan extends Model
     protected $fillable = [
         'satuan', 'qty',
     ];
-
-    public function databarangs()
-    {
-        return $this->hasMany(Databarang::class);
-    }
 }

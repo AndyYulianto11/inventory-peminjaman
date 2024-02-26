@@ -19,6 +19,8 @@ class ItemTransaksiPengadaanBarang extends Model
         'qty'
     ];
 
+    protected $with = ['barang', 'transaksipengadaanbarang'];
+
     public function barang()
     {
         return $this->belongsTo(Databarang::class, 'barang_id');

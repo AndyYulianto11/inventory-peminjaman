@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Barang Masuk - Administrator')
+@section('title', 'Barang Keluar - Administrator')
 
 @section('css')
 
@@ -36,7 +36,7 @@
                             <h3 class="card-title">{{ $data['subjudul'] }}</h3>
 
                             <div class="card-tools">
-                                <a href="{{ route('create-barangmasuk') }}" type="button" class="btn btn-tool"><i
+                                <a href="#" type="button" class="btn btn-tool"><i
                                         class="fas fa-plus"></i> Add Data
                                 </a>
                             </div>
@@ -48,31 +48,32 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th width="50px">No</th>
-                                        <th>ID Transaksi</th>
-                                        <th>Supplier</th>
+                                        <th>Nama Pengaju</th>
+                                        <th>Nama barang</th>
                                         <th>Tanggal</th>
-                                        <th>Jumlah Masuk</th>
+                                        <th>Status Atasan</th>
+                                        <th>Status Admin</th>
                                         <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="add_new">
                                     @php $no = 1 @endphp
-                                    @forelse ($barangmasuk as $item)
+                                    @forelse ($barangkeluar as $item)
                                         <tr class="text-center" id="data{{ $item->id }}">
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $item->kode_nota }}</td>
+                                            <td>{{ $item->datapengaju->tgl_pengajuan }}</td>
                                             <td>{{ $item->supplier->nama }}</td>
                                             <td>{{ date('d-m-Y', strtotime($item->tanggal_pembelian)) }}</td>
                                             <td>
-                                                @if ($item->count() > 0)
-                                                    {{ $item->count() }}
+                                                @if ($item->item_barangmasuk->count() > 0)
+                                                    {{ $item->item_barangmasuk->count() }}
                                                 @else
                                                     0
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('detail-barangmasuk', $item->id) }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-eye"></i></a>
-                                                <a href="{{ route('edit-barangmasuk', $item->id) }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="{{ route('barang-keluar', $item->id) }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('barang-keluar', $item->id) }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
                                                 <button class="btn btn-danger btn-sm btn-flat btnDelete"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>

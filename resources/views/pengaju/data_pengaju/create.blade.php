@@ -42,6 +42,48 @@
                             </div>
                             <!-- /.card-tools -->
                         </div>
+                        <!-- modal -->
+                        <div class="modal fade" id="modalLainnya">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Barang Lainnya</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="post">
+                                                <div class="form-group row">
+                                                    <label for="kode_barang">Kode Barang</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" name="code_barang" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="nama_barang">Nama Barang</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" name="nama_barang" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="jenis_id">Jenis Barang</label>
+                                                    <div class="col-sm-10">
+                                                        <select name="jenis_id" class="form-control">
+                                                            <option selected disabled>-- Jenis Barang --</option>
+                                                            @foreach($jenisbarang as $row)
+                                                                <option value="{{ $row->id }}">{{ $row->jenisbarang }}</option>
+                                                            @endforeach
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal -->
                         <div class="card-body">
                             <ul id="saveform_errList"></ul>
                             <form id="modal-form">
@@ -91,6 +133,7 @@
                                                     data-qty="{{ $data->satuan->qty }}"
                                                     data-code="{{ $data->code_barang }}">{{ $data->nama_barang }}</option>
                                             @endforeach
+                                            <option value="lainnya">Lainnya</option>
                                         </select>
                                     </div>
                                 </div>
@@ -131,56 +174,57 @@
 @section('js')
 
     <!-- Select2 -->
-    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.select2').select2({
-                theme: 'bootstrap4'
-            });
 
             $('#barang').change(function(e) {
-                e.preventDefault();
-                var nama_barang = $('option:selected', this).text();
-                var id = $('option:selected', this).val();
-                var satuan = $('option:selected', this).data('satuan');
-                var qty = $('option:selected', this).data('qty');
-                var code = $('option:selected', this).data('code');
+                if($(this).val() != 'lainnya'){
+                    e.preventDefault();
+                    var nama_barang = $('option:selected', this).text();
+                    var id = $('option:selected', this).val();
+                    var satuan = $('option:selected', this).data('satuan');
+                    var qty = $('option:selected', this).data('qty');
+                    var code = $('option:selected', this).data('code');
 
-                $(this).val("");
+                    $(this).val("");
 
-                var barangById = $('#barang_id_' + id);
-                var qtyById = $("#qty_" + id);
+                    var barangById = $('#barang_id_' + id);
+                    var qtyById = $("#qty_" + id);
 
-                if (barangById.val() > 0) {
-                    var current = qtyById.val();
-                    qtyById.val(parseInt(current) + 1);
-                } else {
-                    var nilai = `
-                        <tr>
-                            <td class="text-center">
-                                ${code}
-                            </td>
-                            <td class="text-center">
-                                ${nama_barang}
-                                <input type="hidden" class="form-control" name="barang_id[]" value="${id}" id="barang_id_${id}">
-                            </td>
-                            <td class="text-center">
-                                ${satuan} | ${qty}
-                            </td>
-                            <td class="text-center">
-                                <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
-                            </td>
-                            <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
+                    if (barangById.val() > 0) {
+                        var current = qtyById.val();
+                        qtyById.val(parseInt(current) + 1);
+                    } else {
+                        var nilai = `
+                            <tr>
+                                <td class="text-center">
+                                    ${code}
+                                </td>
+                                <td class="text-center">
+                                    ${nama_barang}
+                                    <input type="hidden" class="form-control" name="barang_id[]" value="${id}" id="barang_id_${id}">
+                                </td>
+                                <td class="text-center">
+                                    ${satuan} | ${qty}
+                                </td>
+                                <td class="text-center">
+                                    <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
+                                </td>
+                                <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
 
-                            <td class="text-center">
-                                <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `;
+                                <td class="text-center">
+                                    <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
 
-                    $('.bahan-ajax').append(nilai);
+                        $('.bahan-ajax').append(nilai);
+                    }
+                }else{
+                    $('#modalLainnya').modal('show');
                 }
             });
 

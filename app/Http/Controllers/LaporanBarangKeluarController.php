@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ItemDataPengaju;
 
-class BarangKeluarController extends Controller
+class LaporanBarangKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,16 +13,7 @@ class BarangKeluarController extends Controller
      */
     public function index()
     {
-        $data = [
-            'subjudul' => 'Barang Keluar',
-            'submenu' => 'barang keluar',
-        ];
-
-        $barangkeluar = ItemDataPengaju::with(['datapengaju' => function($q) {
-            $q->where(['status_setujuatasan' => '3', 'status_setujuadmin' => '3', 'status_pengajuan' => '1', 'status_submit' => '1'])->get()->all();
-        }])->where(['status_persetujuanatasan' => '1', 'status_persetujuanadmin' => '0'])->get()->all();
-        
-        return view('admin.barang_keluar.index', compact('barangkeluar', 'data'));
+        //
     }
 
     /**

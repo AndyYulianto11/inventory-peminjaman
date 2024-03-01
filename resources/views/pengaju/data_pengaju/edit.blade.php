@@ -103,8 +103,8 @@
                                                         {{ $barang->barang->satuan->qty }}
                                                     </td>
                                                     <td class="text-center" width="10%">
-                                                        <input type="number" class="form-control" name="qty[]"
-                                                            id="qty" value="{{ $barang->qty }}">
+                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]"
+                                                            id="qty" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan == '1') readonly @endif>
                                                     </td>
                                                     <td class="text-center">
                                                         @if ($barang->status_persetujuanatasan == '0')
@@ -119,13 +119,15 @@
                                                             -
                                                         @endif
                                                     </td>
+                                                    <td class="text-center">@if($barang->keterangan != '') {{ $barang->keterangan }} @else - @endif</td>
                                                     <td class="text-center">
-                                                        <textarea cols="20" rows="1" class="form-control" readonly>{{ $barang->keterangan }}</textarea>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-xs btn-danger btnDelete">
+                                                        @if($barang->status_persetujuanatasan == '2')
+                                                        <button class="btn btn-xs btn-danger btnDelete" id="btnDelete{{ $barang->id }}">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
+                                                        @else
+                                                        -
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -134,7 +136,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-sm btn-flat">Simpan</button>
+                                    <button type="submit" class="btn btn-primary btn-sm btn-flat" disabled id="btnSave">Simpan</button>
                                     <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>
@@ -197,19 +199,20 @@
             }).then((result) => {
                 if (result.value) {
                     if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: "POST",
-                            data: {
-                                ids: ID,
-                            },
-                            success: function(response) {
-                                var datas = $('#data' + response.data);
-                                console.log(datas);
-                                datas.remove();
+                        // $.ajax({
+                        //     url: url,
+                        //     type: "POST",
+                        //     data: {
+                        //         ids: ID,
+                        //     },
+                        //     success: function(response) {
+                        //         var datas = $('#data' + response.data);
+                        //         console.log(datas);
+                        //         datas.remove();
 
-                            }
-                        });
+                        //     }
+                        // });
+                        document.getElementById("btnSave").removeAttribute("disabled");
                     }
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
@@ -221,6 +224,10 @@
                     )
                 }
             });
+        });
+
+        document.querySelector("#qty"+{{ $barang->id }}).addEventListener("change", () => {
+            document.getElementById("btnSave").removeAttribute("disabled");
         });
     </script>
 

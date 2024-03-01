@@ -43,8 +43,8 @@
                         </div>
                         <div class="card-body">
                             <ul id="saveform_errList"></ul>
-                            <form id="modal-form">
-
+                            <form action="{{ route('store-barangmasuk') }}" method="post">
+                                @csrf
                                 <div class="form-group row">
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Kode Nota</label>
                                     <div class="col-sm-10">
@@ -357,48 +357,6 @@
                     $("#diskon_angka").val(0);
                     $("#diskon_persen").val(0);
                 }
-            });
-
-            $(document).on('submit', '#modal-form', function(e) {
-                e.preventDefault();
-                var data = $(this).serialize();
-
-                console.log(data);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: "POST",
-                    url: "/store-barangmasuk",
-                    data: data,
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response);
-                        if (response.status == 400) {
-                            $('#saveform_errList').html("");
-                            $('#saveform_errList').addClass('alert alert-danger');
-                            $.each(response.errors, function(key, err_values) {
-                                $('#saveform_errList').append('<li>' + err_values +
-                                    '</li>');
-                            });
-                        } else {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: response.message,
-                                showConfirmButton: false,
-                                timer: 1500
-
-                            });
-                            setTimeout(function() {
-                                location = "{{ route('barangmasuk') }}";
-                            }, 1500)
-                        }
-                    }
-                });
             });
 
             $("#ppn_angka, #ppn_persen").on("input", function() {

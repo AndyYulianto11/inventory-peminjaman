@@ -71,8 +71,7 @@
                                 <th class="text-center">Nama Barang</th>
                                 <th class="text-center">Satuan</th>
                                 <th class="text-center">Jumlah <br>Peminjaman</th>
-                                <th class="text-center">Stok</th>
-                                <th class="text-center">Selisih</th>
+                                <th class="text-center">Status Atasan</th>
                                 <th class="text-center">Status Admin</th>
                                 <th class="text-center">Keterangan</th>
                             </tr>
@@ -83,30 +82,33 @@
                                 <td>{{ $item->barang->nama_barang }}</td>
                                 <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                 <td class="text-center">{{ $item->qty }}</td>
-                                <td class="text-center">{{ $item->barang->stok }}</td>
-                                @if ($item->barang->stok > $item->qty)
                                 <td class="text-center">
-                                    0
-                                </td>
-                                @elseif ($item->barang->stok < $item->qty)
-                                    <td class="text-center">
-                                        {{ $item->qty - $item->barang->stok }}
-                                    </td>
+                                    @if ($item->status_persetujuanatasan == '0')
+                                    <span class="badge bg-info">Diajukan</span>
+                                    @elseif ($item->status_persetujuanatasan == '1')
+                                    <span class="badge bg-success">Diproses</span>
+                                    @elseif ($item->status_persetujuanatasan == '2')
+                                    <span class="badge bg-danger">Disetujui</span>
+                                    @elseif ($item->status_persetujuanatasan == '3')
+                                    <span class="bade bg-danger">Ditolak</span>
+                                    @else
+                                    -
                                     @endif
-                                    <td class="text-center">
-                                        @if ($item->status_persetujuanadmin == '0')
-                                        <span class="badge bg-info">Serah Terima</span>
-                                        @elseif ($item->status_persetujuanadmin == '1')
-                                        <span class="badge bg-success">Sebagian Diserahterimakan</span>
-                                        @elseif ($item->status_persetujuanadmin == '2')
-                                        <span class="badge bg-danger">Tidak Ready</span>
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <textarea cols="20" rows="1" class="form-control">{{ $item->keterangan }}</textarea>
-                                    </td>
+                                </td>
+                                <td class="text-center">
+                                    @if ($item->status_persetujuanadmin == '0')
+                                    <span class="badge bg-info">Serah Terima</span>
+                                    @elseif ($item->status_persetujuanadmin == '1')
+                                    <span class="badge bg-success">Sebagian Diserahterimakan</span>
+                                    @elseif ($item->status_persetujuanadmin == '2')
+                                    <span class="badge bg-danger">Tidak Ready</span>
+                                    @else
+                                    -
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <textarea cols="20" rows="1" class="form-control" disabled>{{ $item->keterangan }}</textarea>
+                                </td>
                             </tr>
                             @empty
                             <tr> </tr>

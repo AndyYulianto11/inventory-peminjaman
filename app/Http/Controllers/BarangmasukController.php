@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Alert;
 
 class BarangmasukController extends Controller
 {
@@ -90,57 +91,60 @@ class BarangmasukController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
-            $header = Barangmasuk::insertGetId([
-                'kode_nota' => $request->kode_nota,
-                'tanggal_pembelian' => $request->tanggal_pembelian,
-                'total_bayar' => 0,
-                'supplier_id' => $request->supplier_id,
-                'created_at' => Carbon::now(),
-            ]);
-
-            $barangs = Databarang::whereIn('id', $barang_id)->get();
-
-            foreach ($barang_id as $key => $value) {
-                $data = ItemBarangMasuk::insert([
-                    'barangmasuk_id' => $header,
-                    'user_id' => Auth::user()->id,
-                    'barang_id' => $value,
-                    'qty' => $qty[$key],
-                    'harga' => $harga[$key],
-                    'jumlah' => $jumlah[$key],
+            $data = Barangmasuk::where('kode_nota', 'like', '%'.$request->kode_nota.'%')->first();
+            if($data != null){
+                Alert::error('Gagal menambahkan data', 'Kode nota sudah ada');
+                return redirect()->back();
+            }else{
+                $header = Barangmasuk::insertGetId([
+                    'kode_nota' => $request->kode_nota,
+                    'tanggal_pembelian' => $request->tanggal_pembelian,
+                    'total_bayar' => 0,
+                    'supplier_id' => $request->supplier_id,
                     'created_at' => Carbon::now(),
                 ]);
-
-                // Update otomatis stok data barang & replace harga
-                $barang = $barangs->where('id', $value)->first();
-                $barang->stok += $qty[$key];
-                $barang->harga = $harga[$key];
-                $barang->save();
-
-                // Record history stok data barang
-                HistoryStokBarang::create([
-                    'databarang_id' => $value,
-                    'barangmasuk_id' => $header,
-                    'qty' => $qty[$key],
-                    'keterangan' => 'Barang Masuk',
+    
+                $barangs = Databarang::whereIn('id', $barang_id)->get();
+    
+                foreach ($barang_id as $key => $value) {
+                    $data = ItemBarangMasuk::insert([
+                        'barangmasuk_id' => $header,
+                        'user_id' => Auth::user()->id,
+                        'barang_id' => $value,
+                        'qty' => $qty[$key],
+                        'harga' => $harga[$key],
+                        'jumlah' => $jumlah[$key],
+                        'created_at' => Carbon::now(),
+                    ]);
+    
+                    // Update otomatis stok data barang & replace harga
+                    $barang = $barangs->where('id', $value)->first();
+                    $barang->stok += $qty[$key];
+                    $barang->harga = $harga[$key];
+                    $barang->save();
+    
+                    // Record history stok data barang
+                    HistoryStokBarang::create([
+                        'databarang_id' => $value,
+                        'barangmasuk_id' => $header,
+                        'qty' => $qty[$key],
+                        'keterangan' => 'Barang Masuk',
+                    ]);
+                }
+    
+                $updateHarga = Barangmasuk::where('id', $header)->first();
+    
+                $updateHarga->update([
+                    'total_bayar' => $request->total_bayar_input,
+                    'ppn_angka' => $request->ppn_angka,
+                    'ppn_persen' => $request->ppn_persen,
+                    'diskon_angka' => $request->diskon_angka,
+                    'diskon_persen' => $request->diskon_persen
                 ]);
+                
+                Alert::success('Success', 'Berhasil manambahkan data');
+                return redirect()->route('barangmasuk');
             }
-
-            $updateHarga = Barangmasuk::where('id', $header)->first();
-
-            $updateHarga->update([
-                'total_bayar' => $request->total_bayar_input,
-                'ppn_angka' => $request->ppn_angka,
-                'ppn_persen' => $request->ppn_persen,
-                'diskon_angka' => $request->diskon_angka,
-                'diskon_persen' => $request->diskon_persen
-            ]);
-
-            return response()->json([
-                'status' => 200,
-                'message' => 'Barang masuk berhasil ditambahkan',
-                'data' => $data
-            ]);
         }
     }
 
@@ -246,6 +250,8 @@ class BarangmasukController extends Controller
     public function view_laporan_barang_masuk($tglawal, $tglakhir)
     {
         // $cetaklaporan = ItemBarangMasuk::with('barangmasuk_id')->whereBetween('tanggal_pembelian', [$tglawal, $tglakhir])->get();
+
+        dd($tglawal);
 
         $cetaklaporan = DB::table('barangmasuks')
                             ->join('item_barang_masuks', 'barangmasuks.id', '=', 'item_barang_masuks.barangmasuk_id')

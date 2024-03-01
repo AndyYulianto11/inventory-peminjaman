@@ -115,18 +115,14 @@
                     <div class="card-body">
                         <div class="row">
                             @if($itemBarang != "[]")
-                                @foreach($itemBarang as $i)
-                                    $from = BarangMasuk::whereDate('tanggal_pembelian', '<', $i->barangmasuk->tanggal_pembelian)->first();
-                                    $to = BarangMasuk::whereDate('tanggal_pembelian', '>', $i->barangmasuk->tanggal_pembelian)->first();
-                                    <div class="col-md-8">
-                                        <p class="text-center">
-                                            <strong>Report: @if($itemBarang) @if($from != $to){{ date("d F, Y", strtotime($from->tanggal_pembelian)) }} - {{ date("d F, Y", strtotime($to->tanggal_pembelian)) }} @else {{ date("d F, Y", strtotime($from->tanggal_pembelian)) }} @endif @endif</strong>
-                                        </p>
-                                        <div class="chart">
-                                            <canvas id="myChart" width="100" height="35px"></canvas>
-                                        </div>
+                                <div class="col-md-8">
+                                    <p class="text-center">
+                                        <strong>Report: @if($itemBarang != "[]") @if($from != $to){{ date("d F, Y", strtotime($from->tanggal_pembelian)) }} - {{ date("d F, Y", strtotime($to->tanggal_pembelian)) }} @else {{ date("d F, Y", strtotime($from->tanggal_pembelian)) }} @endif @endif</strong>
+                                    </p>
+                                    <div class="chart">
+                                        <canvas id="myChart" width="100" height="35px"></canvas>
                                     </div>
-                                @endforeach
+                                </div>
                             @else
                             <div class="col-md-12 text-center">
                                 <p class="alert alert-danger mt-5">Tidak ada Barang Masuk</p>

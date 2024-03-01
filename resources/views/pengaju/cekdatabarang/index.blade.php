@@ -50,8 +50,6 @@
                                     <th width="150px">Barcode</th>
                                     <th>Nama Barang</th>
                                     <th>Jenis</th>
-                                    <th>Stok</th>
-                                    <th>Satuan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,8 +60,6 @@
                                     <td>{{ $item->code_barang }}</td>
                                     <td>{{ $item->nama_barang }}</td>
                                     <td>{{ $item->jenisbarang->jenisbarang }}</td>
-                                    <td>{{ $item->stok }}</td>
-                                    <td>{{ $item->satuan->satuan }}</td>
                                 </tr>
                                 @empty
                                 <div class="alert alert-danger">

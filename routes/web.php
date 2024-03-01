@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\{AdminpengajuController, AtasanController, BarangmasukController, DashboardpengajuController, DataasetunitController,
                           DatabarangController, DatapengadaanbarangController, DatapengajuController, HomeController, JenisbarangController, 
-                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController, BarangKeluarController};
+                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController, BarangKeluarController, LaporanBarangKeluarController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
@@ -84,6 +84,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     // Laporan Barang Masuk
     Route::get('/laporan-barang-masuk', [BarangmasukController::class, 'laporan_barang_masuk'])->name('laporan-barang-masuk');
     Route::get('/cetak-laporan-barang-masuk/{tglawal}/{tglakhir}', [BarangmasukController::class, 'view_laporan_barang_masuk'])->name('cetak-laporan-barang-masuk');
+    Route::resource('laporan-barang-keluar', LaporanBarangKeluarController::class);
 
     // Data Aset Unit
     Route::get('/cek-dataasetunit', [DataasetunitController::class, 'index'])->name('cek-dataasetunit');

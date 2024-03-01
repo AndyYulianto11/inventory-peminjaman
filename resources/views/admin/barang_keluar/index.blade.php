@@ -34,12 +34,6 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">{{ $data['subjudul'] }}</h3>
-
-                            <div class="card-tools">
-                                <a href="#" type="button" class="btn btn-tool"><i
-                                        class="fas fa-plus"></i> Add Data
-                                </a>
-                            </div>
                             <!-- /.card-tools -->
                         </div>
                         <!-- /.card-header -->
@@ -53,7 +47,6 @@
                                         <th>Tanggal</th>
                                         <th>Status Atasan</th>
                                         <th>Status Admin</th>
-                                        <th width="100px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="add_new">
@@ -61,22 +54,20 @@
                                     @forelse ($barangkeluar as $item)
                                         <tr class="text-center" id="data{{ $item->id }}">
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $item->datapengaju->tgl_pengajuan }}</td>
-                                            <td>{{ $item->supplier->nama }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($item->tanggal_pembelian)) }}</td>
+                                            <td>{{ $item->datapengaju->user->name }}</td>
+                                            <td>{{ $item->barang->nama_barang }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($item->datapengaju->tgl_pengajuan)) }}</td>
+                                            @if($item->datapengaju->status_setujuatasan == '3' && $item->datapengaju->status_setujuadmin == '3')
                                             <td>
-                                                @if ($item->item_barangmasuk->count() > 0)
-                                                    {{ $item->item_barangmasuk->count() }}
-                                                @else
-                                                    0
-                                                @endif
+                                                <span class="badge bg-success">Successs</span>
                                             </td>
                                             <td>
-                                                <a href="{{ route('barang-keluar', $item->id) }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-eye"></i></a>
-                                                <a href="{{ route('barang-keluar', $item->id) }}" class="btn btn-warning btn-sm btn-flat  edit_inline"><i class="fas fa-pencil-alt"></i></a>
-                                                <button class="btn btn-danger btn-sm btn-flat btnDelete"><i
-                                                        class="fas fa-trash"></i></button>
+                                                <span class="badge bg-success">Success</span>
                                             </td>
+                                            @else
+                                            <td></td>
+                                            <td></td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <div class="alert alert-danger">

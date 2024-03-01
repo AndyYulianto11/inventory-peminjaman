@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Databarang;
-use App\Models\Datapengaju;
-use App\Models\ItemDataPengaju;
+use App\Models\{Databarang, Datapengaju, ItemDataPengaju, JenisBarang};
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -90,9 +88,11 @@ class DatapengajuController extends Controller
 
         $databarang = Databarang::all();
 
+        $jenisbarang = JenisBarang::all();
+
         $codePengajuan = $this->generateCodePengajuan();
 
-        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju', 'databarang', 'codePengajuan'));
+        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju', 'databarang', 'codePengajuan', 'jenisbarang'));
     }
 
     /**

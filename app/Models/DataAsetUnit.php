@@ -18,7 +18,7 @@ class DataAsetUnit extends Model
         'status',
     ];
 
-    protected $with = ['user', 'item_dataasetunit'];
+    protected $with = ['user'];
 
     public function user()
     {

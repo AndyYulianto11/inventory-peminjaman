@@ -251,8 +251,6 @@ class BarangmasukController extends Controller
     {
         // $cetaklaporan = ItemBarangMasuk::with('barangmasuk_id')->whereBetween('tanggal_pembelian', [$tglawal, $tglakhir])->get();
 
-        dd($tglawal);
-
         $cetaklaporan = DB::table('barangmasuks')
                             ->join('item_barang_masuks', 'barangmasuks.id', '=', 'item_barang_masuks.barangmasuk_id')
                             ->select('barangmasuks.*', 'item_barang_masuks.*')

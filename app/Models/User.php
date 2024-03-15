@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function unit(){
         return $this->belongsTo(Unit::class, 'unit_id');
     }
+
+    public function whereUnit($unit_id){
+        return $this->belongsTo(Unit::class, 'unit_id')->where('unit_id', $unit_id);
+    }
 }

@@ -103,8 +103,7 @@
                                                         {{ $barang->barang->satuan->qty }}
                                                     </td>
                                                     <td class="text-center" width="10%">
-                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]"
-                                                            id="qty" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan == '1') readonly @endif>
+                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan == '1') readonly @endif>
                                                     </td>
                                                     <td class="text-center">
                                                         @if ($barang->status_persetujuanatasan == '0')
@@ -225,10 +224,11 @@
                 }
             });
         });
-
-        document.querySelector("#qty"+{{ $barang->id }}).addEventListener("change", () => {
-            document.getElementById("btnSave").removeAttribute("disabled");
-        });
+        @php foreach($databarang as $row) { @endphp
+            document.getElementById("qty"+{{$row->id}}).addEventListener("change", () => {
+                document.getElementById("btnSave").removeAttribute("disabled");
+            });
+        @php } @endphp
     </script>
 
 @endsection

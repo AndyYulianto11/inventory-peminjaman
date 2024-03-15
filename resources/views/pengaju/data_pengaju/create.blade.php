@@ -7,6 +7,7 @@
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 @endsection
 
 @section('content')
@@ -52,24 +53,24 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <form action="" method="post">
+                                        <div class="modal-body ml-3">
+                                            <form>
                                                 <div class="form-group row">
-                                                    <label for="kode_barang">Kode Barang</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" name="code_barang" class="form-control">
+                                                    <label for="kode_barang" class="col-sm-3">Kode Barang :</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="code_barang" id="code_barang" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label for="nama_barang">Nama Barang</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" name="nama_barang" class="form-control">
+                                                    <label for="nama_barang" class="col-sm-3">Nama Barang :</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="nama_barang" id="nama_barang" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label for="jenis_id">Jenis Barang</label>
-                                                    <div class="col-sm-10">
-                                                        <select name="jenis_id" class="form-control">
+                                                    <label for="jenis_id" class="col-sm-3">Jenis Barang :</label>
+                                                    <div class="col-sm-12">
+                                                        <select name="jenis_id" id="jenis_id" class="form-control">
                                                             <option selected disabled>-- Jenis Barang --</option>
                                                             @foreach($jenisbarang as $row)
                                                                 <option value="{{ $row->id }}">{{ $row->jenisbarang }}</option>
@@ -77,6 +78,10 @@
                                                             <option value=""></option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <div class="form-group row py-2">
+                                                    <button type="button" onclick="barangFunction()" class="btn btn-sm btn-success mr-2">Tambah</button>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -155,6 +160,23 @@
                                     </table>
                                 </div>
 
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-stripde">
+                                        <thead>
+                                            <tr class="text-cemter">
+                                                <th>Kode Barang</th>
+                                                <th>Nama Barang</th>
+                                                <th>Jenis Barang</th>
+                                                <th>Qty</th>
+                                                <th>Hapus</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bahan-lainnya">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-sm btn-flat">Simpan</button>
                                     <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
@@ -176,12 +198,14 @@
     <!-- Select2 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(function() {
 
             $('#barang').change(function(e) {
-                if($(this).val() != 'lainnya'){
+                if($(this).val() != "lainnya"){
                     e.preventDefault();
                     var nama_barang = $('option:selected', this).text();
                     var id = $('option:selected', this).val();
@@ -192,6 +216,7 @@
                     $(this).val("");
 
                     var barangById = $('#barang_id_' + id);
+                    console.log(barangById.val());
                     var qtyById = $("#qty_" + id);
 
                     if (barangById.val() > 0) {
@@ -224,7 +249,7 @@
                         $('.bahan-ajax').append(nilai);
                     }
                 }else{
-                    $('#modalLainnya').modal('show');
+                    $('#modalLainnya').modal('toggle');
                 }
             });
 
@@ -276,6 +301,34 @@
                 });
             });
         });
+
+        function barangFunction() {
+            var code_barang = $('#code_barang').val();
+            var nama_barang = $('#nama_barang').val();
+            var jenis_barang = $('#jenis_id').val();
+
+            var nilai = `
+                            <tr>
+                                <td class="text-center">
+                                    ${code_barang}
+                                </td>
+                                <td class="text-center">
+                                    ${nama_barang}
+                                </td>
+                                <td class="text-center">
+                                    ${satuan} | ${qty}
+                                </td>
+                                <td class="text-center">
+                                    <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
+                                </td>
+                                <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
+
+                                <td class="text-center">
+                                    <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+        };
     </script>
 
 @endsection

@@ -73,15 +73,14 @@
                                                         <select name="jenis_id" id="jenis_id" class="form-control">
                                                             <option selected disabled>-- Jenis Barang --</option>
                                                             @foreach($jenisbarang as $row)
-                                                                <option value="{{ $row->id }}">{{ $row->jenisbarang }}</option>
+                                                            <option value="{{ $row->id }}" data-jenis="{{ $row->jenisbarang }}">{{ $row->jenisbarang }}</option>
                                                             @endforeach
-                                                            <option value=""></option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row py-2">
-                                                    <button type="button" onclick="barangFunction()" class="btn btn-sm btn-success mr-2">Tambah</button>
-                                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                                    <button type="button" onclick="barangFunction()" class="btn btn-sm btn-primary mr-2">Tambah</button>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">Close</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -163,11 +162,10 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-stripde">
                                         <thead>
-                                            <tr class="text-cemter">
+                                            <tr class="text-center">
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Jenis Barang</th>
-                                                <th>Qty</th>
                                                 <th>Hapus</th>
                                             </tr>
                                         </thead>
@@ -304,30 +302,31 @@
 
         function barangFunction() {
             var code_barang = $('#code_barang').val();
-            var nama_barang = $('#nama_barang').val();
-            var jenis_barang = $('#jenis_id').val();
+            var nm_barang = $('#nama_barang').val();
+            var jenis_id = $('#jenis_id').val();
+            var e = document.getElementById('jenis_id');
+            var jenis_barang = e.options[e.selectedIndex];
 
             var nilai = `
                             <tr>
                                 <td class="text-center">
                                     ${code_barang}
+                                    <input type="hidden" name="code_barang[]" value="${code_barang}">
                                 </td>
                                 <td class="text-center">
-                                    ${nama_barang}
+                                    ${nm_barang}
+                                    <input type="hidden" name="nm_barang[]" value="${nm_barang}">
                                 </td>
                                 <td class="text-center">
-                                    ${satuan} | ${qty}
+                                    ${jenis_barang.getAttribute("data-jenis")}
+                                    <input type="hidden" name="jenis_barang[]" value="${jenis_id}">
                                 </td>
-                                <td class="text-center">
-                                    <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
-                                </td>
-                                <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
-
                                 <td class="text-center">
                                     <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                         `;
+            $('.bahan-lainnya').append(nilai);
         };
     </script>
 

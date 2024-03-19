@@ -111,9 +111,16 @@ class DatapengajuController extends Controller
 
         // DB::beginTransaction();
 
+        $id = rand();
+
         $barang_id = $request->barang_id;
         $qty = $request->qty;
         $status_persetujuanatasan = $request->status_persetujuanatasan;
+
+        //variabel barang lainnya
+        $code_barang = $request->code_barang;
+        $nm_barang = $request->nm_barang;
+        $jenis_barang = $request->jenis_barang;
 
         if ($validator->fails()) {
             return response()->json([
@@ -122,6 +129,7 @@ class DatapengajuController extends Controller
             ]);
         } else {
             $header = Datapengaju::insertGetId([
+                'id' => $id,
                 'code_pengajuan' => $request->code_pengajuan,
                 'tgl_pengajuan' => $request->tgl_pengajuan,
                 'user_id' => Auth::user()->id,
@@ -142,6 +150,7 @@ class DatapengajuController extends Controller
                 }
 
                 $data = ItemDataPengaju::insert([
+                    'id' => $id,
                     'datapengaju_id' => $header,
                     'barang_id' => $value,
                     'qty' => $qty[$key],

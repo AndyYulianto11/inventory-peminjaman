@@ -43,9 +43,7 @@ class AtasanController extends Controller
         $unit = Unit::all();
         $user = auth()->user();
         
-        $pengaju = Datapengaju::whereHas('user', function ($query) {
-            return $query->where('user_id', '=', auth()->user()->id);
-        })->get();
+        $pengaju = Datapengaju::all();
 
         return view('atasan.cekdata_pengaju.index', compact('judul', 'unit', 'pengaju'));
     }

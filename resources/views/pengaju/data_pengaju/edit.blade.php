@@ -58,7 +58,7 @@
                                 <div class="form-group row">
                                     <label for="tgl_pengajuan" class="col-sm-2 col-form-label">Tanggal</label>
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control" id="tgl_pengajuan" name="tgl_pengajuan"
+                                        <input type="date" class="form-control" id="tgl_pengajuan" onchange="handler(event)" name="tgl_pengajuan"
                                             value="{{ $datapengaju->tgl_pengajuan }}" required>
                                     </div>
                                 </div>
@@ -198,19 +198,19 @@
             }).then((result) => {
                 if (result.value) {
                     if (result.isConfirmed) {
-                        // $.ajax({
-                        //     url: url,
-                        //     type: "POST",
-                        //     data: {
-                        //         ids: ID,
-                        //     },
-                        //     success: function(response) {
-                        //         var datas = $('#data' + response.data);
-                        //         console.log(datas);
-                        //         datas.remove();
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {
+                                ids: ID,
+                            },
+                            success: function(response) {
+                                var datas = $('#data' + response.data);
+                                console.log(datas);
+                                datas.remove();
 
-                        //     }
-                        // });
+                            }
+                        });
                         document.getElementById("btnSave").removeAttribute("disabled");
                     }
                 } else if (
@@ -229,6 +229,10 @@
                 document.getElementById("btnSave").removeAttribute("disabled");
             });
         @php } @endphp
+
+        function handler(e){
+            document.getElementById("btnSave").removeAttribute("disabled");
+        }
     </script>
 
 @endsection

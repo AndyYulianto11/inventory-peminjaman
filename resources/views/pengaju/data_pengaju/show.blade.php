@@ -84,13 +84,13 @@
                                 <td class="text-center">{{ $item->qty }}</td>
                                 <td class="text-center">
                                     @if ($item->status_persetujuanatasan == '0')
-                                    <span class="badge bg-info">Diajukan</span>
+                                    <span class="badge bg-warning">Diajukan</span>
                                     @elseif ($item->status_persetujuanatasan == '1')
-                                    <span class="badge bg-success">Diproses</span>
+                                    <span class="badge bg-success">Disetujui</span>
                                     @elseif ($item->status_persetujuanatasan == '2')
-                                    <span class="badge bg-danger">Disetujui</span>
+                                    <span class="badge bg-danger">Ditolak</span>
                                     @elseif ($item->status_persetujuanatasan == '3')
-                                    <span class="bade bg-danger">Ditolak</span>
+                                    <span class="badge bg-info">Direvisi</span>
                                     @else
                                     -
                                     @endif
@@ -107,7 +107,7 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <textarea cols="20" rows="1" class="form-control" disabled>{{ $item->keterangan }}</textarea>
+                                    <textarea cols="20" rows="1" class="form-control" readonly>{{ $item->keterangan }}</textarea>
                                 </td>
                             </tr>
                             @empty

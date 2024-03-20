@@ -241,6 +241,7 @@ class DatapengajuController extends Controller
             $getDataPengaju->update([
                 'code_pengajuan' => $request->code_pengajuan,
                 'tgl_pengajuan' => $request->tgl_pengajuan,
+                'status_setujuatasan' => '1'
             ]);
 
             return redirect('datapengaju')->with('success', 'Data berhasil diubah!');

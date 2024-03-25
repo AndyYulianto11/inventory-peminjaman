@@ -84,13 +84,13 @@
                                 <td class="text-center">{{ $item->qty }}</td>
                                 <td class="text-center">
                                     @if ($item->status_persetujuanatasan == '0')
-                                    <span class="badge bg-warning">Diajukan</span>
+                                    <span class="badge bg-info">Diajukan</span>
                                     @elseif ($item->status_persetujuanatasan == '1')
                                     <span class="badge bg-success">Disetujui</span>
                                     @elseif ($item->status_persetujuanatasan == '2')
                                     <span class="badge bg-danger">Ditolak</span>
                                     @elseif ($item->status_persetujuanatasan == '3')
-                                    <span class="badge bg-info">Direvisi</span>
+                                    <span class="badge bg-warning">Direvisi</span>
                                     @else
                                     -
                                     @endif

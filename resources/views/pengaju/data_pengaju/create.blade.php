@@ -54,7 +54,6 @@
                                             </button>
                                         </div>
                                         <div class="modal-body ml-3">
-                                            <form>
                                                 <div class="form-group row">
                                                     <label for="kode_barang" class="col-sm-3">Kode Barang :</label>
                                                     <div class="col-sm-12">
@@ -79,10 +78,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row py-2">
-                                                    <button type="button" onclick="barangFunction()" class="btn btn-sm btn-primary mr-2">Tambah</button>
-                                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">Close</button>
+                                                    <button type="button" class="btn btn-sm btn-primary mr-2">Tambah</button>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="closeFunction()" data-dismiss="modal" aria-label="Close">Close</button>
                                                 </div>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +89,6 @@
                         <div class="card-body">
                             <ul id="saveform_errList"></ul>
                             <form id="modal-form">
-
                                 <div class="form-group row">
                                     <label for="code_pengajuan" class="col-sm-2 col-form-label">Kode Pengajuan</label>
                                     <div class="col-sm-10">
@@ -159,22 +156,6 @@
                                     </table>
                                 </div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-stripde">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Jenis Barang</th>
-                                                <th>Hapus</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bahan-lainnya">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-sm btn-flat">Simpan</button>
                                     <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
@@ -196,27 +177,22 @@
     <!-- Select2 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(function() {
 
             $('#barang').change(function(e) {
-                if($(this).val() != "lainnya"){
+                if($(this).val() != 'lainnya'){
                     e.preventDefault();
                     var nama_barang = $('option:selected', this).text();
                     var id = $('option:selected', this).val();
                     var satuan = $('option:selected', this).data('satuan');
                     var qty = $('option:selected', this).data('qty');
                     var code = $('option:selected', this).data('code');
-
                     $(this).val("");
-
                     var barangById = $('#barang_id_' + id);
-                    console.log(barangById.val());
                     var qtyById = $("#qty_" + id);
-
                     if (barangById.val() > 0) {
                         var current = qtyById.val();
                         qtyById.val(parseInt(current) + 1);
@@ -237,17 +213,15 @@
                                     <input type="number" class="form-control" name="qty[]" id="qty_${id}" id="qty" value="1">
                                 </td>
                                 <input type="hidden" name="status_persetujuanatasan[]" id="status_persetujuanatasan_${id}" id="status_persetujuanatasan" value="0">
-
                                 <td class="text-center">
                                     <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                         `;
-
                         $('.bahan-ajax').append(nilai);
                     }
                 }else{
-                    $('#modalLainnya').modal('toggle');
+                    $('#modalLainnya').modal('show');
                 }
             });
 
@@ -261,7 +235,6 @@
                 e.preventDefault();
                 var data = $(this).serialize();
 
-                console.log(data);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -300,34 +273,10 @@
             });
         });
 
-        function barangFunction() {
-            var code_barang = $('#code_barang').val();
-            var nm_barang = $('#nama_barang').val();
-            var jenis_id = $('#jenis_id').val();
-            var e = document.getElementById('jenis_id');
-            var jenis_barang = e.options[e.selectedIndex];
-
-            var nilai = `
-                            <tr>
-                                <td class="text-center">
-                                    ${code_barang}
-                                    <input type="hidden" name="code_barang[]" value="${code_barang}">
-                                </td>
-                                <td class="text-center">
-                                    ${nm_barang}
-                                    <input type="hidden" name="nm_barang[]" value="${nm_barang}">
-                                </td>
-                                <td class="text-center">
-                                    ${jenis_barang.getAttribute("data-jenis")}
-                                    <input type="hidden" name="jenis_barang[]" value="${jenis_id}">
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-            $('.bahan-lainnya').append(nilai);
-        };
+        function closeFunction(){
+            var barang = document.getElementById('barang');
+            barang[0].selected = 'selected'
+        }
     </script>
 
 @endsection

@@ -208,10 +208,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('datapengaju') }}" class="nav-link {{ request()->is('datapengaju') ? 'active' : '' }}">
+                            <a href="{{ route('datapengaju', ['role' => 'atasan']) }}" class="nav-link {{ request()->is('datapengaju/atasan', 'datapengaju/atasan/disetujui', 'datapengaju/atasan/draft', 'datapengaju/atasan/diajukan', 'datapengaju/atasan/ditangguhkan', 'datapengaju/atasan/ditolak') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-paste"></i>
                                 <p>
-                                    Pengaju
+                                    Pengajuan Atasan
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('datapengaju', ['role' => 'admin']) }}" class="nav-link {{ request()->is('datapengaju/admin', 'datapengaju/admin/disetujui', 'datapengaju/admin/draft', 'datapengaju/admin/diajukan', 'datapengaju/admin/ditangguhkan', 'datapengaju/admin/ditolak') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-paste"></i>
+                                <p>
+                                    Pengajuan Admin
                                 </p>
                             </a>
                         </li>

@@ -41,8 +41,131 @@
                         </div>
                         <!-- /.card-tools -->
                     </div>
+                    <ul class="nav nav-tabs navbar-light">
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju', ['role' => $role]) }}" class="nav-link {{ request()->is('datapengaju/'.$role) ? 'active' : '' }}">DRAFT</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'diajukan']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/diajukan') ? 'active' : '' }}">DIAJUKAN</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'disetujui']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/disetujui') ? 'active' : '' }}">DISETUJUI</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'ditangguhkan']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/ditangguhkan') ? 'active' : '' }}">DITANGGUHKAN</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'ditolak']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/ditolak') ? 'active' : '' }}">DITOLAK</a>
+                        </li>
+                    </ul>
                     <!-- /.card-header -->
-                    @livewire('pengaju.pengajuan')
+                    <div class="card-body">
+                        <table id="datatables" class="table table-bordered table-striped">
+                            <thead>
+                                <tr class="text-center">
+                                    <th width="50px">No</th>
+                                    <th>Kode <br> Pengajuan</th>
+                                    <th width="150px">Tanggal</th>
+                                    <th>Qty</th>
+                                    @if($role == 'atasan')
+                                    <th>Status Atasan</th>
+                                    @else
+                                    <th>Status Admin</th>
+                                    @endif
+                                    <th>File</th>
+                                    <th width="150px">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $no = 1 @endphp
+                                @forelse ($datapengaju as $item)
+                                <tr class="text-center" id="data{{ $item->id }}">
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->code_pengajuan }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
+                                    <td>
+                                        @php
+
+                                            $data = App\Models\ItemDataPengaju::where('datapengaju_id', $item->id)->sum('qty');
+
+                                            echo $data;
+                                        @endphp
+                                    </td>
+                                    @if($role == 'atasan')
+                                    <td>
+                                        @if($item->status_setujuatasan == 0)
+                                        <span class="badge bg-dark">Draft</span>
+                                        @elseif($item->status_setujuatasan == 1)
+                                        <span class="badge bg-info">Diajukan</span>
+                                        @elseif($item->status_setujuatasan == 2)
+                                        <span class="badge bg-success">Disetujui</span>
+                                        @elseif($item->status_setujuatasan == 3)
+                                        <span class="badge bg-warning">Direvisi</span>
+                                        @elseif($item->status_setujuatasan == 4)
+                                        <span class="badge bg-danger">Ditolak</span>
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
+                                    @else
+                                    <td>
+                                        @if($item->status_setujuadmin == 0)
+                                        <span class="badge bg-dark">Draft</span>
+                                        @elseif($item->status_setujuadmin == 1)
+                                        <span class="badge bg-info">Diajukan</span>
+                                        @elseif($item->status_setujuadmin == 2)
+                                        <span class="badge bg-success">Disetujui</span>
+                                        @elseif($item->status_setujuadmin == 3)
+                                        <span class="badge bg-warning">Direvisi</span>
+                                        @elseif($item->status_setujuadmin == 4)
+                                        <span class="badge bg-danger">Ditolak</span>
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
+                                    @endif
+                                    <td>
+                                        @if ($item->upload_dokumen != null)
+                                        <a href="{{ route('lihat-dokumen', $item->id) }}" target="_blank"><span class="badge bg-info">Lihat
+                                                File</span></a>
+                                        @elseif($item->upload_dokumen == null)
+                                        -
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('lihat-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @if ($item->status_setujuatasan == 0)
+                                            <a class="btn btn-success btn-sm btn-flat" onclick="updateSetujuatasan({{ $item->id }})" title="Ajukan Atasan">
+                                                <i class="fas fa-share"></i>
+                                            </a>
+                                        @endif
+                                        @if ($item->status_pengajuan == 1 && $item->upload_dokumen == null && $item->status_setujuatasan == 5 || $item->status_setujuatasan == 0)
+                                        <a href="{{ route('edit-datapengaju', $item->id) }}" class="btn btn-warning btn-sm btn-flat" title="Edit Data">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        @endif
+                                        @if ($item->status_setujuatasan == 3 && $item->upload_dokumen == null)
+                                        <a href="{{ route('upload', $item->id) }}" class="btn btn-success btn-sm btn-flat" title="Upload File">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </a>
+                                        @endif
+                                        @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != null && $item->status_submit == '0')
+                                        <a class="btn btn-success btn-sm btn-flat" onclick="updateStatus({{ $item->id }})" title="Ajukan Admin">
+                                            <i class="fas fa-share"></i>
+                                        </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @empty
+                                <div class="alert alert-danger">
+                                    Tidak ada data pengaju.
+                                </div>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -103,7 +226,7 @@
                 if (response.status === 'success') {
                     // alert('Status diperbarui');
                     // Tambahkan logika lain yang Anda perlukan
-                    // window.location.href = "{{ route('datapengaju') }}";
+                    // window.location.href = "{{ route('datapengaju', ['role' => $role]) }}";
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -113,7 +236,40 @@
 
                     });
                     setTimeout(function() {
-                        location = "{{ route('datapengaju') }}";
+                        location = "{{ route('datapengaju', ['role' => $role]) }}";
+                    }, 1500)
+                } else {
+                    alert('Gagal memperbarui status');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Terjadi kesalahan: ' + error);
+            }
+        });
+    }
+
+    function updateSetujuatasan(id){
+        $.ajax({
+            url: `/update-setuju-atasan/${id}`,
+            type: 'PUT',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // alert('Status diperbarui');
+                    // Tambahkan logika lain yang Anda perlukan
+                    // window.location.href = "{{ route('datapengaju', ['role' => $role]) }}";
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+
+                    });
+                    setTimeout(function() {
+                        location = "{{ route('datapengaju', ['role' => $role]) }}";
                     }, 1500)
                 } else {
                     alert('Gagal memperbarui status');

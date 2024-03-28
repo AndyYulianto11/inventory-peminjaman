@@ -16,8 +16,14 @@ class DatapengajuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($role)
     {
+        $roles = [
+            "atasan",
+            "admin"
+        ];
+
+abort_unless(in_array($role, $roles), 404);
         $judul = [
             'subjudul' => 'Data Pengaju',
             'submenu' => 'data pengaju',
@@ -28,9 +34,14 @@ class DatapengajuController extends Controller
 
         $user = auth()->user(); // Sesuaikan dengan metode otentikasi Anda
 
-        // $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
-        //                             ->where('user_id', $user->id)->get();
-        return view('pengaju.data_pengaju.index', compact('judul', 'databarang'));
+        $field = 'status_setuju'.$role;
+
+        $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
+                                    ->where('user_id', $user->id)
+                                    ->where($field, '0')
+                                    ->paginate(10);
+
+        return view('pengaju.data_pengaju.index', compact('judul', 'databarang', 'datapengaju', 'role'));
     }
 
     public function generateCodePengajuan()
@@ -125,7 +136,7 @@ class DatapengajuController extends Controller
                 'code_pengajuan' => $request->code_pengajuan,
                 'tgl_pengajuan' => $request->tgl_pengajuan,
                 'user_id' => Auth::user()->id,
-                'status_setujuatasan' => '1',
+                'status_setujuatasan' => '0',
                 'status_pengajuan' => 0,
                 'created_at' => Carbon::now(),
             ]);
@@ -229,13 +240,17 @@ class DatapengajuController extends Controller
                 $value->save();
             }
 
-            $getDataPengaju->update([
-                'code_pengajuan' => $request->code_pengajuan,
-                'tgl_pengajuan' => $request->tgl_pengajuan,
-                'status_setujuatasan' => '1'
-            ]);
+            if($getDataPengaju->status_setujuatasan == 0){
+                return redirect('datapengaju')->with('success', 'Data berhasil disimpan!');
+            }else{
+                $getDataPengaju->update([
+                    'code_pengajuan' => $request->code_pengajuan,
+                    'tgl_pengajuan' => $request->tgl_pengajuan,
+                    'status_setujuatasan' => '1'
+                ]);
 
-            return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
+                return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
+            }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -315,6 +330,7 @@ class DatapengajuController extends Controller
         $item = Datapengaju::find($id);
         if ($item) {
             $item->status_submit = 1;
+            $item->status_setujuadmin = "1";
             $item->save();
 
             return response()->json([
@@ -324,5 +340,94 @@ class DatapengajuController extends Controller
         }
 
         return response()->json(['status' => 'error']);
+    }
+
+    public function updateSetujuatasan($id)
+    {
+        $data = Datapengaju::find($id);
+        if($data){
+            $data->update([
+                'status_setujuatasan' => "1"
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data sudah diajukan',
+            ]);
+        }
+
+        return response()->json(['status' => 'error']);
+    }
+
+    public function getDataByStatus($status)
+    {
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'data pengaju',
+        ];
+
+        $role = 'atasan';
+
+        $datapengaju = [];
+
+        if($status == 'ditangguhkan'){
+            $data = Datapengaju::where('status_setujuatasan', '4')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'ditolak'){
+            $data = Datapengaju::where('status_setujuatasan', '3')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'disetujui'){
+            $data = Datapengaju::where('status_setujuatasan', '2')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'diajukan'){
+            $data = Datapengaju::where('status_setujuatasan', '1')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }
+
+        return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role'));
+    }
+
+    public function getDataByStatusAdmin($status)
+    {
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'data pengaju',
+        ];
+
+        $role = 'admin';
+
+        $datapengaju = [];
+
+        if($status == 'ditangguhkan'){
+            $data = Datapengaju::where('status_setujuadmin', '4')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'ditolak'){
+            $data = Datapengaju::where('status_setujuadmin', '3')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'disetujui'){
+            $data = Datapengaju::where('status_setujuadmin', '2')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'diajukan'){
+            $data = Datapengaju::where('status_setujuadmin', '1')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }
+
+        return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role'));
     }
 }

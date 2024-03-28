@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\{AdminpengajuController, AtasanController, BarangmasukController, DashboardpengajuController, DataasetunitController,
-                          DatabarangController, DatapengadaanbarangController, DatapengajuController, HomeController, JenisbarangController, 
-                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController, BarangKeluarController, LaporanBarangKeluarController};
+                          DatabarangController, DatapengadaanbarangController, DatapengajuController, HomeController, JenisbarangController,
+                          KepalaController, UserController, UnitController, SupplierController, SatuanController, RektorController, KeuanganController, BarangKeluarController, LaporanBarangKeluarController,
+                          PengajuanBarangLainController
+                        };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
@@ -137,9 +139,12 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::get('/cekdatabarang', [DashboardpengajuController::class, 'cekdata'])->name('cekdatabarang');
 
     // Data Pengaju
-    Route::get('/datapengaju', [DatapengajuController::class, 'index'])->name('datapengaju');
+    Route::get('/datapengaju/{role}', [DatapengajuController::class, 'index'])->name('datapengaju');
+    Route::get('/datapengaju/atasan/{status}', [DatapengajuController::class, 'getDataByStatus'])->name('datapengaju-atasan');
+    Route::get('/datapengaju/admin/{status}', [DatapengajuController::class, 'getDataByStatusAdmin'])->name('datapengaju-admin');
     Route::get('/create-datapengaju', [DatapengajuController::class, 'create'])->name('create-datapengaju');
     Route::post('/store-datapengaju', [DatapengajuController::class, 'store'])->name('store-datapengaju');
+    Route::resource('pengajuan-lainnya', PengajuanBarangLainController::class);
 
     Route::get('/detail-datapengaju/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
     Route::get('/cetak/{id}', [DatapengajuController::class, 'cetak'])->name('cetak');
@@ -157,6 +162,7 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
 
     // ubah status submit pengaju
     Route::put('/update-status/{id}', [DatapengajuController::class, 'updateStatus'])->name('update.status');
+    Route::put('/update-setuju-atasan/{id}', [DatapengajuController::class, 'updateSetujuatasan'])->name('update.setuju');
 
 });
 
@@ -168,7 +174,7 @@ Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
 
     Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
     Route::put('/update-data-pengaju/{id}', [AtasanController::class, 'update'])->name('update-data-pengaju');
-    
+
     Route::get('/lihat-file/{id}', [DatapengajuController::class, 'dokumen'])->name('lihat-file');
 });
 

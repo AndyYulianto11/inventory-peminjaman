@@ -42,8 +42,8 @@ class AtasanController extends Controller
 
         $unit = Unit::all();
         $user = auth()->user();
-        
-        $pengaju = Datapengaju::all();
+
+        $pengaju = Datapengaju::where('status_setujuatasan', 'not like', '%0%')->get()->all();
 
         return view('atasan.cekdata_pengaju.index', compact('judul', 'unit', 'pengaju'));
     }
@@ -116,11 +116,14 @@ class AtasanController extends Controller
             $getDataPengaju = Datapengaju::findOrFail($id);
 
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
+            dd(count(array_keys($request->status_persetujuanatasan, '1')) == count($request->status_persetujuanatasan));
+            $cek_status = [];
 
             foreach ($post as $key => $value) {
                 $value->status_persetujuanatasan = $request->status_persetujuanatasan[$key];
                 $value->keterangan = $request->keterangan[$key];
                 $value->save();
+                array_push($cek_status, $request->status_persetujuanatasan[$key]);
             }
 
             $getDataPengaju->update([

@@ -53,7 +53,9 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body ml-3">
+                                        <form method="post" action="{{ route('pengajuan-lainnya.store') }}">
+                                            @csrf
+                                            <div class="modal-body ml-3">
                                                 <div class="form-group row">
                                                     <label for="kode_barang" class="col-sm-3">Kode Barang :</label>
                                                     <div class="col-sm-12">
@@ -78,10 +80,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row py-2">
-                                                    <button type="button" class="btn btn-sm btn-primary mr-2">Tambah</button>
+                                                    <input type="submit" value="Tambah" class="btn btn-sm btn-primary mr-2">
                                                     <button type="button" class="btn btn-sm btn-danger" onclick="closeFunction()" data-dismiss="modal" aria-label="Close">Close</button>
                                                 </div>
-                                        </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

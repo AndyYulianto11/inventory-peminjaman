@@ -9,7 +9,7 @@ class Pengajuan extends Component
 {
     public function render()
     {
-        $pengaju = Datapengaju::paginate(10);
+        $pengaju = Datapengaju::where('status_setujuatasan', '1')->paginate(10);
         return view('livewire.atasan.pengajuan', compact('pengaju'));
     }
 }

@@ -106,14 +106,16 @@
                                                         <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan == '1') readonly @endif>
                                                     </td>
                                                     <td class="text-center">
-                                                        @if ($barang->status_persetujuanatasan == '0')
-                                                            <span class="badge bg-warning">Diajukan</span>
-                                                        @elseif ($barang->status_persetujuanatasan == '1')
-                                                            <span class="badge bg-success">Disetujui</span>
+                                                        @if($barang->status_persetujuanatasan == '0')
+                                                            <span class="badge bg-dark">Draf</span>
+                                                        @elseif($barang->status_persetujuanatasan == '1')
+                                                            <span class="badge bg-info">Diajukan</span>
                                                         @elseif ($barang->status_persetujuanatasan == '2')
-                                                            <span class="badge bg-danger">Ditolak</span>
+                                                            <span class="badge bg-success">Disetujui</span>
                                                         @elseif ($barang->status_persetujuanatasan == '3')
-                                                            <span class="badge bg-info">Direvisi</span>
+                                                            <span class="badge bg-danger">Ditolak</span>
+                                                        @elseif ($barang->status_persetujuanatasan == '4')
+                                                            <span class="badge bg-warning">Direvisi</span>
                                                         @else
                                                             -
                                                         @endif
@@ -135,7 +137,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-sm btn-flat" disabled id="btnSave">Simpan</button>
+                                    <button type="submit" class="btn btn-primary btn-sm btn-flat" @foreach ($databarang as $data)
+                                    @if($data->status_persetujuanatasan == 0)
+                                    @else
+                                    disabled
+                                    @endif
+                                    @endforeach id="btnSave">Simpan</button>
                                     <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>

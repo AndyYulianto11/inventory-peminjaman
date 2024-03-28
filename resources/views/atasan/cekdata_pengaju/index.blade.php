@@ -37,7 +37,7 @@
                             <!-- /.card-tools -->
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body" wire:poll>
+                        <div class="card-body">
                     <table id="datatables" class="table table-bordered table-striped">
                         <thead>
                             <tr class="text-center">
@@ -78,9 +78,9 @@
                                     </td>
                                     <td>
                                         @if ($item->status_setujuadmin == 0)
-                                            <span class="badge bg-info">Diajukan</span>
+                                            <span class="badge bg-dark">Draf</span>
                                         @elseif($item->status_setujuadmin == 1)
-                                            <span class="badge bg-secondary">Proses</span>
+                                            <span class="badge bg-info">Diajukan</span>
                                         @elseif($item->status_setujuadmin == 2)
                                             <span class="badge bg-warning">Pending</span>
                                         @elseif($item->status_setujuadmin == 3)

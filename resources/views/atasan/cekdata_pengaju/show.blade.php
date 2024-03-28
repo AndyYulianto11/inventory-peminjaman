@@ -66,7 +66,9 @@
                                         <td>Status Atasan</td>
                                         <td>:</td>
                                         <td>
-                                            @if ($datapengaju->status_setujuatasan == 1)
+                                            @if($datapengaju->status_setujuatasan == 0)
+                                                <span class="badge bg-dark">Draf</span>
+                                            @elseif($datapengaju->status_setujuatasan == 1)
                                                 <span class="badge bg-info">Diajukan</span>
                                             @elseif($datapengaju->status_setujuatasan == 2)
                                                 <span class="badge bg-secondary">Diproses</span>
@@ -86,9 +88,9 @@
                                         <td>:</td>
                                         <td>
                                             @if ($datapengaju->status_setujuadmin == 0)
-                                                <span class="badge bg-info">Diajukan</span>
+                                                <span class="badge bg-dark">Draf</span>
                                             @elseif($datapengaju->status_setujuadmin == 1)
-                                                <span class="badge bg-secondary">Proses</span>
+                                                <span class="badge bg-info">Diajukan</span>
                                             @elseif($datapengaju->status_setujuadmin == 2)
                                                 <span class="badge bg-warning">Pending</span>
                                             @elseif($datapengaju->status_setujuadmin == 3)
@@ -106,6 +108,9 @@
                                     <label for="barang" class="col-sm-2 col-form-label">Update Status</label>
                                     <div class="col-sm-10">
                                         <select name="status_setujuatasan" id="status_setujuatasan" class="form-control">
+                                            <option value="0"
+                                                {{ '0' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Draf
+                                            </option>
                                             <option value="1"
                                                 {{ '1' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diajukan
                                             </option>
@@ -132,8 +137,6 @@
                                         <th class="text-center" width="5">No.</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah <br>Peminjaman</th>
-                                        <th class="text-center">Stok</th>
-                                        <th class="text-center">Selisih</th>
                                         <th class="text-center">Satuan</th>
                                         <th class="text-center">Status Atasan</th>
                                         <th class="text-center">Status Admin</th>
@@ -148,28 +151,24 @@
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $item->barang->nama_barang }}</td>
                                             <td class="text-center">{{ $item->qty }}</td>
-                                            <td class="text-center">{{ $item->barang->stok }}</td>
-                                            @if ($item->barang->stok > $item->qty)
-                                                <td class="text-center">
-                                                    0
-                                                </td>
-                                            @elseif ($item->barang->stok < $item->qty)
-                                                <td class="text-center">
-                                                    {{ $item->qty - $item->barang->stok }}
-                                                </td>
-                                            @endif
                                             <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                             <td class="text-center">
                                                 <select name="status_persetujuanatasan[]" id="status_persetujuanatasan"
                                                     class="form-control">
                                                     <option value="" selected disabled>--Pilih Status--</option>
+                                                    <option value="0"
+                                                        {{ '0' == $item->status_persetujuanatasan ? 'selected' : '' }}>
+                                                        Draf</option>
                                                     <option value="1"
                                                         {{ '1' == $item->status_persetujuanatasan ? 'selected' : '' }}>
-                                                        Disetujui</option>
+                                                        Diajukan</option>
                                                     <option value="2"
                                                         {{ '2' == $item->status_persetujuanatasan ? 'selected' : '' }}>
-                                                        Ditolak</option>
+                                                        Disetujui</option>
                                                     <option value="3"
+                                                        {{ '3' == $item->status_persetujuanatasan ? 'selected' : '' }}>
+                                                        Ditolak</option>
+                                                    <option value="4"
                                                         {{ '3' == $item->status_persetujuanatasan ? 'selected' : '' }}>
                                                         Direvisi</option>
                                                 </select>

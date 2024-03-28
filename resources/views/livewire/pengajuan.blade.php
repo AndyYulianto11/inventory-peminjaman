@@ -55,16 +55,16 @@
                             File</span></a>
                 </td>
                 <td>
-                    <a href="{{ route('show-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat">
+                    <a href="{{ route('show-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat mr-2">
                         <i class="fas fa-eye"></i>
                     </a>
                     <a href="{{ route('edit-cek-pengaju', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
-                    <button class="btn btn-danger btn-sm btn-flat btnDelete">
+                    <button class="btn btn-danger btn-sm btn-flat btnDelete mt-2 mr-2">
                         <i class="fas fa-trash"></i>
                     </button>
-                    <button class="btn btn-info btn-sm btn-flat insertData" data-id="{{ $item->id }}" title="Proses Data">
+                    <button class="btn btn-info btn-sm btn-flat insertData mt-2" data-id="{{ $item->id }}" title="Proses Data">
                         <i class="fas fa-share"></i>
                     </button>
                 </td>

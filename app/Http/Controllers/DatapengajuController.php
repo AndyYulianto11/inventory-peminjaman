@@ -23,7 +23,8 @@ class DatapengajuController extends Controller
             "admin"
         ];
 
-abort_unless(in_array($role, $roles), 404);
+        abort_unless(in_array($role, $roles), 404);
+
         $judul = [
             'subjudul' => 'Data Pengaju',
             'submenu' => 'data pengaju',
@@ -36,12 +37,14 @@ abort_unless(in_array($role, $roles), 404);
 
         $field = 'status_setuju'.$role;
 
+        $isEdit = false;
+        $isDetail = false;
+
         $datapengaju = Datapengaju::select("*")->orderBy('created_at', 'DESC')
                                     ->where('user_id', $user->id)
-                                    ->where($field, '0')
-                                    ->paginate(10);
+                                    ->where($field, '0')->get()->all();
 
-        return view('pengaju.data_pengaju.index', compact('judul', 'databarang', 'datapengaju', 'role'));
+        return view('pengaju.data_pengaju.index', compact('judul', 'databarang', 'datapengaju', 'role', 'isEdit', 'isDetail'));
     }
 
     public function generateCodePengajuan()
@@ -101,9 +104,12 @@ abort_unless(in_array($role, $roles), 404);
 
         $jenisbarang = JenisBarang::all();
 
+        $isEdit = false;
+        $isDetail = false;
+
         $codePengajuan = $this->generateCodePengajuan();
 
-        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju', 'databarang', 'codePengajuan', 'jenisbarang'));
+        return view('pengaju.data_pengaju.create', compact('judul', 'datapengaju', 'databarang', 'codePengajuan', 'jenisbarang', 'isEdit', 'isDetail'));
     }
 
     /**
@@ -176,7 +182,7 @@ abort_unless(in_array($role, $roles), 404);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($role, $id)
     {
         $data = [
             'subjudul' => 'Pengajuan',
@@ -186,7 +192,12 @@ abort_unless(in_array($role, $roles), 404);
         $datapengaju = Datapengaju::find($id);
         $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
 
-        return view('pengaju.data_pengaju.show', compact('data', 'datapengaju', 'itemDatapengaju'));
+        $isEdit = false;
+        $isDetail = true;
+
+        $roles = $role;
+
+        return view('pengaju.data_pengaju.show', compact('data', 'datapengaju', 'itemDatapengaju', 'isEdit', 'isDetail', 'roles'));
     }
 
     public function cetak($id)
@@ -208,17 +219,22 @@ abort_unless(in_array($role, $roles), 404);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($role, $id)
     {
         $data = [
             'subjudul' => 'Pengajuan',
             'submenu' => 'pengajuan',
         ];
 
+        $roles = $role;
+
         $datapengaju = Datapengaju::find($id);
         $databarang = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
 
-        return view('pengaju.data_pengaju.edit', compact('data', 'datapengaju', 'databarang'));
+        $isEdit = true;
+        $isDetail = true;
+
+        return view('pengaju.data_pengaju.edit', compact('data', 'datapengaju', 'databarang', 'roles', 'isEdit', 'isDetail'));
     }
 
     /**
@@ -241,7 +257,7 @@ abort_unless(in_array($role, $roles), 404);
             }
 
             if($getDataPengaju->status_setujuatasan == 0){
-                return redirect('datapengaju')->with('success', 'Data berhasil disimpan!');
+                return redirect()->route('datapengaju', ['role' => $request->role])->with('success', 'Data berhasil disimpan!');
             }else{
                 $getDataPengaju->update([
                     'code_pengajuan' => $request->code_pengajuan,
@@ -249,7 +265,7 @@ abort_unless(in_array($role, $roles), 404);
                     'status_setujuatasan' => '1'
                 ]);
 
-                return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
+                return redirect()->route('datapengaju', ['role' => $request->role])->with('success', 'Data berhasil diubah!');
             }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -368,14 +384,17 @@ abort_unless(in_array($role, $roles), 404);
 
         $role = 'atasan';
 
+        $isEdit = false;
+        $isDetail = false;
+
         $datapengaju = [];
 
-        if($status == 'ditangguhkan'){
+        if($status == 'ditolak'){
             $data = Datapengaju::where('status_setujuatasan', '4')->get()->all();
             foreach($data as $row){
                 $datapengaju[] = $row;
             }
-        }else if($status == 'ditolak'){
+        }else if($status == 'ditangguhkan'){
             $data = Datapengaju::where('status_setujuatasan', '3')->get()->all();
             foreach($data as $row){
                 $datapengaju[] = $row;
@@ -392,7 +411,8 @@ abort_unless(in_array($role, $roles), 404);
             }
         }
 
-        return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role'));
+
+        return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role', 'isEdit', 'isDetail'));
     }
 
     public function getDataByStatusAdmin($status)
@@ -404,14 +424,17 @@ abort_unless(in_array($role, $roles), 404);
 
         $role = 'admin';
 
+        $isEdit = false;
+        $isDetail = false;
+
         $datapengaju = [];
 
-        if($status == 'ditangguhkan'){
+        if($status == 'ditolak'){
             $data = Datapengaju::where('status_setujuadmin', '4')->get()->all();
             foreach($data as $row){
                 $datapengaju[] = $row;
             }
-        }else if($status == 'ditolak'){
+        }else if($status == 'ditangguhkan'){
             $data = Datapengaju::where('status_setujuadmin', '3')->get()->all();
             foreach($data as $row){
                 $datapengaju[] = $row;
@@ -428,6 +451,6 @@ abort_unless(in_array($role, $roles), 404);
             }
         }
 
-        return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role'));
+        return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role', 'isEdit', 'isDetail'));
     }
 }

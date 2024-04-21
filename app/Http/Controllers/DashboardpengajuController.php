@@ -24,6 +24,8 @@ class DashboardpengajuController extends Controller
             'submenu' => 'data barang',
         ];
         $databarang = Databarang::select("*")->orderBy('created_at', 'DESC')->get();
-        return view('pengaju.cekdatabarang.index', compact('judul', 'databarang'));
+        $isEdit = false;
+        $isDetail = false;
+        return view('pengaju.cekdatabarang.index', compact('judul', 'databarang', 'isEdit', 'isDetail'));
     }
 }

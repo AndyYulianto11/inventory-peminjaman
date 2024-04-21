@@ -87,14 +87,18 @@
                                         <td>Status Admin</td>
                                         <td>:</td>
                                         <td>
-                                            @if ($datapengaju->status_setujuadmin == 0)
+                                            @if($datapengaju->status_setujuadmin == 0)
                                                 <span class="badge bg-dark">Draf</span>
                                             @elseif($datapengaju->status_setujuadmin == 1)
                                                 <span class="badge bg-info">Diajukan</span>
                                             @elseif($datapengaju->status_setujuadmin == 2)
-                                                <span class="badge bg-warning">Pending</span>
+                                                <span class="badge bg-secondary">Diproses</span>
                                             @elseif($datapengaju->status_setujuadmin == 3)
-                                                <span class="badge bg-success">Selesai</span>
+                                                <span class="badge bg-success">Disetujui</span>
+                                            @elseif($datapengaju->status_setujuadmin == 4)
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @elseif($datapengaju->status_setujuadmin == 5)
+                                                <span class="badge bg-warning">Direvisi</span>
                                             @else
                                                 -
                                             @endif
@@ -108,23 +112,17 @@
                                     <label for="barang" class="col-sm-2 col-form-label">Update Status</label>
                                     <div class="col-sm-10">
                                         <select name="status_setujuatasan" id="status_setujuatasan" class="form-control">
-                                            <option value="0"
-                                                {{ '0' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Draf
-                                            </option>
                                             <option value="1"
                                                 {{ '1' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diajukan
                                             </option>
                                             <option value="2"
-                                                {{ '2' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diproses
+                                                {{ '2' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Disetujui
                                             </option>
                                             <option value="3"
-                                                {{ '3' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Disetujui
+                                                {{ '3' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Ditangguhkan
                                             </option>
                                             <option value="4"
                                                 {{ '4' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Ditolak
-                                            </option>
-                                            <option value="5"
-                                                {{ '5' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Direvisi
                                             </option>
                                         </select>
                                     </div>
@@ -156,9 +154,6 @@
                                                 <select name="status_persetujuanatasan[]" id="status_persetujuanatasan"
                                                     class="form-control">
                                                     <option value="" selected disabled>--Pilih Status--</option>
-                                                    <option value="0"
-                                                        {{ '0' == $item->status_persetujuanatasan ? 'selected' : '' }}>
-                                                        Draf</option>
                                                     <option value="1"
                                                         {{ '1' == $item->status_persetujuanatasan ? 'selected' : '' }}>
                                                         Diajukan</option>
@@ -167,10 +162,10 @@
                                                         Disetujui</option>
                                                     <option value="3"
                                                         {{ '3' == $item->status_persetujuanatasan ? 'selected' : '' }}>
-                                                        Ditolak</option>
-                                                    <option value="4"
-                                                        {{ '3' == $item->status_persetujuanatasan ? 'selected' : '' }}>
                                                         Direvisi</option>
+                                                    <option value="4"
+                                                        {{ '4' == $item->status_persetujuanatasan ? 'selected' : '' }}>
+                                                        Ditolak</option>
                                                 </select>
                                             </td>
                                             <td class="text-center">
@@ -192,6 +187,7 @@
                                 </table>
                                 <br><br>
                                 <div class="form-group">
+
                                     <button type="submit" class="btn btn-danger btn-sm btn-flat">Akhiri Pengecekan
                                         Data</button>
                                     <a href="/cekdatapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>

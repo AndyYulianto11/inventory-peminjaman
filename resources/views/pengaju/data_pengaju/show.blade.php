@@ -71,8 +71,11 @@
                                 <th class="text-center">Nama Barang</th>
                                 <th class="text-center">Satuan</th>
                                 <th class="text-center">Jumlah <br>Peminjaman</th>
+                                @if($roles == 'atasan')
                                 <th class="text-center">Status Atasan</th>
+                                @else
                                 <th class="text-center">Status Admin</th>
+                                @endif
                                 <th class="text-center">Keterangan</th>
                             </tr>
                             @php $no = 1 @endphp
@@ -82,30 +85,39 @@
                                 <td>{{ $item->barang->nama_barang }}</td>
                                 <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                 <td class="text-center">{{ $item->qty }}</td>
+                                @if($roles == 'atasan')
                                 <td class="text-center">
                                     @if ($item->status_persetujuanatasan == '0')
-                                    <span class="badge bg-info">Diajukan</span>
+                                    <span class="badge bg-dark">Draft</span>
                                     @elseif ($item->status_persetujuanatasan == '1')
-                                    <span class="badge bg-success">Disetujui</span>
+                                    <span class="badge bg-info">Diajukan</span>
                                     @elseif ($item->status_persetujuanatasan == '2')
-                                    <span class="badge bg-danger">Ditolak</span>
+                                    <span class="badge bg-success">Disetujui</span>
                                     @elseif ($item->status_persetujuanatasan == '3')
                                     <span class="badge bg-warning">Direvisi</span>
+                                    @elseif ($item->status_persetujuanatasan == '4')
+                                    <span class="badge bg-danger">Ditolak</span>
                                     @else
                                     -
                                     @endif
                                 </td>
+                                @else
                                 <td class="text-center">
                                     @if ($item->status_persetujuanadmin == '0')
-                                    <span class="badge bg-info">Serah Terima</span>
+                                    <span class="badge bg-dark">Draft</span>
                                     @elseif ($item->status_persetujuanadmin == '1')
-                                    <span class="badge bg-success">Sebagian Diserahterimakan</span>
+                                    <span class="badge bg-info">Diajukan</span>
                                     @elseif ($item->status_persetujuanadmin == '2')
-                                    <span class="badge bg-danger">Tidak Ready</span>
+                                    <span class="badge bg-success">Disetujui</span>
+                                    @elseif ($item->status_persetujuanadmin == '3')
+                                    <span class="badge bg-warning">Direvisi</span>
+                                    @elseif ($item->status_persetujuanadmin == '4')
+                                    <span class="badge bg-danger">Ditolak</span>
                                     @else
                                     -
                                     @endif
                                 </td>
+                                @endif
                                 <td class="text-center">
                                     <textarea cols="20" rows="1" class="form-control" readonly>{{ $item->keterangan }}</textarea>
                                 </td>
@@ -116,7 +128,7 @@
                         </table>
                         <br><br>
                         <div class="form-group">
-                            <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                            <a href="{{ request()->is('detail-datapengaju/admin/'.$datapengaju->id) ? '/datapengaju/admin' : '/datapengaju/atasan' }}" class="btn btn-success btn-sm btn-flat">Kembali</a>
                         </div>
                     </div>
                     <!-- /.card-body -->

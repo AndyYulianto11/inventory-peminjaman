@@ -146,10 +146,10 @@ Route::middleware(['auth', 'checkrole:pengaju'])->group(function () {
     Route::post('/store-datapengaju', [DatapengajuController::class, 'store'])->name('store-datapengaju');
     Route::resource('pengajuan-lainnya', PengajuanBarangLainController::class);
 
-    Route::get('/detail-datapengaju/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
+    Route::get('/detail-datapengaju/{role}/{id}', [DatapengajuController::class, 'show'])->name('lihat-data-pengaju');
     Route::get('/cetak/{id}', [DatapengajuController::class, 'cetak'])->name('cetak');
 
-    Route::get('/edit-datapengaju/{id}', [DatapengajuController::class, 'edit'])->name('edit-datapengaju');
+    Route::get('/edit-datapengaju/{role}/{id}', [DatapengajuController::class, 'edit'])->name('edit-datapengaju');
     Route::put('/update-datapengaju/{id}', [DatapengajuController::class, 'update'])->name('update-datapengaju');
 
     Route::post('/delete-item-datapengaju', [DatapengajuController::class, 'destroy'])->name('delete-item-datapengaju');
@@ -171,6 +171,7 @@ Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
     Route::get('/atasan', [AtasanController::class, 'index'])->name('atasan');
     // Cek Data Pengaju
     Route::get('/cekdatapengaju', [AtasanController::class, 'cekdatapengaju'])->name('cekdatapengaju');
+    Route::get('/cekdatapengaju/{status}', [AtasanController::class, 'getDataByStatus'])->name('cekdatapengaju-atasan');
 
     Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
     Route::put('/update-data-pengaju/{id}', [AtasanController::class, 'update'])->name('update-data-pengaju');

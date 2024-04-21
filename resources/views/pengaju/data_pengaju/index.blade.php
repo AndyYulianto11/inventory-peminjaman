@@ -34,10 +34,11 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">{{ $judul['subjudul'] }}</h3>
-
                         <div class="card-tools">
-                            <a href="{{ route('create-datapengaju') }}" type="button" class="btn btn-tool"><i class="fas fa-plus"></i> Add Data
-                            </a>
+                            @if($role == 'atasan')
+                                <a href="{{ route('create-datapengaju') }}" type="button" class="btn btn-tool"><i class="fas fa-plus"></i> Add Data
+                                </a>
+                            @endif
                         </div>
                         <!-- /.card-tools -->
                     </div>
@@ -100,7 +101,7 @@
                                         @elseif($item->status_setujuatasan == 2)
                                         <span class="badge bg-success">Disetujui</span>
                                         @elseif($item->status_setujuatasan == 3)
-                                        <span class="badge bg-warning">Direvisi</span>
+                                        <span class="badge bg-warning">Ditangguhkan</span>
                                         @elseif($item->status_setujuatasan == 4)
                                         <span class="badge bg-danger">Ditolak</span>
                                         @else
@@ -116,7 +117,7 @@
                                         @elseif($item->status_setujuadmin == 2)
                                         <span class="badge bg-success">Disetujui</span>
                                         @elseif($item->status_setujuadmin == 3)
-                                        <span class="badge bg-warning">Direvisi</span>
+                                        <span class="badge bg-warning">Ditangguhkan</span>
                                         @elseif($item->status_setujuadmin == 4)
                                         <span class="badge bg-danger">Ditolak</span>
                                         @else
@@ -133,7 +134,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('lihat-data-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
+                                        <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         @if ($item->status_setujuatasan == 0)
@@ -142,7 +143,7 @@
                                             </a>
                                         @endif
                                         @if ($item->status_pengajuan == 1 && $item->upload_dokumen == null && $item->status_setujuatasan == 5 || $item->status_setujuatasan == 0)
-                                        <a href="{{ route('edit-datapengaju', $item->id) }}" class="btn btn-warning btn-sm btn-flat" title="Edit Data">
+                                        <a href="{{ route('edit-datapengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-warning btn-sm btn-flat" title="Edit Data">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         @endif
@@ -154,6 +155,11 @@
                                         @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != null && $item->status_submit == '0')
                                         <a class="btn btn-success btn-sm btn-flat" onclick="updateStatus({{ $item->id }})" title="Ajukan Admin">
                                             <i class="fas fa-share"></i>
+                                        </a>
+                                        @endif
+                                        @if($item->status_setujuatasan == 4)
+                                        <a class="btn btn-danger btn-sm btn-flat" href="#" title="Hapus">
+                                            <i class="fas fa-trash"></i>
                                         </a>
                                         @endif
                                     </td>
@@ -179,8 +185,6 @@
 @endsection
 
 @section('js')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- DataTables  & Plugins -->

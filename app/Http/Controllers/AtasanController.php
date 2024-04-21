@@ -43,9 +43,12 @@ class AtasanController extends Controller
         $unit = Unit::all();
         $user = auth()->user();
 
-        $pengaju = Datapengaju::where('status_setujuatasan', 'not like', '%0%')->get()->all();
+        $isEdit = false;
+        $isDetail = false;
 
-        return view('atasan.cekdata_pengaju.index', compact('judul', 'unit', 'pengaju'));
+        $datapengaju = Datapengaju::where('status_setujuatasan', '0')->get()->all();
+
+        return view('atasan.cekdata_pengaju.index', compact('judul', 'unit', 'datapengaju', 'isEdit', 'isDetail'));
     }
 
     /**
@@ -116,7 +119,7 @@ class AtasanController extends Controller
             $getDataPengaju = Datapengaju::findOrFail($id);
 
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
-            dd(count(array_keys($request->status_persetujuanatasan, '1')) == count($request->status_persetujuanatasan));
+            // dd(count(array_keys($request->status_persetujuanatasan, '1')) == count($request->status_persetujuanatasan));
             $cek_status = [];
 
             foreach ($post as $key => $value) {
@@ -146,5 +149,42 @@ class AtasanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDataByStatus($status)
+    {
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'Data Pengaju',
+        ];
+
+        $isEdit = false;
+        $isDetail = false;
+
+        $datapengaju = [];
+
+        if($status == 'ditolak'){
+            $data = Datapengaju::where('status_setujuatasan', '4')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'ditangguhkan'){
+            $data = Datapengaju::where('status_setujuatasan', '3')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'disetujui'){
+            $data = Datapengaju::where('status_setujuatasan', '2')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }else if($status == 'diajukan'){
+            $data = Datapengaju::where('status_setujuatasan', '1')->get()->all();
+            foreach($data as $row){
+                $datapengaju[] = $row;
+            }
+        }
+
+        return view('atasan.cekdata_pengaju.index', compact('datapengaju', 'judul', 'isEdit', 'isDetail'));
     }
 }

@@ -268,7 +268,7 @@
 
                             });
                             setTimeout(function() {
-                                location = "{{ route('datapengaju') }}";
+                                location = "{{ route('datapengaju', ['role' => 'atasan']) }}";
                             }, 1500)
                         }
                     }

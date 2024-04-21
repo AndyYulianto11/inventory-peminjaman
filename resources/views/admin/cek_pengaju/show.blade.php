@@ -65,16 +65,20 @@
                                 <td>Status Admin</td>
                                 <td>:</td>
                                 <td>
-                                    @if ($datapengaju->status_setujuadmin == 0)
-                                    <span class="badge bg-info">Diajukan</span>
+                                    @if($datapengaju->status_setujuadmin == 0)
+                                        <span class="badge bg-dark">Draf</span>
                                     @elseif($datapengaju->status_setujuadmin == 1)
-                                    <span class="badge bg-secondary">Proses</span>
+                                        <span class="badge bg-info">Diajukan</span>
                                     @elseif($datapengaju->status_setujuadmin == 2)
-                                    <span class="badge bg-warning">Pending</span>
+                                        <span class="badge bg-secondary">Diproses</span>
                                     @elseif($datapengaju->status_setujuadmin == 3)
-                                    <span class="badge bg-success">Selesai</span>
+                                        <span class="badge bg-success">Disetujui</span>
+                                    @elseif($datapengaju->status_setujuadmin == 4)
+                                        <span class="badge bg-danger">Ditolak</span>
+                                    @elseif($datapengaju->status_setujuadmin == 5)
+                                        <span class="badge bg-warning">Direvisi</span>
                                     @else
-                                    -
+                                        -
                                     @endif
                                 </td>
                             </tr>
@@ -112,27 +116,37 @@
                                     @endif
                                     <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                     <td class="text-center">
-                                        @if ($item->status_persetujuanatasan == '0')
-                                        <span class="badge bg-info">Diajukan</span>
-                                        @elseif ($item->status_persetujuanatasan == '1')
-                                        <span class="badge bg-success">Disetujui</span>
-                                        @elseif ($item->status_persetujuanatasan == '2')
-                                        <span class="badge bg-danger">Ditolak</span>
-                                        @elseif ($item->status_persetujuanatasan == '3')
-                                        <span class="badge bg-warning">Direvisi</span>
+                                        @if($datapengaju->status_setujuatasan == 0)
+                                            <span class="badge bg-dark">Draf</span>
+                                        @elseif($datapengaju->status_setujuatasan == 1)
+                                            <span class="badge bg-info">Diajukan</span>
+                                        @elseif($datapengaju->status_setujuatasan == 2)
+                                            <span class="badge bg-secondary">Diproses</span>
+                                        @elseif($datapengaju->status_setujuatasan == 3)
+                                            <span class="badge bg-success">Disetujui</span>
+                                        @elseif($datapengaju->status_setujuatasan == 4)
+                                            <span class="badge bg-danger">Ditolak</span>
+                                        @elseif($datapengaju->status_setujuatasan == 5)
+                                            <span class="badge bg-warning">Direvisi</span>
                                         @else
-                                        -
+                                            -
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        @if ($item->status_persetujuanadmin == '0')
-                                        <span class="badge bg-info">Serah Terima</span>
-                                        @elseif ($item->status_persetujuanadmin == '1')
-                                        <span class="badge bg-success">Sebagian Diserahterimakan</span>
-                                        @elseif ($item->status_persetujuanadmin == '2')
-                                        <span class="badge bg-danger">Tidak Ready</span>
+                                        @if($datapengaju->status_setujuadmin == 0)
+                                            <span class="badge bg-dark">Draf</span>
+                                        @elseif($datapengaju->status_setujuadmin == 1)
+                                            <span class="badge bg-info">Diajukan</span>
+                                        @elseif($datapengaju->status_setujuadmin == 2)
+                                            <span class="badge bg-secondary">Diproses</span>
+                                        @elseif($datapengaju->status_setujuadmin == 3)
+                                            <span class="badge bg-success">Disetujui</span>
+                                        @elseif($datapengaju->status_setujuadmin == 4)
+                                            <span class="badge bg-danger">Ditolak</span>
+                                        @elseif($datapengaju->status_setujuadmin == 5)
+                                            <span class="badge bg-warning">Direvisi</span>
                                         @else
-                                        -
+                                            -
                                         @endif
                                     </td>
                                     <td class="text-center">

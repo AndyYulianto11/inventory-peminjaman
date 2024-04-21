@@ -69,14 +69,18 @@
                                         <td>Status Admin</td>
                                         <td>:</td>
                                         <td>
-                                            @if ($datapengaju->status_setujuadmin == 0)
-                                                <span class="badge bg-info">Diajukan</span>
+                                            @if($datapengaju->status_setujuadmin == 0)
+                                                <span class="badge bg-dark">Draft</span>
                                             @elseif($datapengaju->status_setujuadmin == 1)
-                                                <span class="badge bg-secondary">Proses</span>
+                                                <span class="badge bg-info">Diajukan</span>
                                             @elseif($datapengaju->status_setujuadmin == 2)
-                                                <span class="badge bg-warning">Pending</span>
+                                                <span class="badge bg-secondary">Diproses</span>
                                             @elseif($datapengaju->status_setujuadmin == 3)
-                                                <span class="badge bg-success">Selesai</span>
+                                                <span class="badge bg-success">Disetujui</span>
+                                            @elseif($datapengaju->status_setujuadmin == 4)
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @elseif($datapengaju->status_setujuadmin == 5)
+                                                <span class="badge bg-warning">Direvisi</span>
                                             @else
                                                 -
                                             @endif
@@ -91,16 +95,22 @@
                                     <div class="col-sm-10">
                                         <select name="status_setujuadmin" id="status_setujuadmin" class="form-control">
                                             <option value="0"
-                                                {{ '0' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Diajukan
+                                                {{ '0' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Draft
                                             </option>
                                             <option value="1"
-                                                {{ '1' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Proses
+                                                {{ '1' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Diajukan
                                             </option>
                                             <option value="2"
-                                                {{ '2' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Pending
+                                                {{ '2' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Diproses
                                             </option>
                                             <option value="3"
-                                                {{ '3' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Selesai
+                                                {{ '3' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Disetujui
+                                            </option>
+                                            <option value="4"
+                                                {{ '4' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Ditolak
+                                            </option>
+                                            <option value="5"
+                                                {{ '5' == $datapengaju->status_setujuadmin ? 'selected' : '' }}>Ditangguhkan
                                             </option>
                                         </select>
                                     </div>

@@ -207,8 +207,34 @@
                                 </p>
                             </a>
                         </li>
+                        @if(request()->is('pengaju'))
+                            @php
+                                $editActive = '';
+                                $detailActive = '';
+                            @endphp
+                        @else
+                            @if($isEdit)
+                                @php
+                                    $editActive = 'edit-datapengaju/atasan/'.$datapengaju->id;
+                                    $detailActive = '';
+                                @endphp
+                            @elseif($isDetail)
+                                @php
+                                    $detailActive = 'detail-datapengaju/atasan/'.$datapengaju->id;
+                                    $editActive = '';
+                                @endphp
+                            @else
+                                @php
+                                    $editActive = '';
+                                    $detailActive = '';
+                                @endphp
+                            @endif
+                        @endif
                         <li class="nav-item">
-                            <a href="{{ route('datapengaju', ['role' => 'atasan']) }}" class="nav-link {{ request()->is('datapengaju/atasan', 'datapengaju/atasan/disetujui', 'datapengaju/atasan/draft', 'datapengaju/atasan/diajukan', 'datapengaju/atasan/ditangguhkan', 'datapengaju/atasan/ditolak') ? 'active' : '' }}">
+                            <a href="{{ route('datapengaju', ['role' => 'atasan']) }}" class="nav-link {{ request()->is('datapengaju/atasan',
+                                                                                                        'datapengaju/atasan/disetujui', 'datapengaju/atasan/draft',
+                                                                                                        'datapengaju/atasan/diajukan', 'datapengaju/atasan/ditangguhkan',
+                                                                                                        'datapengaju/atasan/ditolak', $editActive, $detailActive) ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-paste"></i>
                                 <p>
                                     Pengajuan Atasan

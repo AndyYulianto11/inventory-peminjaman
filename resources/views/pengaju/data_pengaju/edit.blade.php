@@ -47,7 +47,7 @@
                             <form action="{{ route('update-datapengaju', $datapengaju->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-
+                                <input type="hidden" name="role" value="{{ $roles }}" class="form-control">
                                 <div class="form-group row">
                                     <label for="kode_nota" class="col-sm-2 col-form-label">Kode Pengajuan</label>
                                     <div class="col-sm-10">
@@ -138,12 +138,11 @@
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-sm btn-flat" @foreach ($databarang as $data)
-                                    @if($data->status_persetujuanatasan == 0)
-                                    @else
+                                    @if($data->status_persetujuanatasan != 0)
                                     disabled
                                     @endif
                                     @endforeach id="btnSave">Simpan</button>
-                                    <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                                    <a href="{{ request()->is('detail-datapengaju/admin/'.$datapengaju->id) ? '/datapengaju/admin' : '/datapengaju/atasan' }}" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>
                         </div>

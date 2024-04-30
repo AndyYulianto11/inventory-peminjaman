@@ -297,9 +297,12 @@ class DatapengajuController extends Controller
             'submenu' => 'pengajuan',
         ];
 
+        $isEdit = false;
+        $isDetail = false;
+
         $datapengaju = Datapengaju::findOrFail($id);
 
-        return view('pengaju.upload.upload', compact('data', 'datapengaju'));
+        return view('pengaju.upload.upload', compact('data', 'datapengaju', 'isEdit', 'isDetail'));
     }
 
     public function updatePdf(Request $request, $id)
@@ -319,11 +322,12 @@ class DatapengajuController extends Controller
 
                 $datapengaju->update([
                     'upload_dokumen' => $files->getClientOriginalName(),
+                    'status_setujuadmin' => '0',
                     'status_submit' => '0',
                 ]);
             }
 
-            return redirect('datapengaju')->with('success', 'Data berhasil diubah!');
+            return redirect()->route('datapengaju-atasan', ['status' => 'disetujui'])->with('success', 'Data berhasil diubah!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -336,9 +340,12 @@ class DatapengajuController extends Controller
             'submenu' => 'dokumen',
         ];
 
+        $isEdit = false;
+        $isDetail = false;
+
         $datapengaju = Datapengaju::findOrFail($id);
 
-        return view('pengaju.dokumen.index', compact('data', 'datapengaju'));
+        return view('pengaju.dokumen.index', compact('data', 'datapengaju', 'isEdit', 'isDetail'));
     }
 
     public function updateStatus($id)
@@ -449,6 +456,8 @@ class DatapengajuController extends Controller
             foreach($data as $row){
                 $datapengaju[] = $row;
             }
+        }else if($status == 'draft'){
+            $data = Datapengaju::where('status_setujuadmin', '0')->get()->all();
         }
 
         return view('pengaju.data_pengaju.index', compact('datapengaju', 'judul', 'role', 'isEdit', 'isDetail'));

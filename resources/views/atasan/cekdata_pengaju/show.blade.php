@@ -110,20 +110,9 @@
 
                                 <div class="form-group row">
                                     <label for="barang" class="col-sm-2 col-form-label">Update Status</label>
-                                    <div class="col-sm-10">
-                                        <select name="status_setujuatasan" id="status_setujuatasan" class="form-control">
-                                            <option value="1"
-                                                {{ '1' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diajukan
-                                            </option>
-                                            <option value="2"
-                                                {{ '2' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Disetujui
-                                            </option>
-                                            <option value="3"
-                                                {{ '3' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Ditangguhkan
-                                            </option>
-                                            <option value="4"
-                                                {{ '4' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Ditolak
-                                            </option>
+                                    <div class="col-sm-10" id="updateStatus">
+                                        <select name="status_setujuatasan" id="status_setujuatasan" class="form-control" readonly>
+                                            <option value="1" {{ '1' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diajukan</option>
                                         </select>
                                     </div>
                                 </div>
@@ -151,12 +140,9 @@
                                             <td class="text-center">{{ $item->qty }}</td>
                                             <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
                                             <td class="text-center">
-                                                <select name="status_persetujuanatasan[]" id="status_persetujuanatasan"
+                                                <select name="status_persetujuanatasan[]"
                                                     class="form-control">
                                                     <option value="" selected disabled>--Pilih Status--</option>
-                                                    <option value="1"
-                                                        {{ '1' == $item->status_persetujuanatasan ? 'selected' : '' }}>
-                                                        Diajukan</option>
                                                     <option value="2"
                                                         {{ '2' == $item->status_persetujuanatasan ? 'selected' : '' }}>
                                                         Disetujui</option>
@@ -188,8 +174,7 @@
                                 <br><br>
                                 <div class="form-group">
 
-                                    <button type="submit" class="btn btn-danger btn-sm btn-flat">Akhiri Pengecekan
-                                        Data</button>
+                                    <input type="submit" class="btn btn-danger btn-sm btn-flat" value="Akhiri Pengecekan Data">
                                     <a href="/cekdatapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>
@@ -203,8 +188,4 @@
         </section>
         <!-- /.content -->
     </div>
-@endsection
-
-@section('js')
-
 @endsection

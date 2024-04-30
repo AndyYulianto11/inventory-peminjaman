@@ -83,7 +83,7 @@
                                         <td>{{ $item->user->unit->nama_unit }}</td>
                                         <td>
                                             @if ($item->status_setujuatasan == 0)
-                                                <span class="badge bg-dark">Draf</span>
+                                                <span class="badge bg-dark">Draft</span>
                                             @elseif($item->status_setujuatasan == 1)
                                                 <span class="badge bg-info">Diajukan</span>
                                             @elseif($item->status_setujuatasan == 2)
@@ -135,18 +135,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- DataTables  & Plugins -->
-    <script src="adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="adminlte/plugins/jszip/jszip.min.js"></script>
-    <script src="adminlte/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="{{asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
 
     <script>
         $.ajaxSetup({

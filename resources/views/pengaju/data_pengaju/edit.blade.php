@@ -103,7 +103,7 @@
                                                         {{ $barang->barang->satuan->qty }}
                                                     </td>
                                                     <td class="text-center" width="10%">
-                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan == '1') readonly @endif>
+                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan != '4') readonly @endif>
                                                     </td>
                                                     <td class="text-center">
                                                         @if($barang->status_persetujuanatasan == '0')
@@ -122,7 +122,7 @@
                                                     </td>
                                                     <td class="text-center">@if($barang->keterangan != '') {{ $barang->keterangan }} @else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($barang->status_persetujuanatasan == '2')
+                                                        @if($barang->status_persetujuanatasan == '3')
                                                         <button class="btn btn-xs btn-danger btnDelete" id="btnDelete{{ $barang->id }}">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
@@ -214,7 +214,6 @@
                                 var datas = $('#data' + response.data);
                                 console.log(datas);
                                 datas.remove();
-
                             }
                         });
                         document.getElementById("btnSave").removeAttribute("disabled");

@@ -11,6 +11,7 @@ use App\Models\Unit;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AtasanController extends Controller
 {
@@ -119,6 +120,12 @@ class AtasanController extends Controller
             $getDataPengaju = Datapengaju::findOrFail($id);
 
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
+            $status = DB::table('item_data_pengajus')
+            ->select('item_data_pengajus.*',DB::raw('COUNT(status_persetujuanatasan) as count'))
+            ->groupBy('status_persetujuanatasan')
+            ->orderBy('count')
+            ->get();
+            dd($status);
             // dd(count(array_keys($request->status_persetujuanatasan, '1')) == count($request->status_persetujuanatasan));
             $cek_status = [];
 

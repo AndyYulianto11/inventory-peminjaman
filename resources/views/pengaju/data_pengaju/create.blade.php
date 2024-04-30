@@ -161,7 +161,7 @@
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-sm btn-flat">Simpan</button>
-                                    <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                                    <a href="{{ request()->is('detail-datapengaju/admin/') ? '/datapengaju/admin' : '/datapengaju/atasan' }}" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>
                         </div>

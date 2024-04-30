@@ -28,7 +28,7 @@ class HomeController extends Controller
         $user = User::count();
         $barang = Databarang::count();
         $satuan = Satuan::count();
-        $itemBarang = ItemBarangMasuk::all();
+        $itemBarang = ItemBarangMasuk::latest()->take(5)->get();
         $sort = BarangMasuk::all()->sortByDesc("tanggal_pembelian");
         foreach($itemBarang as $i){
             $from = BarangMasuk::whereDate('tanggal_pembelian', '<=', $i->barangmasuk->tanggal_pembelian)->first();

@@ -6,6 +6,7 @@ use App\Models\DataAsetUnit;
 use App\Models\Databarang;
 use App\Models\Datapengaju;
 use App\Models\HistoryStokBarang;
+use App\Models\ItemBarangMasuk;
 use App\Models\ItemDataAsetUnit;
 use App\Models\ItemDataPengadaanBarang;
 use App\Models\ItemDataPengaju;
@@ -27,10 +28,10 @@ class AdminpengajuController extends Controller
             'submenu' => 'pengajuan',
         ];
 
-        // $pengaju = Datapengaju::where('status_submit', 1)->get();
-        // $pengaju = Datapengaju::get();
+        $pengaju = Datapengaju::where('status_submit', 1)->get();
+        $itemBarang = ItemBarangMasuk::latest()->take(5)->get();
 
-        return view('admin.cek_pengaju.index', compact('data'));
+        return view('admin.cek_pengaju.index', compact('data', 'pengaju', 'itemBarang'));
     }
 
     /**

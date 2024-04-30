@@ -64,17 +64,27 @@
                         <table id="datatables" class="table table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
+                                    @if($role == 'atasan')
                                     <th width="50px">No</th>
                                     <th>Kode <br> Pengajuan</th>
                                     <th width="150px">Tanggal</th>
                                     <th>Qty</th>
-                                    @if($role == 'atasan')
                                     <th>Status Atasan</th>
-                                    @else
-                                    <th>Status Admin</th>
-                                    @endif
                                     <th>File</th>
                                     <th width="150px">Aksi</th>
+                                    @else
+                                    <th width="50px">No</th>
+                                    <th>Kode <br> Pengajuan</th>
+                                    <th width="150px">Tanggal</th>
+                                    <th>Qty</th>
+                                    <th>Status Admin</th>
+                                    @if($datapengaju)
+                                        @if($datapengaju[0]->status_setujuadmin != 0)
+                                        <th>File</th>
+                                        <th width="150px">Aksi</th>
+                                        @endif
+                                    @endif
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,31 +144,39 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
+                                        @if($role == 'admin')
+                                            @if($item->status_setujuadmin != 0)
+                                                <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                        @else
                                         <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        @endif
                                         @if ($item->status_setujuatasan == 0)
                                             <a class="btn btn-success btn-sm btn-flat" onclick="updateSetujuatasan({{ $item->id }})" title="Ajukan Atasan">
                                                 <i class="fas fa-share"></i>
                                             </a>
                                         @endif
-                                        @if ($item->status_pengajuan == 1 && $item->upload_dokumen == null && $item->status_setujuatasan == 5 || $item->status_setujuatasan == 0)
+                                        @if ($item->status_pengajuan == 1 && $item->upload_dokumen == null && $item->status_setujuatasan == 5 || $item->status_setujuatasan == 0 || $item->status_setujuatasan == 3)
                                         <a href="{{ route('edit-datapengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-warning btn-sm btn-flat" title="Edit Data">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         @endif
-                                        @if ($item->status_setujuatasan == 3 && $item->upload_dokumen == null)
+                                        @if ($item->status_setujuatasan == 2 && $item->upload_dokumen == null)
                                         <a href="{{ route('upload', $item->id) }}" class="btn btn-success btn-sm btn-flat" title="Upload File">
                                             <i class="fas fa-arrow-up"></i>
                                         </a>
                                         @endif
-                                        @if ($item->status_setujuatasan == 3 && $item->upload_dokumen != null && $item->status_submit == '0')
+                                        @if ($item->status_setujuatasan == 2 && $item->upload_dokumen != null && $item->status_submit == '0' && $role != 'admin')
                                         <a class="btn btn-success btn-sm btn-flat" onclick="updateStatus({{ $item->id }})" title="Ajukan Admin">
                                             <i class="fas fa-share"></i>
                                         </a>
                                         @endif
                                         @if($item->status_setujuatasan == 4)
-                                        <a class="btn btn-danger btn-sm btn-flat" href="#" title="Hapus">
+                                        <a class="btn btn-danger btn-sm btn-flat btnDelete" id="{{$item->id}}" title="Hapus">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                         @endif
@@ -185,21 +203,20 @@
 @endsection
 
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- DataTables  & Plugins -->
-<script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="adminlte/plugins/jszip/jszip.min.js"></script>
-<script src="adminlte/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="adminlte/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
 
 <script>
     $.ajaxSetup({
@@ -284,6 +301,39 @@
             }
         });
     }
+
+    $(document).on('click', '.btnDelete', function(e) {
+        e.preventDefault();
+        let id = $(this).attr('id');
+        let csrf = '{{ csrf_token() }}';
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: `/delete-item-datapengaju`,
+              method: 'delete',
+              data: {
+                id: id,
+                _token: csrf
+              },
+              success: function(response) {
+                Swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+              }
+            });
+          }
+        })
+    });
 </script>
 
 @endsection

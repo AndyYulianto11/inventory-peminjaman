@@ -7,6 +7,11 @@ use App\Models\Jenisbarang;
 use App\Models\Satuan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\ItemDataPengadaanBarang;
+use App\Models\ItemTransaksiPengadaanBarang;
+use App\Models\TransaksiPengadaanBarang;
+use Exception;
+use Dotenv\Validator;
 
 class RektorController extends Controller
 {
@@ -58,7 +63,16 @@ class RektorController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'subjudul' => 'Data Pengadaan Barang',
+            'submenu' => 'data pengadaan barang',
+        ];
+
+        $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $datapengadaanbarang->id)->get();
+
+        // dd($itemDatapengadaanbarang);
+        return view('rektorat.data_pengadaan_barang.show', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
 
     /**
@@ -93,5 +107,64 @@ class RektorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function detailPengadaanbarang()
+    {
+        $datapengadaanbarang = TransaksiPengadaanBarang::where('status_setujurektorat', '0')->get()->all();
+
+        return view('rektorat.data_pengadaan_barang.index', compact('datapengadaanbarang'));
+    }
+
+    public function detailPengadaanbarangByStatus($status)
+    {
+        $isEdit = false;
+        $isDetail = false;
+
+        $datapengadaanbarang = [];
+        if($status == 'ditolak')
+        {
+            $data = TransaksiPengadaanBarang::where('status_setujurektorat', '4')->get()->all();
+            foreach($data as $row)
+            {
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'ditangguhkan')
+        {
+            $data = TransaksiPengadaanBarang::where('status_setujurektorat', '3')->get()->all();
+            foreach($data as $row)
+            {
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'disetujui')
+        {
+            $data = TransaksiPengadaanBarang::where('status_setujurektorat', '2')->get()->all();
+            foreach($data as $row)
+            {
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'diajukan')
+        {
+            $data = TransaksiPengadaanBarang::where('status_setujurektorat', '1')->get()->all();
+            foreach($data as $row)
+            {
+                $datapengadaanbarang[] = $row;
+            }
+        }
+
+        return view('rektorat.data_pengadaan_barang.index', compact('datapengadaanbarang'));
+    }
+
+    public function pengadaanBarangStore(Request $request)
+    {
+        try{
+            $this->validate($request, [
+                'status_setujurektorat' => 'required',
+            ]);
+            TransaksiPengadaanBarang::where('id', $request->id)->update(['status_setujurektorat' => $request->status_setujurektorat, 'komentar' => $request->komentar]);
+            return redirect()->route('detail-datapengadaanbarang')->with('success', 'Data berhasil diupdate');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

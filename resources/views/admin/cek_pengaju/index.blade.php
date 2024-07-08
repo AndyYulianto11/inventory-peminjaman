@@ -18,7 +18,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">{{ $data['submenu'] }}</li>
+                        <li class="breadcrumb-item active">{{ $judul['submenu'] }}</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -33,9 +33,26 @@
                 <div id="success_message"></div>
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{{ $data['subjudul'] }}</h3>
+                        <h3 class="card-title">{{ $judul['subjudul'] }}</h3>
                         <!-- /.card-tools -->
                     </div>
+                    <ul class="nav nav-tabs navbar-light">
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('cek-pengaju') }}" class="nav-link {{ request()->is('cek-pengaju') ? 'active' : '' }}">DRAFT</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('cek-pengaju-admin', ['status' => 'diajukan']) }}" class="nav-link {{ request()->is('cek-pengaju/diajukan') ? 'active' : '' }}">DIAJUKAN</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('cek-pengaju-admin', ['status' => 'belum-serah-terima']) }}" class="nav-link {{ request()->is('cek-pengaju/belum-serah-terima') ? 'active' : '' }}">BELUM SERAH TERIMA</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('cek-pengaju-admin', ['status' => 'serah-terima']) }}" class="nav-link {{ request()->is('cek-pengaju/serah-terima') ? 'active' : '' }}">SERAH TERIMA</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('cek-pengaju-admin', ['status' => 'sebagian-serah-terima']) }}" class="nav-link {{ request()->is('cek-pengaju/sebagian-serah-terima') ? 'active' : '' }}">SEBAGIAN SERAH TERIMA</a>
+                        </li>
+                    </ul>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="datatables" class="table table-bordered table-striped">
@@ -62,50 +79,45 @@
                                     <td>{{ date('d-m-Y', strtotime($item->tgl_pengajuan)) }}</td>
                                     <td>{{ $item->user->unit->nama_unit }}</td>
                                     <td>
-                                        @if ($item->status_setujuatasan == 1)
+                                        @if ($item->status_setujuatasan == 0)
+                                        <span class="badge bg-dark">Draft</span>
+                                        @elseif($item->status_setujuatasan == 1)
                                         <span class="badge bg-info">Diajukan</span>
                                         @elseif($item->status_setujuatasan == 2)
-                                        <span class="badge bg-secondary">Diproses</span>
-                                        @elseif($item->status_setujuatasan == 3)
                                         <span class="badge bg-success">Disetujui</span>
+                                        @elseif($item->status_setujuatasan == 3)
+                                        <span class="badge bg-warning">Ditangguhkan</span>
                                         @elseif($item->status_setujuatasan == 4)
                                         <span class="badge bg-danger">Ditolak</span>
-                                        @elseif($item->status_setujuatasan == 5)
-                                        <span class="badge bg-warning">Direvisi</span>
                                         @else
                                         -
                                         @endif
                                     </td>
                                     <td>
                                         @if ($item->status_setujuadmin == 0)
-                                        <span class="badge bg-info">Diajukan</span>
+                                        <span class="badge bg-dark">Draft</span>
                                         @elseif($item->status_setujuadmin == 1)
-                                        <span class="badge bg-secondary">Proses</span>
+                                        <span class="badge bg-info">Diajukan</span>
                                         @elseif($item->status_setujuadmin == 2)
-                                        <span class="badge bg-warning">Pending</span>
+                                        <span class="badge bg-danger">Belum Serah Terima</span>
                                         @elseif($item->status_setujuadmin == 3)
-                                        <span class="badge bg-success">Selesai</span>
-                                        @else
-                                        -
+                                        <span class="badge bg-success">Serah Terima</span>
+                                        @elseif($item->status_setujuadmin == 4)
+                                        <span class="badge bg-warning">Sebagian Serah Terima</span>
                                         @endif
                                     </td>
+                                    @if($item->status_submit == 1)
                                     <td>
                                         <a href="{{ route('lihat-berkas', $item->id) }}" target="_blank"><span class="badge bg-info">Lihat
                                                 File</span></a>
                                     </td>
+                                    @else
+                                    <td>-</td>
+                                    @endif
                                     <td>
                                         <a href="{{ route('show-pengaju', $item->id) }}" class="btn btn-primary btn-sm btn-flat mr-2">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('edit-cek-pengaju', $item->id) }}" class="btn btn-warning btn-sm btn-flat">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <button class="btn btn-danger btn-sm btn-flat btnDelete mt-2 mr-2">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        <button class="btn btn-info btn-sm btn-flat insertData mt-2" data-id="{{ $item->id }}" title="Proses Data">
-                                            <i class="fas fa-share"></i>
-                                        </button>
                                     </td>
                                 </tr>
                                 @empty

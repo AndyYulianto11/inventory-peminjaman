@@ -16,12 +16,18 @@ class TransaksiPengadaanBarang extends Model
         'user_id',
         'status_transaksi',
         'status_pengajuan',
+        'komentar'
     ];
 
-    protected $with = ['user', 'item_transaksipengadaanbarang'];
+    protected $with = ['user'];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // public function item_transaksipengadaanbarang()
+    // {
+    //     return $this->belongsTo(ItemTransaksiPengadaanBarang::class, )
+    // }
 }

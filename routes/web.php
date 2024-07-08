@@ -76,6 +76,7 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 
     // Cek Pengaju
     Route::get('/cek-pengaju', [AdminpengajuController::class, 'index'])->name('cek-pengaju');
+    Route::get('/cek-pengaju/{status}', [AdminpengajuController::class, 'getDataByStatus'])->name('cek-pengaju-admin');
     Route::get('/show-cek-pengaju/{id}', [AdminpengajuController::class, 'show'])->name('show-pengaju');
     Route::get('/edit-cek-pengaju/{id}', [AdminpengajuController::class, 'edit'])->name('edit-cek-pengaju');
     Route::put('/update-cek-pengaju/{id}', [AdminpengajuController::class, 'update'])->name('update-cek-pengaju');
@@ -97,11 +98,15 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
 
     // Data Pengadaan Barang
     Route::get('/cek-datapengadaanbarang', [DatapengadaanbarangController::class, 'index'])->name('cek-datapengadaanbarang');
+    Route::get('/cek-datapengadaanbarang/{status}', [DatapengadaanbarangController::class, 'getDataByStatus'])->name('cek-datapengadaanbarang-admin');
     Route::get('/create-datapengadaanbarang', [DatapengadaanbarangController::class, 'create'])->name('create-datapengadaanbarang');
     Route::post('/store-datapengadaanbarang', [DatapengadaanbarangController::class, 'store'])->name('store-datapengadaanbarang');
     Route::get('/show-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'show'])->name('show-datapengadaanbarang');
     Route::get('/edit-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'edit'])->name('edit-cek-datapengadaanbarang');
     Route::put('/update-cek-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'update'])->name('update-cek-datapengadaanbarang');
+    Route::put('/cek-datapengadaanbarang/update-status/{id}', [DatapengadaanbarangController::class, 'updateStatus'])->name('update.status');
+    Route::put('/update-status-rektorat/{id}', [DatapengadaanbarangController::class, 'updateStatusRektorat'])->name('update-status-rektorat');
+    Route::post('/delete-pengadaan-barang/{id}', [DatapengadaanbarangController::class, 'destroy']);
 
     Route::get('/cetak-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'cetak'])->name('cetak-datapengadaanbarang');
     Route::get('/get-item-data', [DatapengadaanbarangController::class, 'dataitem'])->name('get-item-data');
@@ -173,6 +178,12 @@ Route::middleware(['auth', 'checkrole:atasan'])->group(function () {
     Route::get('/cekdatapengaju', [AtasanController::class, 'cekdatapengaju'])->name('cekdatapengaju');
     Route::get('/cekdatapengaju/{status}', [AtasanController::class, 'getDataByStatus'])->name('cekdatapengaju-atasan');
 
+    Route::get('/pengadaan-barang', [AtasanController::class, 'getPengadaanBarang'])->name('pengadaan-barang');
+    Route::get('/pengadaan-barang/{status}', [AtasanController::class, 'getPengadaanBarangByStatus'])->name('pengadaan-barang-status');
+    Route::get('/pengadaan-barang/detail/{id}', [AtasanController::class, 'getPengadaanBarangById'])->name('pengadaan-barang-cek');
+    Route::post('/pengadaan-barang', [AtasanController::class, 'pengadaanBarangStore'])->name('pengadaan-barang-store');
+    Route::post('/delete-pengadaan/{id}', [AtasanController::class, 'deletePengadaan']);
+
     Route::get('/detail-data-pengaju/{id}', [AtasanController::class, 'show'])->name('detail-data-pengaju');
     Route::put('/update-data-pengaju/{id}', [AtasanController::class, 'update'])->name('update-data-pengaju');
 
@@ -193,7 +204,10 @@ Route::middleware(['auth', 'checkrole:keuangan'])->group(function () {
 Route::middleware(['auth', 'checkrole:rektor'])->group(function () {
     // Home User Rektor
     Route::get('/rektor', [RektorController::class, 'index'])->name('rektor');
-
+    Route::get('/detail-datapengadaanbarang', [RektorController::class, 'detailPengadaanbarang'])->name('detail-datapengadaanbarang');
+    Route::get('/detail-datapengadaanbarang-rektorat/{status}', [RektorController::class, 'detailPengadaanbarangByStatus'])->name('detail-datapengadaanbarang-rektorat');
+    Route::get('/show-datapengadaanbarang-rektorat/{id}', [RektorController::class, 'show'])->name('show-datapengadaanbarang-rektorat');
+    Route::post('/pengadaan-barang-rektor-update', [RektorController::class, 'pengadaanBarangStore'])->name('pengadaan-barang-rektor-update');
 });
 
 Route::middleware(['auth', 'checkrole:kepalagudang'])->group(function () {

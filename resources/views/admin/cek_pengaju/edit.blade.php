@@ -155,17 +155,17 @@
                                                 <select name="status_persetujuanadmin[]" id="status_persetujuanadmin"
                                                     class="form-control">
                                                     <option value="" selected disabled>--Pilih Status--</option>
-                                                    <option value="0"
-                                                        {{ '0' == $item->status_persetujuanadmin ? 'selected' : '' }}>
-                                                        Serah Terima
+                                                    <option value="2"
+                                                        {{ '2' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Diproses
                                                     </option>
-                                                    <option value="1"
-                                                        {{ '1' == $item->status_persetujuanadmin ? 'selected' : '' }}>
-                                                        Sebagian Diserahterimakan
+                                                    <option value="3"
+                                                        {{ '3' == $item->status_persetujuanadmin ? 'selected' : '' }}>
+                                                        Disetujui
                                                     </option>
                                                     <option value="2"
                                                         {{ '2' == $item->status_persetujuanadmin ? 'selected' : '' }}>
-                                                        Tidak Ready
+                                                        Ditolak
                                                     </option>
                                                 </select>
                                             </td>

@@ -46,6 +46,7 @@
                         <li class="nav-item text-dark">
                             <a href="{{ route('datapengaju', ['role' => $role]) }}" class="nav-link {{ request()->is('datapengaju/'.$role) ? 'active' : '' }}">DRAFT</a>
                         </li>
+                        @if($role == "atasan")
                         <li class="nav-item text-dark">
                             <a href="{{ route('datapengaju-'.$role, ['status' => 'diajukan']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/diajukan') ? 'active' : '' }}">DIAJUKAN</a>
                         </li>
@@ -58,6 +59,20 @@
                         <li class="nav-item text-dark">
                             <a href="{{ route('datapengaju-'.$role, ['status' => 'ditolak']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/ditolak') ? 'active' : '' }}">DITOLAK</a>
                         </li>
+                        @elseif($role == "admin")
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'diajukan']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/diajukan') ? 'active' : '' }}">DIAJUKAN</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'belum-serah-terima']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/belum-serah-terima') ? 'active' : '' }}">BELUM SERAH TERIMA</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'serah-terima']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/serah-terima') ? 'active' : '' }}">SERAH TERIMA</a>
+                        </li>
+                        <li class="nav-item text-dark">
+                            <a href="{{ route('datapengaju-'.$role, ['status' => 'sebagian-serah-terima']) }}" class="nav-link {{ request()->is('datapengaju/'.$role.'/sebagian-serah-terima') ? 'active' : '' }}">SEBAGIAN SERAH TERIMA</a>
+                        </li>
+                        @endif
                     </ul>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -65,25 +80,21 @@
                             <thead>
                                 <tr class="text-center">
                                     @if($role == 'atasan')
-                                    <th width="50px">No</th>
-                                    <th>Kode <br> Pengajuan</th>
-                                    <th width="150px">Tanggal</th>
-                                    <th>Qty</th>
-                                    <th>Status Atasan</th>
-                                    <th>File</th>
-                                    <th width="150px">Aksi</th>
-                                    @else
-                                    <th width="50px">No</th>
-                                    <th>Kode <br> Pengajuan</th>
-                                    <th width="150px">Tanggal</th>
-                                    <th>Qty</th>
-                                    <th>Status Admin</th>
-                                    @if($datapengaju)
-                                        @if($datapengaju[0]->status_setujuadmin != 0)
+                                        <th width="50px">No</th>
+                                        <th>Kode <br> Pengajuan</th>
+                                        <th width="150px">Tanggal</th>
+                                        <th>Qty</th>
+                                        <th>Status Atasan</th>
                                         <th>File</th>
                                         <th width="150px">Aksi</th>
-                                        @endif
-                                    @endif
+                                    @else
+                                        <th width="50px">No</th>
+                                        <th>Kode <br> Pengajuan</th>
+                                        <th width="150px">Tanggal</th>
+                                        <th>Qty</th>
+                                        <th>Status Admin</th>
+                                        <th>File</th>
+                                        <th width="150px">Aksi</th>
                                     @endif
                                 </tr>
                             </thead>
@@ -145,36 +156,39 @@
                                     </td>
                                     <td class="text-center">
                                         @if($role == 'admin')
-                                            @if($item->status_setujuadmin != 0)
-                                                <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
+                                            <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         @else
-                                        <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
+                                            <a href="{{ route('lihat-data-pengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-primary btn-sm btn-flat" title="Lihat Data">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         @endif
+
                                         @if ($item->status_setujuatasan == 0)
                                             <a class="btn btn-success btn-sm btn-flat" onclick="updateSetujuatasan({{ $item->id }})" title="Ajukan Atasan">
                                                 <i class="fas fa-share"></i>
                                             </a>
                                         @endif
+
                                         @if ($item->status_pengajuan == 1 && $item->upload_dokumen == null && $item->status_setujuatasan == 5 || $item->status_setujuatasan == 0 || $item->status_setujuatasan == 3)
                                         <a href="{{ route('edit-datapengaju', ['role' => $role, 'id' => $item->id]) }}" class="btn btn-warning btn-sm btn-flat" title="Edit Data">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         @endif
-                                        @if ($item->status_setujuatasan == 2 && $item->upload_dokumen == null)
+
+                                        @if ($item->status_setujuatasan == 2 && $item->upload_dokumen == null && $role == "atasan")
                                         <a href="{{ route('upload', $item->id) }}" class="btn btn-success btn-sm btn-flat" title="Upload File">
                                             <i class="fas fa-arrow-up"></i>
                                         </a>
                                         @endif
+
                                         @if ($item->status_setujuatasan == 2 && $item->upload_dokumen != null && $item->status_submit == '0' && $role != 'admin')
                                         <a class="btn btn-success btn-sm btn-flat" onclick="updateStatus({{ $item->id }})" title="Ajukan Admin">
                                             <i class="fas fa-share"></i>
                                         </a>
                                         @endif
+
                                         @if($item->status_setujuatasan == 4)
                                         <a class="btn btn-danger btn-sm btn-flat btnDelete" id="{{$item->id}}" title="Hapus">
                                             <i class="fas fa-trash"></i>

@@ -115,22 +115,7 @@
             <tr>
                 <td style="width: 35%; text-align: left">Status Transaksi</td>
                 <td style="width: 1%">:</td>
-                <td style="text-align: left">
-                    @if ($datapengadaanbarang->status_transaksi == '0')
-                    <span class="badge">Diajukan</span>
-                    @elseif ($datapengadaanbarang->status_transaksi == '1')
-                    <span class="badge">Draft</span>
-                    @elseif ($datapengadaanbarang->status_transaksi == '2')
-                    <span class="badge">Disetujui</span>
-                    @elseif ($datapengadaanbarang->status_transaksi == '3')
-                    <span class="badge">Direvisi</span>
-                    @elseif ($datapengadaanbarang->status_transaksi == '4')
-                    <span class="badge">Ditolak</span>
-                    @elseif ($datapengadaanbarang->status_transaksi == '5')
-                    <span class="badge">Dipending</span>
-                    @else
-                    -
-                    @endif
+                <td style="text-align: left">Disetujui
                 </td>
             </tr>
         </table>

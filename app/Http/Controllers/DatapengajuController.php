@@ -252,6 +252,11 @@ class DatapengajuController extends Controller
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
 
             foreach ($post as $key => $value) {
+                if($value->status_persetujuanatasan == '2'){
+                    $value->status_persetujuanatasan = '2';
+                }else{
+                    $value->status_persetujuanatasan = '1';
+                }
                 $value->qty = $request->qty[$key];
                 $value->save();
             }
@@ -325,6 +330,15 @@ class DatapengajuController extends Controller
                     'status_setujuadmin' => '0',
                     'status_submit' => '0',
                 ]);
+
+                $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
+
+                foreach($itemDatapengaju as $row)
+                {
+                    $row->update([
+                        'status_persetujuanadmin' => '1',
+                    ]);
+                }
             }
 
             return redirect()->route('datapengaju-atasan', ['status' => 'disetujui'])->with('success', 'Data berhasil diubah!');
@@ -355,6 +369,14 @@ class DatapengajuController extends Controller
             $item->status_submit = 1;
             $item->status_setujuadmin = "1";
             $item->save();
+
+            // $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $item->id)->get();
+
+            // foreach($itemDatapengaju as $row)
+            // {
+            //     $row->status_persetujuanadmin = '1';
+            //     $row->save;
+            // }
 
             return response()->json([
                 'status' => 'success',

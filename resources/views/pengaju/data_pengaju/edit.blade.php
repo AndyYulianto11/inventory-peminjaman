@@ -103,26 +103,24 @@
                                                         {{ $barang->barang->satuan->qty }}
                                                     </td>
                                                     <td class="text-center" width="10%">
-                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan != '4') readonly @endif>
+                                                        <input type="number" min="0" class="form-control" id="qty{{ $barang->id }}" name="qty[]" value="{{ $barang->qty }}" @if($barang->status_persetujuanatasan != '3' ) readonly @endif>
                                                     </td>
                                                     <td class="text-center">
                                                         @if($barang->status_persetujuanatasan == '0')
-                                                            <span class="badge bg-dark">Draf</span>
+                                                            <span class="badge bg-dark">Draft</span>
                                                         @elseif($barang->status_persetujuanatasan == '1')
                                                             <span class="badge bg-info">Diajukan</span>
                                                         @elseif ($barang->status_persetujuanatasan == '2')
                                                             <span class="badge bg-success">Disetujui</span>
                                                         @elseif ($barang->status_persetujuanatasan == '3')
-                                                            <span class="badge bg-danger">Ditolak</span>
+                                                        <span class="badge bg-warning">Direvisi</span>
                                                         @elseif ($barang->status_persetujuanatasan == '4')
-                                                            <span class="badge bg-warning">Direvisi</span>
-                                                        @else
-                                                            -
+                                                        <span class="badge bg-danger">Ditolak</span>
                                                         @endif
                                                     </td>
                                                     <td class="text-center">@if($barang->keterangan != '') {{ $barang->keterangan }} @else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($barang->status_persetujuanatasan == '3')
+                                                        @if($barang->status_persetujuanatasan == '4')
                                                         <button class="btn btn-xs btn-danger btnDelete" id="btnDelete{{ $barang->id }}">
                                                             <i class="fa fa-trash"></i>
                                                         </button>

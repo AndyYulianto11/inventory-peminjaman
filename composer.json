@@ -17,7 +17,7 @@
         "laravel/ui": "^3.4",
         "livewire/livewire": "^2.12",
         "milon/barcode": "^8.0",
-        "realrashid/sweet-alert": "^7.1"
+        "realrashid/sweet-alert": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

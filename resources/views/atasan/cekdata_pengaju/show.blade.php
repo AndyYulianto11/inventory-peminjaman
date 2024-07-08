@@ -66,18 +66,16 @@
                                         <td>Status Atasan</td>
                                         <td>:</td>
                                         <td>
-                                            @if($datapengaju->status_setujuatasan == 0)
-                                                <span class="badge bg-dark">Draf</span>
-                                            @elseif($datapengaju->status_setujuatasan == 1)
+                                            @if($datapengaju->status_setujuatasan == '0')
+                                                <span class="badge bg-dark">Draft</span>
+                                            @elseif($datapengaju->status_setujuatasan == '1')
                                                 <span class="badge bg-info">Diajukan</span>
-                                            @elseif($datapengaju->status_setujuatasan == 2)
-                                                <span class="badge bg-secondary">Diproses</span>
-                                            @elseif($datapengaju->status_setujuatasan == 3)
+                                            @elseif($datapengaju->status_setujuatasan == '2')
                                                 <span class="badge bg-success">Disetujui</span>
-                                            @elseif($datapengaju->status_setujuatasan == 4)
-                                                <span class="badge bg-danger">Ditolak</span>
-                                            @elseif($datapengaju->status_setujuatasan == 5)
+                                            @elseif($datapengaju->status_setujuatasan == '3')
                                                 <span class="badge bg-warning">Direvisi</span>
+                                            @elseif($datapengaju->status_setujuatasan == '4')
+                                                <span class="badge bg-danger">Ditolak</span>
                                             @else
                                                 -
                                             @endif
@@ -87,18 +85,16 @@
                                         <td>Status Admin</td>
                                         <td>:</td>
                                         <td>
-                                            @if($datapengaju->status_setujuadmin == 0)
-                                                <span class="badge bg-dark">Draf</span>
-                                            @elseif($datapengaju->status_setujuadmin == 1)
+                                            @if($datapengaju->status_setujuadmin == '0')
+                                                <span class="badge bg-dark">Draft</span>
+                                            @elseif($datapengaju->status_setujuadmin == '1')
                                                 <span class="badge bg-info">Diajukan</span>
-                                            @elseif($datapengaju->status_setujuadmin == 2)
-                                                <span class="badge bg-secondary">Diproses</span>
-                                            @elseif($datapengaju->status_setujuadmin == 3)
+                                            @elseif($datapengaju->status_setujuadmin == '2')
                                                 <span class="badge bg-success">Disetujui</span>
-                                            @elseif($datapengaju->status_setujuadmin == 4)
-                                                <span class="badge bg-danger">Ditolak</span>
-                                            @elseif($datapengaju->status_setujuadmin == 5)
+                                            @elseif($datapengaju->status_setujuadmin == '3')
                                                 <span class="badge bg-warning">Direvisi</span>
+                                            @elseif($datapengaju->status_setujuadmin == '4')
+                                                <span class="badge bg-danger">Ditolak</span>
                                             @else
                                                 -
                                             @endif
@@ -109,10 +105,22 @@
                                 <hr>
 
                                 <div class="form-group row">
-                                    <label for="barang" class="col-sm-2 col-form-label">Update Status</label>
-                                    <div class="col-sm-10" id="updateStatus">
-                                        <select name="status_setujuatasan" id="status_setujuatasan" class="form-control" readonly>
-                                            <option value="1" {{ '1' == $datapengaju->status_setujuatasan ? 'selected' : '' }}>Diajukan</option>
+                                    <label for="barang" class="col-sm-2 col-form-label">Status Pengajuan</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" disabled>
+                                            <option value="{{ $datapengaju->status_setujuatasan }}">
+                                                @if($datapengaju->status_setujuatasan == '0')
+                                                    Draft
+                                                @elseif($datapengaju->status_setujuatasan == '1')
+                                                    Diajukan
+                                                @elseif($datapengaju->status_setujuatasan == '2')
+                                                    Disetujui
+                                                @elseif($datapengaju->status_setujuatasan == '3')
+                                                    Ditangguhkan
+                                                @elseif($datapengaju->status_setujuatasan == '4')
+                                                    Ditolak
+                                                @endif
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -139,6 +147,7 @@
                                             <td>{{ $item->barang->nama_barang }}</td>
                                             <td class="text-center">{{ $item->qty }}</td>
                                             <td class="text-center">{{ $item->barang->satuan->satuan }}</td>
+                                            @if($item->datapengaju->status_setujuatasan == 1)
                                             <td class="text-center">
                                                 <select name="status_persetujuanatasan[]"
                                                     class="form-control">
@@ -154,17 +163,40 @@
                                                         Ditolak</option>
                                                 </select>
                                             </td>
+                                            @else
                                             <td class="text-center">
-                                                @if ($item->status_persetujuanadmin == '0')
-                                                    <span class="badge bg-info">Serah Terima</span>
-                                                @elseif ($item->status_persetujuanadmin == '1')
-                                                    <span class="badge bg-success">Sebagian Diserahterimakan</span>
+                                                @if($item->status_persetujuanatasan == '0')
+                                                <span class="badge bg-dark">Draft</span>
+                                                @elseif($item->status_persetujuanatasan == '2')
+                                                <span class="badge bg-success">Disetujui</span>
+                                                @elseif($item->status_persetujuanatasan == '3')
+                                                <span class="badge bg-warning">Ditangguhkan</span>
+                                                @elseif($item->status_persetujuanatasan == '4')
+                                                <span class="badge bg-danger">Ditolak</span>
+                                                @endif
+                                            </td>
+                                            @endif
+                                            <td class="text-center">
+                                                @if($item->status_persetujuanadmin == '0')
+                                                <span class="badge bg-dark">Draft</span>
+                                                @elseif($item->status_persetujuanadmin == '1')
+                                                <span class="badge bg-info">Diajukan</span>
+                                                @elseif($item->status_persetujuanadmin == '2')
+                                                <span class="badge bg-success">Disetujui</span>
+                                                @elseif($item->status_persetujuanadmin == '3')
+                                                <span class="badge bg-warning">Ditangguhkan</span>
+                                                @elseif($item->status_persetujuanadmin == '4')
+                                                <span class="badge bg-danger">Ditolak</span>
                                                 @else
-                                                    -
+                                                -
                                                 @endif
                                             </td>
                                             <td class="text-center">
+                                                @if($item->status_persetujuanatasan == 0)
                                                 <textarea name="keterangan[]" id="keterangan" cols="20" rows="1" class="form-control">{{ $item->keterangan }}</textarea>
+                                                @else
+                                                    <textarea name="keterangan[]" id="keterangan" cols="20" rows="1" class="form-control" readonly>{{ $item->keterangan }}</textarea>
+                                                @endif
                                             </td>
                                         </tr>
                                     @empty
@@ -173,8 +205,9 @@
                                 </table>
                                 <br><br>
                                 <div class="form-group">
-
+                                    @if($itemDatapengaju[0]->datapengaju->status_setujuatasan == 1)
                                     <input type="submit" class="btn btn-danger btn-sm btn-flat" value="Akhiri Pengecekan Data">
+                                    @endif
                                     <a href="/cekdatapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>

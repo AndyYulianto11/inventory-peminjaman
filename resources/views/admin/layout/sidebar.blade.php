@@ -72,7 +72,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('cek-pengaju') }}" class="nav-link {{ request()->is('cek-pengaju*') ? 'active' : '' }}">
+                            <a href="{{ route('cek-pengaju') }}" class="nav-link {{ request()->is('cek-pengaju*', 'show-cek-pengaju*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-dolly-flatbed"></i>
                                 <p>
                                     Pengajuan
@@ -88,7 +88,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('cek-datapengadaanbarang') }}" class="nav-link {{ request()->is('cek-datapengadaanbarang*') ? 'active' : '' }}">
+                            <a href="{{ route('cek-datapengadaanbarang') }}" class="nav-link {{ request()->is('cek-datapengadaanbarang*', 'create-datapengadaanbarang', 'show-cek-datapengadaanbarang*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shopping-basket"></i>
                                 <p>
                                     Data Pengadaan Barang
@@ -231,10 +231,7 @@
                             @endif
                         @endif
                         <li class="nav-item">
-                            <a href="{{ route('datapengaju', ['role' => 'atasan']) }}" class="nav-link {{ request()->is('datapengaju/atasan',
-                                                                                                        'datapengaju/atasan/disetujui', 'datapengaju/atasan/draft',
-                                                                                                        'datapengaju/atasan/diajukan', 'datapengaju/atasan/ditangguhkan',
-                                                                                                        'datapengaju/atasan/ditolak', $editActive, $detailActive) ? 'active' : '' }}">
+                            <a href="{{ route('datapengaju', ['role' => 'atasan']) }}" class="nav-link {{ request()->is('datapengaju/atasan*', $editActive, $detailActive) ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-paste"></i>
                                 <p>
                                     Pengajuan Atasan
@@ -242,7 +239,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('datapengaju', ['role' => 'admin']) }}" class="nav-link {{ request()->is('datapengaju/admin', 'datapengaju/admin/disetujui', 'datapengaju/admin/draft', 'datapengaju/admin/diajukan', 'datapengaju/admin/ditangguhkan', 'datapengaju/admin/ditolak') ? 'active' : '' }}">
+                            <a href="{{ route('datapengaju', ['role' => 'admin']) }}" class="nav-link {{ request()->is('datapengaju/admin*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-paste"></i>
                                 <p>
                                     Pengajuan Admin
@@ -261,10 +258,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('cekdatapengaju') }}" class="nav-link {{ request()->is('cekdatapengaju') ? 'active' : '' }}">
+                            <a href="{{ route('cekdatapengaju') }}" class="nav-link {{ request()->is('cekdatapengaju*', 'detail-data-pengaju*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-paste"></i>
                                 <p>
                                     Cek Data Pengaju
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pengadaan-barang') }}" class="nav-link {{ request()->is('pengadaan-barang*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-paste"></i>
+                                <p>
+                                    Data Pengadaan Barang
                                 </p>
                             </a>
                         </li>
@@ -296,6 +301,12 @@
                                 <p>
                                     Dashboard
                                 </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('detail-datapengadaanbarang') }}" class="nav-link {{ request()->is('detail-datapengadaanbarang*', 'detail-datapengadaanbarang-rektorat*', 'show-datapengadaanbarang-rektorat*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-paste"></i>
+                                <p>Data Pengadaan Barang</p>
                             </a>
                         </li>
                         @endif

@@ -25,7 +25,7 @@ class DatapengadaanbarangController extends Controller
             'submenu' => 'data pengadaan barang',
         ];
 
-        $datapengadaanbarang = TransaksiPengadaanBarang::all();
+        $datapengadaanbarang = TransaksiPengadaanBarang::where('status_setujuatasan', '0')->get();
 
         return view('admin.data_pengadaan_barang.index', compact('data', 'datapengadaanbarang'));
     }
@@ -83,8 +83,9 @@ class DatapengadaanbarangController extends Controller
 
         $currentDateTime = Carbon::now();
         $kodeTransaksi = $this->generateCodePengajuan();
+        $barang = DataBarang::all();
 
-        return view('admin.data_pengadaan_barang.create', compact('data', 'currentDateTime', 'kodeTransaksi'));
+        return view('admin.data_pengadaan_barang.create', compact('data', 'currentDateTime', 'kodeTransaksi', 'barang'));
     }
 
     /**
@@ -121,15 +122,12 @@ class DatapengadaanbarangController extends Controller
                 'nama_transaksi' => $request->nama_transaksi,
                 'tgl_transaksi' => $request->tgl_transaksi,
                 'user_id' => Auth::user()->id,
-                'status_transaksi' => $request->status_transaksi,
                 'created_at' => Carbon::now(),
             ]);
 
-            $getData = ItemDataPengadaanBarang::whereIn('barang_id', $barang_id)->get();
-
             foreach ($barang_id as $key => $value) {
                 $data = ItemTransaksiPengadaanBarang::insert([
-                    'transaksipengadaanbarang_id' => $header,
+                    'pengadaan_barang_id' => $header,
                     'barang_id' => $value,
                     'code_barang' => $code_barang[$key],
                     'nama_barang' => $nama_barang[$key],
@@ -139,9 +137,12 @@ class DatapengadaanbarangController extends Controller
                     'created_at' => Carbon::now(),
                 ]);
 
-                $barang = $getData->where('barang_id', $value)->first();
-                $barang->status = 0;
-                $barang->save();
+                $barang = ItemDataPengadaanBarang::where('barang_id', $value)->get()->all();
+                foreach($barang as $val)
+                {
+                    $val->status = 0;
+                    $val->save();
+                }
             }
 
             return response()->json([
@@ -166,7 +167,7 @@ class DatapengadaanbarangController extends Controller
         ];
 
         $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
-        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $datapengadaanbarang->id)->get();
 
         // dd($itemDatapengadaanbarang);
         return view('admin.data_pengadaan_barang.show', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
@@ -186,7 +187,7 @@ class DatapengadaanbarangController extends Controller
         ];
 
         $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
-        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $datapengadaanbarang->id)->get();
         // dd($itemDatapengadaanbarang);
 
         return view('admin.data_pengadaan_barang.edit', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
@@ -213,13 +214,13 @@ class DatapengadaanbarangController extends Controller
             $transaksi = TransaksiPengadaanBarang::findOrFail($id);
             $transaksi->update([
                 'nama_transaksi' => $request->input('nama_transaksi'),
-                'status_transaksi' => $request->input('status_transaksi'),
+                'status_setujuatasan' => $request->input('status_setujuatasan'),
             ]);
 
             // Update or delete ItemTransaksiPengadaanBarang items
             foreach ($barang_id as $key => $value) {
                 $data = ItemTransaksiPengadaanBarang::insert([
-                    'transaksipengadaanbarang_id' => $id,
+                    'pengadaan_barang_id' => $id,
                     'barang_id' => $value,
                     'code_barang' => $code_barang[$key],
                     'nama_barang' => $nama_barang[$key],
@@ -281,13 +282,13 @@ class DatapengadaanbarangController extends Controller
     {
         //
         $transaksi = TransaksiPengadaanBarang::findOrFail($id);
-        $details = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $id)->get();
+        $details = ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $id)->get();
         foreach ($details as $val){
             ItemDataPengadaanBarang::where('barang_id', $val->barang_id)->update(['status' =>1]);
         }
-        ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $id)->delete();
+        ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $id)->delete();
         $transaksi->delete();
-            
+
     }
 
     public function cetak($id)
@@ -298,7 +299,7 @@ class DatapengadaanbarangController extends Controller
         ];
 
         $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
-        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('transaksipengadaanbarang_id', $datapengadaanbarang->id)->get();
+        $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $datapengadaanbarang->id)->get();
 
         return view('admin.data_pengadaan_barang.cetak', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
     }
@@ -315,12 +316,89 @@ class DatapengadaanbarangController extends Controller
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
+
         // Query untuk mengambil data berdasarkan filter tanggal
-        $filteredData = ItemDataPengadaanBarang::with('barang.satuan')
-            ->where('status', 1)
-            ->whereBetween('created_at', [$start_date, $end_date])
-            ->get();
+        $filteredData = ItemDataPengadaanBarang::where('status', 1)
+        ->whereBetween('created_at', [$start_date, $end_date])
+        ->get();
 
         return response()->json(['filteredData' => $filteredData]);
+    }
+
+    public function getDataByStatus($status)
+    {
+        $isEdit = false;
+        $isDetail = false;
+
+        $datapengadaanbarang = [];
+
+        if($status == 'ditolak'){
+            $data = TransaksiPengadaanBarang::where(['status_setujuatasan' => '4'])->get()->all();
+            foreach($data as $row){
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'ditangguhkan'){
+            $data = TransaksiPengadaanBarang::where(['status_setujuatasan' => '3'])->get()->all();
+            foreach($data as $row){
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'disetujui'){
+            $data = TransaksiPengadaanBarang::where(['status_setujuatasan' => '2'])->get()->all();
+            foreach($data as $row){
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'diajukan'){
+            $data = TransaksiPengadaanBarang::where(['status_setujuatasan' => '1'])->get()->all();
+            foreach($data as $row){
+                $datapengadaanbarang[] = $row;
+            }
+        }else if($status == 'diajukan-rektorat'){
+            $data = TransaksiPengadaanBarang::where(['status_setujuatasan' => '2', 'status_setujurektorat' => '1'])->get()->all();
+            foreach($data as $row){
+                $datapengadaanbarang[] = $row;
+            }
+        }
+
+        return view('admin.data_pengadaan_barang.index', compact('datapengadaanbarang', 'isEdit', 'isDetail'));
+    }
+
+    public function updateStatus($id)
+    {
+        $item = TransaksiPengadaanBarang::find($id);
+        if ($item) {
+            $item->status_setujuatasan = "1";
+            $item->save();
+
+            // $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $item->id)->get();
+
+            // foreach($itemDatapengaju as $row)
+            // {
+            //     $row->status_persetujuanadmin = '1';
+            //     $row->save;
+            // }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data sudah terkirim',
+            ]);
+        }
+
+        return response()->json(['status' => 'error']);
+    }
+
+    public function updateStatusRektorat($id)
+    {
+        $item = TransaksiPengadaanBarang::find($id);
+        if($item){
+            $item->status_setujurektorat = "1";
+            $item->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data sudah terkirim',
+            ]);
+        }
+
+        return response()->json(['status' => 'error']);
     }
 }

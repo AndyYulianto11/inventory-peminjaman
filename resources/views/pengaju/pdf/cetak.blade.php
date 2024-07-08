@@ -126,18 +126,16 @@
                         {{ $item->barang->satuan->satuan }}
                     </td>
                     <td class="text-center">
-                        @if ($item->status_persetujuanadmin == 0)
-                            <span class="badge bg-warning">Diajukan</span>
-                        @elseif($item->status_persetujuanadmin == 1)
-                            <span class="badge bg-secondary">Proses</span>
-                        @elseif($item->status_persetujuanadmin == 2)
-                            <span class="badge bg-danger">Pending</span>
-                        @elseif($item->status_persetujuanadmin == 3)
-                            <span class="badge bg-info">Sebagian Sudah Diserahkan</span>
-                        @elseif($item->status_persetujuanadmin == 4)
-                            <span class="badge bg-success">Serah Terima</span>
-                        @else
-                            -
+                        @if ($item->status_persetujuanatasan == '0')
+                            <span class="badge bg-warning">Draft</span>
+                        @elseif($item->status_persetujuanatasan == '1')
+                            <span class="badge bg-secondary">Diajukan</span>
+                        @elseif($item->status_persetujuanatasan == '2')
+                            <span class="badge bg-danger">Disetujui</span>
+                        @elseif($item->status_persetujuanatasan == '3')
+                            <span class="badge bg-info">Ditangguhkan</span>
+                        @elseif($item->status_persetujuanatasan == '4')
+                            <span class="badge bg-success">Ditolak</span>
                         @endif
                     </td>
                 </tr>

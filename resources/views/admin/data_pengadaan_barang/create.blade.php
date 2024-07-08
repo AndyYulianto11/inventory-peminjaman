@@ -87,20 +87,6 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="status_transaksi" class="col-sm-2 col-form-label">Status Transaksi</label>
-                                    <div class="col-sm-10">
-                                        <select id="status_transaksi" name="status_transaksi" class="form-control select2">
-                                            <option value="0">Diajukan</option>
-                                            <option value="1" selected>Draft</option>
-                                            <option value="2">Disetujui</option>
-                                            <option value="3">Direvisi</option>
-                                            <option value="4">Ditolak</option>
-                                            <option value="5">Dipending</option>
-                                        </select>
-                                    </div>
-                                </div>
-
                                 <hr>
                                 <div class="text-right mb-3">
                                     <button type="button" class="btn btn-info" data-toggle="modal"
@@ -130,7 +116,7 @@
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-sm btn-flat">Simpan</button>
-                                    <a href="/datapengaju" class="btn btn-success btn-sm btn-flat">Kembali</a>
+                                    <a href="/cek-datapengadaanbarang" class="btn btn-success btn-sm btn-flat">Kembali</a>
                                 </div>
                             </form>
                         </div>
@@ -154,24 +140,21 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="text-center">
-                                <th>No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                <th>Satuan</th>
-                                <th>Qty</th>
-                                <th>Harga</th>
-                                <th>Aksi</th>
-                                <!-- Tambahkan kolom lain sesuai kebutuhan -->
-                            </tr>
-                        </thead>
-                        <tbody id="itemDataBody">
-                            <!-- Data akan ditampilkan di sini -->
-                        </tbody>
-                    </table>
+                <div class="modal-body">
+                    <div class="from-group row">
+                        <label for="nama_barang" class="col-sm-2 col-from-label">Pilih Barang :</label>
+                        <div class="col-sm-10">
+                            <select id="barang" class="form-control select2">
+                                <option disabled selected>-- Pilih Barang --</option>
+                                @foreach ($barang as $data)
+                                    <option value="{{ $data->id }}"
+                                        data-satuan="{{ $data->satuan->satuan }}"
+                                        data-code="{{ $data->code_barang }}"
+                                        data-harga="{{ $data->harga }}">{{ $data->nama_barang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -248,54 +231,69 @@
                 return 'Rp ' + rupiah;
             }
 
-            function getItemData() {
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route('get-item-data') }}',
-                    success: function(response) {
-                        // Hapus data lama sebelum menambahkan yang baru
-                        $('#itemDataBody').empty();
+            $('#barang').change(function(e) {
+                e.preventDefault();
+                var nama_barang = $('option:selected', this).text();
+                var id = $('option:selected', this).val();
+                var satuan = $('option:selected', this).data('satuan');
+                var code = $('option:selected', this).data('code');
+                var harga = $('option:selected', this).data('harga');
 
-                        var nomorUrut = 1;
+                var _qty = 1;
 
-                        $.each(response.item_data, function(index, item) {
-                            var row = $('<tr class="text-center"></tr>');
+                var jumlah = formatRupiah(_qty * harga);
 
-                            row.append('<td>' + nomorUrut + '</td>');
-                            row.append('<td>' + item.barang.code_barang + '</td>');
-                            row.append('<td>' + item.barang.nama_barang + '</td>');
-                            row.append('<td>' + item.barang.satuan.satuan + '</td>');
-                            row.append('<td>' + item.qty + '</td>');
-                            row.append('<td>' + item.barang.harga + '</td>');
+                $(this).val("");
+                var barangById = $('#barang_id_' + id + '_add');
+                var qtyById = $("#qty_" + id);
+                var _jumlah = $("#jumlah_" + id);
 
-                            var addButton = $(
-                                '<button class="btn btn-success btn-sm"><i class="fas fa-plus-square"></i></button>'
-                            );
+                if (barangById.val() > 0) {
+                    var current = qtyById.val();
+                    qtyById.val(parseInt(current) + 1);
+                    _jumlah.empty();
+                    _jumlah.append(formatRupiah(qtyById.val() * harga));
+                } else {
+                    var nilai = `
+                        <tr data-id="${id}">
+                            <td class="text-center">
+                                ${code}
+                            </td>
+                            <td class="text-center">
+                                ${nama_barang}
+                                <input type="hidden" class="form-control" name="barang_id[]" value="${id}" id="barang_id_${id}_add">
+                                <input type="hidden" class="form-control" name="nama_barang[]" value="${nama_barang}" id="nama_barang_${nama_barang}" id="nama_barang">
+                            </td>
+                            <td class="text-center">
+                                ${satuan}
+                                <input type="hidden" class="form-control" name="satuan[]" value="${satuan}" id="satuan_${satuan}" id="satuan">
+                            </td>
+                            <td class="text-center">
+                                <input type="number" min="1" class="form-control" name="qty[]" id="qty_${id}" data-qty="${id}" id="qty" value="1">
+                            </td>
+                            <td class="text-center" id="harga_${id}" data-harga="${harga}">
+                                ${formatRupiah(harga)}
+                                <input type="hidden" class="form-control" name="harga[]" value="${harga}" id="harga_${harga}" id="harga">
+                            </td>
+                            <td class="text-center" id="jumlah_${id}">
+                                ${jumlah}
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-xs btn-danger hapus"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                    $('.bahan-ajax').append(nilai);
+                }
 
-                            addButton.click(function() {
-                                var code_barang = $(this).closest('tr').find('td:eq(1)').text();
-                                var nama_barang = $(this).closest('tr').find('td:eq(2)').text();
-                                var satuan = $(this).closest('tr').find('td:eq(3)').text();
-                                var qty = $(this).closest('tr').find('td:eq(4)').text();
-                                var harga = $(this).closest('tr').find('td:eq(5)').text();
-                                var id = item.barang.id;
-
-                                console.log(id);
-
-                                tambahDataKeTabel(code_barang, nama_barang, satuan, qty, harga, id);
-                            });
-
-                            row.append($('<td></td>').append(addButton));
-
-                            $('#itemDataBody').append(row);
-                            nomorUrut++;
-                        });
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
+                $('#qty_' + id).on("keyup mouseup", function(){
+                    var qty = $(this).val();
+                    var id = $(this).data("qty");
+                    var harga = $("#harga_" + id).data("harga");
+                    $('#jumlah_' + id).empty();
+                    $('#jumlah_' + id).append(formatRupiah(qty * harga));
                 });
-            }
+            });
 
             // Fungsi untuk menambahkan data ke dalam tabel (bahan-ajax)
             function tambahDataKeTabel(code_barang, nama_barang, satuan, qty, harga, id) {
@@ -342,7 +340,6 @@
 
             // Event listener untuk tampilkan modal
             $('#itemModal').on('shown.bs.modal', function(e) {
-                getItemData();
             });
 
             // Function untuk mendapatkan data berdasarkan tanggal
@@ -361,7 +358,7 @@
                         // Proses data yang diterima
                         var filteredData = response.filteredData;
                         // Tampilkan data ke console untuk debugging
-                        console.log(filteredData);
+                        // console.log(filteredData);
                         // Hapus data yang sudah ada di tabel
                         $(".bahan-ajax").empty();
                         // Iterasi melalui setiap baris data dan tambahkan ke tabel
@@ -408,7 +405,7 @@
 
             // Event listener untuk tombol filter
             $('#filter_btn_modal').click(function() {
-                getDataByDateRange(); 
+                getDataByDateRange();
             });
 
             // Tombol Hapus diklik
@@ -426,7 +423,6 @@
                 e.preventDefault();
                 var data = $(this).serialize();
 
-                console.log(data);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

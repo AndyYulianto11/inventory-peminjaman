@@ -65,11 +65,7 @@
                                     <th>Unit</th>
                                     <th>Status Atasan</th>
                                     <th>File</th>
-                                    @if($datapengaju)
-                                        @if($datapengaju[0]->status_setujuatasan == 1)
-                                        <th width="100px">Aksi</th>
-                                        @endif
-                                    @endif
+                                    <th width="100px">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="add_new">
@@ -104,14 +100,12 @@
                                             -
                                             @endif
                                         </td>
-                                        @if($item->status_setujuatasan == 1)
                                         <td>
                                             <a href="{{ route('detail-data-pengaju', $item->id) }}"
                                                 class="btn btn-primary btn-sm btn-flat">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
-                                        @endif
                                     </tr>
                                 @empty
                                     <div class="alert alert-danger">

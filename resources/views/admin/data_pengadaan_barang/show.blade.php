@@ -34,12 +34,13 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">{{ $data['subjudul'] }}</h3>
-
+                        @if($datapengadaanbarang->status_setujuatasan == 2 && $datapengadaanbarang->status_setujurektorat == 2)
                         <div class="card-tools">
                             <a href="{{ route('cetak-datapengadaanbarang', $datapengadaanbarang->id) }}" type="button" class="btn btn-tool" target="_blank">
                                 <i class="fas fa-print"></i> Cetak
                             </a>
                         </div>
+                        @endif
                         <!-- /.card-tools -->
                     </div>
                     <div class="card-body">
@@ -70,21 +71,36 @@
                                 <td>{{ $datapengadaanbarang->user->unit->nama_unit }}</td>
                             </tr>
                             <tr>
-                                <td>Status Transaksi</td>
+                                <td>Status Atasan</td>
                                 <td>:</td>
                                 <td>
-                                    @if ($datapengadaanbarang->status_transaksi == '0')
-                                    <span class="badge bg-primary">Diajukan</span>
-                                    @elseif ($datapengadaanbarang->status_transaksi == '1')
-                                    <span class="badge bg-warning">Draft</span>
-                                    @elseif ($datapengadaanbarang->status_transaksi == '2')
+                                    @if ($datapengadaanbarang->status_setujuatasan == '0')
+                                    <span class="badge bg-dark">Draft</span>
+                                    @elseif ($datapengadaanbarang->status_setujuatasan == '1')
+                                    <span class="badge bg-info">Diajukan</span>
+                                    @elseif ($datapengadaanbarang->status_setujuatasan == '2')
                                     <span class="badge bg-success">Disetujui</span>
-                                    @elseif ($datapengadaanbarang->status_transaksi == '3')
-                                    <span class="badge bg-danger">Direvisi</span>
-                                    @elseif ($datapengadaanbarang->status_transaksi == '4')
+                                    @elseif ($datapengadaanbarang->status_setujuatasan == '3')
+                                    <span class="badge bg-warning">Ditangguhkan</span>
+                                    @elseif ($datapengadaanbarang->status_setujuatasan == '4')
                                     <span class="badge bg-danger">Ditolak</span>
-                                    @elseif ($datapengadaanbarang->status_transaksi == '5')
-                                    <span class="badge bg-secondary">Dipending</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Status Rektorat</td>
+                                <td>:</td>
+                                <td>
+                                    @if ($datapengadaanbarang->status_setujurektorat == '0')
+                                    <span class="badge bg-dark">Draft</span>
+                                    @elseif ($datapengadaanbarang->status_setujurektorat == '1')
+                                    <span class="badge bg-info">Diajukan</span>
+                                    @elseif ($datapengadaanbarang->status_setujurektorat == '2')
+                                    <span class="badge bg-success">Disetujui</span>
+                                    @elseif ($datapengadaanbarang->status_setujurektorat == '3')
+                                    <span class="badge bg-warning">Ditangguhkan</span>
+                                    @elseif ($datapengadaanbarang->status_setujurektorat == '4')
+                                    <span class="badge bg-danger">Ditolak</span>
                                     @else
                                     -
                                     @endif
@@ -123,13 +139,15 @@
                                 $grandTotal += $item->qty * $item->barang->harga;
                             @endphp
                             @empty
-                            <tr>Kosong.</tr>
                             @endforelse
                             <tr>
                                     <th colspan="6" style="text-align: right;">Grand Total : </th>
                                     <td class="text-right">Rp {{ number_format($grandTotal, 0, ',', '.') }}</td>
                                 </tr>
                         </table>
+                        <div class="form-group mt-4">
+                            <textarea name="status_item" cols="30" rows="5" class="form-control" placeholder="@if($datapengadaanbarang->komentar == '') Tidak ada komentar @endif" disabled>@if($datapengadaanbarang->status_setujuatasan != 1){{ $datapengadaanbarang->komentar }}@endif</textarea>
+                        </div>
                         <br><br>
                         <div class="form-group">
                             <a href="/cek-datapengadaanbarang" class="btn btn-success btn-sm btn-flat">Kembali</a>

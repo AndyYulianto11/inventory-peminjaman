@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataAsetUnit;
-use App\Models\Databarang;
-use App\Models\Datapengaju;
-use App\Models\HistoryStokBarang;
-use App\Models\ItemBarangMasuk;
-use App\Models\ItemDataAsetUnit;
-use App\Models\ItemDataPengadaanBarang;
-use App\Models\ItemDataPengaju;
+use App\Models\{DataAsetUnit, Databarang, Datapengaju, HistoryStokBarang, ItemBarangMasuk,
+                ItemDataAsetUnit, ItemDataPengadaanBarang, ItemDataPengaju};
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,15 +17,15 @@ class AdminpengajuController extends Controller
      */
     public function index()
     {
-        $data = [
-            'subjudul' => 'Pengajuan',
-            'submenu' => 'pengajuan',
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'Data Pengaju',
         ];
 
-        $pengaju = Datapengaju::where('status_submit', 1)->get();
+        $pengaju = Datapengaju::where(['status_setujuadmin' => '0'])->get();
         $itemBarang = ItemBarangMasuk::latest()->take(5)->get();
 
-        return view('admin.cek_pengaju.index', compact('data', 'pengaju', 'itemBarang'));
+        return view('admin.cek_pengaju.index', compact('judul', 'pengaju', 'itemBarang'));
     }
 
     /**
@@ -63,7 +57,7 @@ class AdminpengajuController extends Controller
      */
     public function show($id)
     {
-        $data = [
+        $judul = [
             'subjudul' => 'Pengajuan',
             'submenu' => 'pengajuan',
         ];
@@ -71,7 +65,7 @@ class AdminpengajuController extends Controller
         $datapengaju = Datapengaju::find($id);
         $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
 
-        return view('admin.cek_pengaju.show', compact('data', 'datapengaju', 'itemDatapengaju'));
+        return view('admin.cek_pengaju.show', compact('judul', 'datapengaju', 'itemDatapengaju'));
     }
 
     /**
@@ -82,7 +76,7 @@ class AdminpengajuController extends Controller
      */
     public function edit($id)
     {
-        $data = [
+        $judul = [
             'subjudul' => 'Pengajuan',
             'submenu' => 'pengajuan',
         ];
@@ -90,7 +84,7 @@ class AdminpengajuController extends Controller
         $datapengaju = Datapengaju::find($id);
         $itemDatapengaju = ItemDataPengaju::where('datapengaju_id', $datapengaju->id)->get();
 
-        return view('admin.cek_pengaju.edit', compact('data', 'datapengaju', 'itemDatapengaju'));
+        return view('admin.cek_pengaju.edit', compact('judul', 'datapengaju', 'itemDatapengaju'));
     }
 
     /**
@@ -114,10 +108,30 @@ class AdminpengajuController extends Controller
             $post = ItemDataPengaju::where('datapengaju_id', $getDataPengaju->id)->get();
 
             $barangs = Databarang::whereIn('id', $barang_id)->get();
+            $keterangan = "";
 
             foreach ($post as $key => $value) {
+                if(abs($value->selisih) > 0 && abs($value->selisih) != $value->qty)
+                {
+                    $keterangan = "Sebagian Serah Terima";
+                    ItemDataPengadaanBarang::create([
+                        'barang_id' => $value->barang_id,
+                        'qty' => abs($value->selisih),
+                    ]);
+                }else if(abs($value->selisih) == 0)
+                {
+                    $keterangan = "Serah terima";
+                }else if(abs($value->selisih) == $value->qty)
+                {
+                    $keterangan = "Belum Serah Terima";
+                    ItemDataPengadaanBarang::create([
+                        'barang_id' => $value->barang_id,
+                        'qty' => abs($value->selisih),
+                    ]);
+                }
+
                 $value->status_persetujuanadmin = $request->status_persetujuanadmin[$key];
-                $value->keterangan = $request->keterangan[$key];
+                $value->keterangan = $keterangan;
                 $value->save();
 
                 // Update otomatis stok data barang
@@ -144,11 +158,35 @@ class AdminpengajuController extends Controller
                 ]);
             }
 
-            $getDataPengaju->update([
-                'status_setujuadmin' => $request->status_setujuadmin,
-            ]);
+            $statusBelumSerahTerima = ItemDataPengaju::where(['datapengaju_id' => $getDataPengaju->id, 'status_persetujuanadmin' => '2'])->count('status_persetujuanadmin');
+            $statusSerahTerima = ItemDataPengaju::where(['datapengaju_id' => $getDataPengaju->id, 'status_persetujuanadmin' => '3'])->count('status_persetujuanadmin');
+            $statusSebagianSerahTerima = ItemDataPengaju::where(['datapengaju_id' => $getDataPengaju->id, 'status_persetujuanadmin' => '4'])->count('status_persetujuanadmin');
 
-            return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');
+            if($statusBelumSerahTerima > 0 && $statusSerahTerima == 0 && $statusSebagianSerahTerima == 0){
+                $status_setujuadmin = '2';
+
+                $getDataPengaju->update([
+                    'status_setujuadmin' => $status_setujuadmin,
+                ]);
+
+                return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');
+            }else if($statusSerahTerima > 0 && $statusBelumSerahTerima == 0 && $statusSebagianSerahTerima == 0){
+                $status_setujuadmin = '3';
+
+                $getDataPengaju->update([
+                    'status_setujuadmin' => $status_setujuadmin,
+                ]);
+
+                return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');
+            }else{
+                $status_setujuadmin = '4';
+
+                $getDataPengaju->update([
+                    'status_setujuadmin' => $status_setujuadmin,
+                ]);
+
+                return redirect('cek-pengaju')->with('success', 'Data berhasil diubah!');
+            }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -220,5 +258,42 @@ class AdminpengajuController extends Controller
             'status' => 200,
             'message' => 'Proses Data berhasil dikirim',
         ]);
+    }
+
+    public function getDataByStatus($status)
+    {
+        $judul = [
+            'subjudul' => 'Data Pengaju',
+            'submenu' => 'Data Pengaju',
+        ];
+
+        $isEdit = false;
+        $isDetail = false;
+
+        $pengaju = [];
+
+        if($status == 'sebagian-serah-terima'){
+            $data = Datapengaju::where('status_setujuadmin', '4')->get()->all();
+            foreach($data as $row){
+                $pengaju[] = $row;
+            }
+        }else if($status == 'serah-terima'){
+            $data = Datapengaju::where('status_setujuadmin', '3')->get()->all();
+            foreach($data as $row){
+                $pengaju[] = $row;
+            }
+        }else if($status == 'belum-serah-terima'){
+            $data = Datapengaju::where('status_setujuadmin', '2')->get()->all();
+            foreach($data as $row){
+                $pengaju[] = $row;
+            }
+        }else if($status == 'diajukan'){
+            $data = Datapengaju::where('status_setujuadmin', '1')->get()->all();
+            foreach($data as $row){
+                $pengaju[] = $row;
+            }
+        }
+
+        return view('admin.cek_pengaju.index', compact('pengaju', 'judul', 'isEdit', 'isDetail'));
     }
 }

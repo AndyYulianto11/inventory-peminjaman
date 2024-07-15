@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Databarang;
-use App\Models\ItemDataPengadaanBarang;
-use App\Models\ItemTransaksiPengadaanBarang;
-use App\Models\TransaksiPengadaanBarang;
+use App\Models\{Databarang, ItemDataPengadaanBarang, ItemTransaksiPengadaanBarang, TransaksiPengadaanBarang, User};
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -301,7 +298,9 @@ class DatapengadaanbarangController extends Controller
         $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
         $itemDatapengadaanbarang = ItemTransaksiPengadaanBarang::where('pengadaan_barang_id', $datapengadaanbarang->id)->get();
 
-        return view('admin.data_pengadaan_barang.cetak', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang'));
+        $nama_atasan = User::where('role', 'atasan')->first();
+
+        return view('admin.data_pengadaan_barang.cetak', compact('data', 'datapengadaanbarang', 'itemDatapengadaanbarang', 'nama_atasan'));
     }
 
     public function dataitem(Request $request)
@@ -400,5 +399,31 @@ class DatapengadaanbarangController extends Controller
         }
 
         return response()->json(['status' => 'error']);
+    }
+
+    public function uploadDokumen($id){
+        $datapengadaanbarang = TransaksiPengadaanBarang::find($id);
+
+        return view('admin.upload.upload', compact('datapengadaanbarang'));
+    }
+
+    public function uploadPDF($id){
+        try {
+            $request->validate([
+                'files' => 'required|file|mimes:pdf',
+            ]);
+
+            $datapengadaanbarang = TransaksiPengadaanBarang::findOrFail($id);
+            $files = $request->file('files');
+
+            if($request->hasFile('files')){
+                $files->store('public/berkas/pengadaanbarang');
+                $files->move(public_path('storage/berkas/pengadaanbarang/'), $files->getClientOriginalName());
+
+                $datapengadaanbarang->update([
+                    ''
+                ])
+            }
+        }
     }
 }

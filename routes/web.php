@@ -107,6 +107,8 @@ Route::middleware(['auth', 'checkrole:administrator,admingudang,kepalagudang'])-
     Route::put('/cek-datapengadaanbarang/update-status/{id}', [DatapengadaanbarangController::class, 'updateStatus'])->name('update.status');
     Route::put('/update-status-rektorat/{id}', [DatapengadaanbarangController::class, 'updateStatusRektorat'])->name('update-status-rektorat');
     Route::post('/delete-pengadaan-barang/{id}', [DatapengadaanbarangController::class, 'destroy']);
+    Route::get('/upload-dokumen-admin/{id}', [DatapengadaanbarangController::class, 'uploadDokumen'])->name('upload-dokumen-admin');
+    Route::put('/upload-pdf-admin/{id}', [DatapengadaanbarangController::class, 'uploadPDF'])->name('upload-pdf-admin');
 
     Route::get('/cetak-datapengadaanbarang/{id}', [DatapengadaanbarangController::class, 'cetak'])->name('cetak-datapengadaanbarang');
     Route::get('/get-item-data', [DatapengadaanbarangController::class, 'dataitem'])->name('get-item-data');

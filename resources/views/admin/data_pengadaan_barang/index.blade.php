@@ -140,7 +140,7 @@
                                         </a>
                                         @endif
                                         @if($item->status_setujuatasan == '2' && $item->status_setujurektorat == '2')
-                                        <a href="#" class="btn btn-success btn-sm btn-flat" title="Upload Dokumen">
+                                        <a href="{{ route('upload-dokumen-admin', $item->id) }}" class="btn btn-success btn-sm btn-flat" title="Upload Dokumen">
                                             <i class="fas fa-arrow-up"></i>
                                         </a>
                                         @endif

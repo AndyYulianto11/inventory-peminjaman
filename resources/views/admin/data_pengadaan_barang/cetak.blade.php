@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bukti Pengajuan Barang</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
-
     <style>
         @page {
             size: A4
@@ -85,15 +84,15 @@
         <br><br>
         <table id="customers" style="width: 100%;">
             <tr>
-                <th colspan="3"><u>CETAK DATA PENGADAAN BARANG</u></th>
+                <th colspan="3"><u>CEKLIS SERAH TERIMA BARANG</u></th>
             </tr>
             <tr>
-                <td style="width: 35%; text-align: left">Kode Transaksi</td>
+                <td style="width: 35%; text-align: left">Kode Pengajuan</td>
                 <td style="width: 1%">:</td>
                 <td style="text-align: left">{{ $datapengadaanbarang->kode_transaksi }}</td>
             </tr>
             <tr>
-                <td style="width: 35%; text-align: left">Nama Transaksi</td>
+                <td style="width: 35%; text-align: left">Nama Pengajuan</td>
                 <td style="width: 1%">:</td>
                 <td style="text-align: left">{{ $datapengadaanbarang->nama_transaksi }}</td>
             </tr>
@@ -113,7 +112,7 @@
                 <td style="text-align: left">{{ $datapengadaanbarang->user->unit->nama_unit }}</td>
             </tr>
             <tr>
-                <td style="width: 35%; text-align: left">Status Transaksi</td>
+                <td style="width: 35%; text-align: left">Status Pengajuan</td>
                 <td style="width: 1%">:</td>
                 <td style="text-align: left">Disetujui
                 </td>
@@ -121,7 +120,7 @@
         </table>
 
         <br>
-        <table style="width: 100%;" class="table">
+        <table style="width: 100%;" class="table table-bordered">
             <tr style="border: 1px solid #000000;">
                 <th class="text-center" width="5">No.</th>
                 <th class="text-center">Nama Barang</th>
@@ -129,6 +128,7 @@
                 <th class="text-center">Satuan</th>
                 <th class="text-center">Harga</th>
                 <th class="text-center">Jumlah</th>
+                <th class="text-center">Status</th>
             </tr>
             @php $no = 1 @endphp
             @forelse ($itemDatapengadaanbarang as $item)
@@ -139,6 +139,9 @@
                 <td class="text-center">{{ $item->satuan }}</td>
                 <td class="text-center">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                 <td class="text-center">Rp {{ number_format($item->qty * $item->barang->harga, 0, ',', '.') }}</td>
+                <td><table style="width: 30px; margin-left: 32px">
+                        <th></th>
+                    </table></td>
             </tr>
             @empty
             <tr>Kosong.</tr>
@@ -152,16 +155,16 @@
                 <td colspan="3" style="text-align: right; padding-right:70px;">Sumenep, </td>
             </tr>
             <tr>
-                <td style="text-align: center;width: 50%">Pengaju</td>
+                <td style="text-align: center;width: 50%">Kepala BAU-IT</td>
                 <td style="text-align: center;width: 20%"></td>
-                <td style="text-align: center;width: 0%">BAU-IT UNIBA MADURA</td>
+                <td style="text-align: center;width: 0%">Rektorat</td>
             </tr>
             <tr>
                 <th style="height: 40px"></th>
                 <th style="height: 40px"></th>
             </tr>
             <tr>
-                <th style="text-align: center;width: 50%">{{ $datapengadaanbarang->user->name }}</th>
+                <th style="text-align: center;width: 50%">{{ $nama_atasan->name }}</th>
                 <th style="text-align: center;width: 20%"></th>
                 <th style="text-align: center;width: 50%">................................</th>
             </tr>
